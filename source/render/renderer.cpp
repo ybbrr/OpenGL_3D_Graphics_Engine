@@ -167,31 +167,31 @@ namespace YB
 
     void Renderer::init_models()
     {
-        this->m_world->add_model(R"(..\__resources__\obj\teapot20segUT.obj)",
-                                 "the_teapot",
+        this->m_world->add_model(R"(obj\teapot20segUT.obj)",
+                                 "teapot",
                                  glm::vec3(0.0f, 0.0f, 0.0f));
 
-        this->m_world->add_model(R"(..\__resources__\obj\cube.obj)",
-                                 "the_cube",
+        this->m_world->add_model(R"(obj\cube.obj)",
+                                 "cube",
                                  glm::vec3(3.0f, 0.0f, 0.0f));
 
-        this->m_world->add_model(R"(..\__resources__\obj\sphere.obj)",
-                                 "the_sphere",
+        this->m_world->add_model(R"(obj\sphere.obj)",
+                                 "sphere",
                                  glm::vec3(-3.0f, 0.0f, 2.0f));
 
-        this->m_world->add_model(R"(..\__resources__\obj\monkey.obj)",
-                                 "the_monkey",
+        this->m_world->add_model(R"(obj\monkey.obj)",
+                                 "monkey",
                                  glm::vec3(-3.0f, 0.0f, -2.0f));
 
-        this->m_world->add_model(R"(..\__resources__\obj\plane3.obj)",
-                                 "the_plane3",
+        this->m_world->add_model(R"(obj\plane3.obj)",
+                                 "plane3",
                                  glm::vec3(0.0f, -1.0f, 0.0f));
     }
 
     void Renderer::init_shaders()
     {
-        this->m_basic_shader->load_shader(R"(../__resources__/shader/basic_vert_directional_light.glsl)",
-                                          R"(../__resources__/shader/basic_frag_directional_light.glsl)");
+        this->m_basic_shader->load_shader(R"(shader/basic_vert_directional_light.glsl)",
+                                          R"(shader/basic_frag_directional_light.glsl)");
     }
 
 /*******************************************************************************

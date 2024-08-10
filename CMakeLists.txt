@@ -4,14 +4,19 @@ project(OpenGL_3D_Graphics_Engine)
 
 set(CMAKE_CXX_STANDARD 17)
 
+if (EDITOR_BUILD)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE})
+	set(CMAKE_INSTALL_PREFIX ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+endif ()
+
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /O2 /GA /MD")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /O2 /GA /MD /arch:AVX2")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP /O2 /GA /MD")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /O2 /GA /MD /arch:AVX2")
 endif ()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /Od /GA /MDd")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Od /MDd /arch:AVX2")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP /Od /GA /MDd")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /Od /MDd /arch:AVX2")
 endif ()
 
 set(WORKSPACE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
@@ -36,23 +41,12 @@ include_directories(${THIRD_PARTY_FOLDER}/tinyobjloader/include)
 set(GLAD_SOURCE_FILE ${THIRD_PARTY_FOLDER}/glad/source/glad.c)
 
 # GLFW
-if (CMAKE_BUILD_TYPE STREQUAL "Release")
-	link_directories(${THIRD_PARTY_FOLDER}/glfw/lib/${CMAKE_BUILD_TYPE})
-endif ()
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-	link_directories(${THIRD_PARTY_FOLDER}/glfw/lib/${CMAKE_BUILD_TYPE})
-endif ()
+link_directories(${THIRD_PARTY_FOLDER}/glfw/lib/${CMAKE_BUILD_TYPE})
 set(GLFW_TARGET glfw3.lib)
 
 # GLM
 add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
-
-if (CMAKE_BUILD_TYPE STREQUAL "Release")
-	link_directories(${THIRD_PARTY_FOLDER}/glm/lib/${CMAKE_BUILD_TYPE})
-endif ()
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-	link_directories(${THIRD_PARTY_FOLDER}/glm/lib/${CMAKE_BUILD_TYPE})
-endif ()
+link_directories(${THIRD_PARTY_FOLDER}/glm/lib/${CMAKE_BUILD_TYPE})
 set(GLM_TARGET glm.lib)
 
 # TINYOBJLOADER
@@ -85,5 +79,19 @@ target_link_libraries(
 
 	${GLFW_TARGET}
 	${GLM_TARGET})
+
+set(OUTPUT_DIR ${CMAKE_INSTALL_PREFIX})
+set(DIR_TO_COPY ${CMAKE_SOURCE_DIR}/__resources__)
+
+install(TARGETS ${PROJECT_NAME}
+		DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+# Add a custom command to copy the directory
+add_custom_command(
+    TARGET ${PROJECT_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${DIR_TO_COPY} ${OUTPUT_DIR}
+    COMMENT "Copying directory ${DIR_TO_COPY} to ${OUTPUT_DIR}")
 
 # end of file

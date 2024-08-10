@@ -90,7 +90,6 @@ install(TARGETS ${PROJECT_NAME}
 add_custom_command(
     TARGET ${PROJECT_NAME}
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_DIR}
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${DIR_TO_COPY} ${OUTPUT_DIR}
     COMMENT "Copying directory ${DIR_TO_COPY} to ${OUTPUT_DIR}")
 

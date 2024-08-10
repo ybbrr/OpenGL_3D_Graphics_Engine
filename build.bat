@@ -33,10 +33,14 @@ echo Selected CMake Generator: %CMAKE_GENERATOR%
 
 cmake -G %CMAKE_GENERATOR% ^
     -D CMAKE_BUILD_TYPE=%BUILD_TYPE% ^
-    -D CMAKE_INSTALL_PREFIX=./__build_out__ ^
-    -B __build_dir__/%BUILD_TYPE% .
+    -D CMAKE_INSTALL_PREFIX=./__build_out__/%BUILD_TYPE% ^
+    -B ./__build_dir__/%BUILD_TYPE% .
 
-cmake --build __build_dir__/%BUILD_TYPE% --config %BUILD_TYPE% -j8
-cmake --build __build_dir__/%BUILD_TYPE% -- install
+@if %CMAKE_GENERATOR%==Ninja (
+    cmake --build __build_dir__/%BUILD_TYPE% --config %BUILD_TYPE% -j8
+    cmake --build __build_dir__/%BUILD_TYPE% -- install
+) else (
+    cmake --build __build_dir__/%BUILD_TYPE% --config %BUILD_TYPE% --target INSTALL -j8
+)
 
 :: end of file

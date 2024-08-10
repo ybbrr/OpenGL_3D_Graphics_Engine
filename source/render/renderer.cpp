@@ -96,7 +96,7 @@ namespace YB
 
         while (!glfwWindowShouldClose(window))
         {
-            current_time_stamp = 1000.0f * static_cast<float>(glfwGetTime());
+            current_time_stamp = 1000.0f * static_cast<float>(glfwGetTime()) / 20.0f;
             this->m_delta_time_in_millisecs = current_time_stamp - last_time_stamp;
 
             GLint view_loc = this->m_world->get_view_loc();

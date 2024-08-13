@@ -68,16 +68,13 @@ namespace YB
 
         GLFWwindow* get_window();
 
-        window_dims_t get_window_dimensions();
-
-        void set_window_dimensions(window_dims_t window_dims);
+        int width;
+        int height;
 
     /***************************************************************************
      * Private Members
      **************************************************************************/
     private:
-
-        window_dims_t m_window_dims;
 
         GLFWwindow* m_window;
 

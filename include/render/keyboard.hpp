@@ -17,6 +17,7 @@
 #include <vector>
 #include "camera.hpp"
 #include "shader.hpp"
+#include "world.hpp"
 
 /*******************************************************************************
  * Third Party Libraries
@@ -63,7 +64,8 @@ namespace YB
         void movement_key_pressed(float delta_time_in_millisecs,
                                   GLint view_loc,
                                   std::shared_ptr<YB::Camera>& camera,
-                                  std::shared_ptr<YB::Shader>& basic_shader);
+                                  std::shared_ptr<YB::Shader>& basic_shader,
+                                  std::shared_ptr<YB::World>& world);
 
     /***************************************************************************
      * Private Members

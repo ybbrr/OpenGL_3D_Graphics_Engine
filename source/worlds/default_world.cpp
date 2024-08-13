@@ -43,52 +43,55 @@ namespace YB
         {
             shader->use_shader_program();
 
-            this->model = glm::translate(glm::mat4(1.0f), obj.obj_position);
-            this->model = glm::rotate(this->model, glm::radians(this->angle), glm::vec3(0.0f, 1.0f, 0.0f));
-            this->model = glm::scale(this->model, this->scale + glm::vec3(1.0f, 1.0f, 1.0f));
-            this->normal_matrix = glm::mat3(glm::inverseTranspose(this->view * this->model));
+            this->m_model = glm::translate(glm::mat4(1.0f), obj.obj_position);
+//            this->m_model = glm::rotate(this->m_model, glm::radians(this->m_angle), glm::vec3(0.0f, 1.0f, 0.0f));
+//            this->m_model = glm::scale(this->m_model, this->m_scale + glm::vec3(1.0f, 1.0f, 1.0f));
+
+            this->m_view = this->m_camera->get_view_matrix();
+
+            this->m_normal_matrix = glm::mat3(glm::inverseTranspose(this->m_view * this->m_model));
 
             //send teapot model matrix data to shader
-            glUniformMatrix4fv(this->model_loc, 1, GL_FALSE, glm::value_ptr(this->model));
+            glUniformMatrix4fv(this->m_model_loc, 1, GL_FALSE, glm::value_ptr(this->m_model));
 
             //send teapot normal matrix data to shader
-            glUniformMatrix3fv(this->normal_matrix_loc, 1, GL_FALSE, glm::value_ptr(this->normal_matrix));
+            glUniformMatrix3fv(this->m_normal_matrix_loc, 1, GL_FALSE, glm::value_ptr(this->m_normal_matrix));
 
             obj.draw(shader);
         }
     }
 
-    void DefaultWorld::init_uniforms(std::shared_ptr<YB::Window> window,
-                                     std::shared_ptr<YB::Camera> camera,
-                                     std::shared_ptr<YB::Shader> shader)
+    void DefaultWorld::init_uniforms(std::shared_ptr<YB::Window>& window,
+                                     std::shared_ptr<YB::Camera>& camera,
+                                     std::shared_ptr<YB::Shader>& shader)
     {
+
+        this->m_camera = camera;
         shader->use_shader_program();
 
         // create model matrix for teapot
-        this->model = glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
-        this->model_loc = glGetUniformLocation(shader->shader_program, "model");
+        this->m_model = glm::rotate(glm::mat4(1.0f), glm::radians(this->m_angle), glm::vec3(0.0f, 1.0f, 0.0f));
+        this->m_model_loc = glGetUniformLocation(shader->shader_program, "model");
 
         // get view matrix for current camera
-        view = camera->get_view_matrix();
-        this->view_loc = glGetUniformLocation(shader->shader_program, "view");
+        this->m_view = camera->get_view_matrix();
+        this->m_view_loc = glGetUniformLocation(shader->shader_program, "view");
         // send view matrix to shader
-        glUniformMatrix4fv(this->view_loc, 1, GL_FALSE, glm::value_ptr(view));
+        glUniformMatrix4fv(this->m_view_loc, 1, GL_FALSE, glm::value_ptr(this->m_view));
 
         // compute normal matrix for teapot
-        this->normal_matrix = glm::mat3(glm::inverseTranspose(view*model));
-        this->normal_matrix_loc = glGetUniformLocation(shader->shader_program, "normalMatrix");
-
-        window_dims_t window_dims = window->get_window_dimensions();
+        this->m_normal_matrix = glm::mat3(glm::inverseTranspose(this->m_view * this->m_model));
+        this->m_normal_matrix_loc = glGetUniformLocation(shader->shader_program, "normalMatrix");
 
         // create projection matrix
-        projection = glm::perspective(glm::radians(45.0f),
-                                      (float)window_dims.width / (float)window_dims.height,
-                                      0.1f,
-                                      40.0f);
+        this->m_projection = glm::perspective(glm::radians(45.0f),
+                                              (float)window->width / (float)window->height,
+                                              0.1f,
+                                              40.0f);
 
-        this->projection_loc = glGetUniformLocation(shader->shader_program, "projection");
+        this->m_projection_loc = glGetUniformLocation(shader->shader_program, "projection");
         // send projection matrix to shader
-        glUniformMatrix4fv(this->projection_loc, 1, GL_FALSE, glm::value_ptr(projection));
+        glUniformMatrix4fv(this->m_projection_loc, 1, GL_FALSE, glm::value_ptr(this->m_projection));
 
         // set the light direction (direction towards the light)
         this->light_dir = glm::vec3(2.0f, 2.0f, 2.0f);
@@ -119,7 +122,17 @@ namespace YB
 
     GLint DefaultWorld::get_view_loc()
     {
-        return this->view_loc;
+        return this->m_view_loc;
+    }
+
+    glm::mat4 DefaultWorld::get_model_matrix()
+    {
+        return this->m_model;
+    }
+
+    void DefaultWorld::set_normal_matrix(const glm::mat3& normal_matrix)
+    {
+        this->m_normal_matrix = normal_matrix;
     }
 
 /*******************************************************************************

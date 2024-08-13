@@ -56,11 +56,15 @@ namespace YB
 
         virtual void render_models(std::shared_ptr<YB::Shader> shader) = 0;
 
-        virtual void init_uniforms(std::shared_ptr<YB::Window> window,
-                                   std::shared_ptr<YB::Camera> camera,
-                                   std::shared_ptr<YB::Shader> shader) = 0;
+        virtual void init_uniforms(std::shared_ptr<YB::Window>& window,
+                                   std::shared_ptr<YB::Camera>& camera,
+                                   std::shared_ptr<YB::Shader>& shader) = 0;
 
         virtual GLint get_view_loc() = 0;
+
+        virtual glm::mat4 get_model_matrix() = 0;
+
+        virtual void set_normal_matrix(const glm::mat3& normal_matrix) = 0;
 
     /***************************************************************************
      * Private Members

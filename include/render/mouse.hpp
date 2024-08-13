@@ -41,7 +41,7 @@ namespace YB
      * Special Members
      **************************************************************************/
 
-        Mouse() noexcept = default;
+        Mouse() = delete;
 
         virtual ~Mouse() noexcept = default;
 
@@ -56,6 +56,8 @@ namespace YB
     /***************************************************************************
      * Public Members
      **************************************************************************/
+
+    Mouse(int window_width, int window_height);
 
     void mouse_movement(float x_pos,
                         float y_pos,
@@ -86,18 +88,6 @@ namespace YB
          *
          */
         float m_last_y_pos;
-
-        /**
-         * @brief
-         *
-         */
-        float m_x_offset;
-
-        /**
-         * @brief
-         *
-         */
-        float m_y_offset;
 
         /**
          * @brief

@@ -76,7 +76,7 @@ namespace YB
                        std::shared_ptr<YB::Camera>& camera)
         : m_window{window},
           m_camera{camera},
-          m_mouse{new YB::Mouse()},
+          m_mouse{new YB::Mouse(window->width, window->height)},
           m_keyboard{new YB::Keyboard()},
           m_world(new YB::DefaultWorld()),
           m_basic_shader{new YB::Shader()},
@@ -104,7 +104,8 @@ namespace YB
             this->m_keyboard->movement_key_pressed(this->m_delta_time_in_millisecs,
                                                    view_loc,
                                                    this->m_camera,
-                                                   this->m_basic_shader);
+                                                   this->m_basic_shader,
+                                                   this->m_world);
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glClear(GL_STENCIL_BUFFER_BIT);
@@ -153,10 +154,8 @@ namespace YB
 
     void Renderer::init_opengl_state()
     {
-        window_dims_t window_dims = this->m_window->get_window_dimensions();
-
         glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
-        glViewport(0, 0, window_dims.width, window_dims.height);
+        glViewport(0, 0, this->m_window->width, this->m_window->height);
         glEnable(GL_FRAMEBUFFER_SRGB);
         glEnable(GL_DEPTH_TEST); // enable depth-testing
         glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"

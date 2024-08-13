@@ -77,6 +77,12 @@ namespace YB
          */
         glm::mat4 get_view_matrix();
 
+        /**
+         * @brief
+         *
+         */
+        void set_camara_front_direction(const glm::vec3& direction);
+
         float camera_speed;
 
     /***************************************************************************
@@ -91,6 +97,8 @@ namespace YB
         glm::vec3 m_camera_up_direction;
 
         glm::vec3 m_camera_rotate_direction;
+
+        glm::mat4 m_view_matrix;
 
     /***************************************************************************
      * Protected Members

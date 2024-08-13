@@ -33,10 +33,9 @@ namespace YB
                    int window_width,
                    int window_height,
                    bool cap_to_screen_frame_rate)
+        : width(window_width),
+          height(window_height)
     {
-        this->m_window_dims.width = window_width;
-        this->m_window_dims.height = window_height;
-
         // initialize the library
         if (!glfwInit())
         {
@@ -107,16 +106,6 @@ namespace YB
     GLFWwindow* Window::get_window()
     {
         return this->m_window;
-    }
-
-    window_dims_t Window::get_window_dimensions()
-    {
-        return this->m_window_dims;
-    }
-
-    void Window::set_window_dimensions(const window_dims_t window_dims)
-    {
-        this->m_window_dims = window_dims;
     }
 
 /*******************************************************************************

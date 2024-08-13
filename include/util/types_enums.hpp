@@ -64,12 +64,6 @@ namespace YB
         GLuint EBO;
     } buffers_t;
 
-    typedef struct window_dims_s
-    {
-        int width;
-        int height;
-    } window_dims_t;
-
 } // namespace YB
 
 #endif //OPENGL_3D_GRAPHICS_ENGINE_TYPES_ENUMS_HPP

@@ -55,11 +55,15 @@ namespace YB
 
         void render_models(std::shared_ptr<YB::Shader> shader) override;
 
-        void init_uniforms(std::shared_ptr<YB::Window> window,
-                           std::shared_ptr<YB::Camera> camera,
-                           std::shared_ptr<YB::Shader> shader) override;
+        void init_uniforms(std::shared_ptr<YB::Window>& window,
+                           std::shared_ptr<YB::Camera>& camera,
+                           std::shared_ptr<YB::Shader>& shader) override;
 
         GLint get_view_loc() override;
+
+        glm::mat4 get_model_matrix() override;
+
+        void set_normal_matrix(const glm::mat3& normal_matrix) override;
 
     /***************************************************************************
      * Private Members
@@ -68,16 +72,19 @@ namespace YB
 
         std::vector<YB::Model3D> m_objs;
 
-        // matrices
-        glm::mat4 model;
-        glm::mat4 view;
-        glm::mat4 projection;
-        glm::mat3 normal_matrix;
+        std::shared_ptr<YB::Camera> m_camera;
 
-        GLint model_loc;
-        GLint view_loc;
-        GLint projection_loc;
-        GLint normal_matrix_loc;
+
+        // matrices
+        glm::mat4 m_model;
+        glm::mat4 m_view;
+        glm::mat4 m_projection;
+        glm::mat3 m_normal_matrix;
+
+        GLint m_model_loc;
+        GLint m_view_loc;
+        GLint m_projection_loc;
+        GLint m_normal_matrix_loc;
 
         // light parameters
         glm::vec3 light_dir;
@@ -93,8 +100,8 @@ namespace YB
         GLint quadratic;
         GLuint shadow_map;
 
-        GLfloat angle;
-        GLfloat scale;
+        GLfloat m_angle;
+        GLfloat m_scale;
 
     /***************************************************************************
      * Protected Members

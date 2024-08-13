@@ -55,50 +55,51 @@ namespace YB
     void Keyboard::movement_key_pressed(float delta_time_in_millisecs,
                                         GLint view_loc,
                                         std::shared_ptr<YB::Camera> &camera,
-                                        std::shared_ptr<YB::Shader> &basic_shader)
+                                        std::shared_ptr<YB::Shader> &basic_shader,
+                                        std::shared_ptr<YB::World>& world)
     {
         glm::mat4 view = camera->get_view_matrix();
-        glm::mat3 normal_matrix{};
-        glm::mat4 model{};
+        glm::mat4 model = world->get_model_matrix();
+        glm::mat3 normal_matrix{0.0f};
 
-        if (this->m_pressed_keys[GLFW_KEY_W]) {
+        if (this->m_pressed_keys[GLFW_KEY_W])
+        {
             camera->move(YB::MOVE_DIRECTION::MOVE_FORWARD, camera->camera_speed * delta_time_in_millisecs);
-            //update view matrix
             view = camera->get_view_matrix();
             basic_shader->use_shader_program();
             glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view));
-            // compute normal matrix for teapot
             normal_matrix = glm::mat3(glm::inverseTranspose(view * model));
+            world->set_normal_matrix(normal_matrix);
         }
 
-        if (this->m_pressed_keys[GLFW_KEY_S]) {
+        if (this->m_pressed_keys[GLFW_KEY_S])
+        {
             camera->move(YB::MOVE_DIRECTION::MOVE_BACKWARD, camera->camera_speed * delta_time_in_millisecs);
-            //update view matrix
             view = camera->get_view_matrix();
             basic_shader->use_shader_program();
             glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view));
-            // compute normal matrix for teapot
             normal_matrix = glm::mat3(glm::inverseTranspose(view * model));
+            world->set_normal_matrix(normal_matrix);
         }
 
-        if (this->m_pressed_keys[GLFW_KEY_A]) {
+        if (this->m_pressed_keys[GLFW_KEY_A])
+        {
             camera->move(YB::MOVE_DIRECTION::MOVE_LEFT, camera->camera_speed * delta_time_in_millisecs);
-            //update view matrix
             view = camera->get_view_matrix();
             basic_shader->use_shader_program();
             glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view));
-            // compute normal matrix for teapot
             normal_matrix = glm::mat3(glm::inverseTranspose(view * model));
+            world->set_normal_matrix(normal_matrix);
         }
 
-        if (this->m_pressed_keys[GLFW_KEY_D]) {
+        if (this->m_pressed_keys[GLFW_KEY_D])
+        {
             camera->move(YB::MOVE_DIRECTION::MOVE_RIGHT, camera->camera_speed * delta_time_in_millisecs);
-            //update view matrix
             view = camera->get_view_matrix();
             basic_shader->use_shader_program();
             glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(view));
-            // compute normal matrix for teapot
             normal_matrix = glm::mat3(glm::inverseTranspose(view * model));
+            world->set_normal_matrix(normal_matrix);
         }
     }
 

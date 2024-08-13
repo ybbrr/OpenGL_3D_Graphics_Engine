@@ -43,10 +43,16 @@ namespace YB
         this->m_camera_front_direction.y = camera_target.y;
         this->m_camera_front_direction.z = camera_target.z - 1.0f;
 
-        glm::vec3 cross_product = glm::cross(this->m_camera_front_direction,
-                                             this->m_camera_up_direction);
+        this->m_camera_front_direction = glm::normalize(this->m_camera_front_direction);
+
+        glm::vec3 cross_product = glm::cross(this->m_camera_up_direction,
+                                             this->m_camera_front_direction);
 
         this->m_camera_right_direction = glm::normalize(cross_product);
+
+        this->m_view_matrix = glm::lookAt(this->m_camera_position,
+                                          this->m_camera_target,
+                                          this->m_camera_up_direction);
     }
 
     /**
@@ -71,6 +77,10 @@ namespace YB
         {
             this->m_camera_position -= speed * this->m_camera_right_direction;
         }
+
+        this->m_view_matrix = glm::lookAt(this->m_camera_position,
+                                          this->m_camera_position + this->m_camera_front_direction,
+                                          this->m_camera_up_direction);
     }
 
     /**
@@ -83,7 +93,11 @@ namespace YB
         this->m_camera_rotate_direction.y = sin(glm::radians(pitch));
         this->m_camera_rotate_direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 
-        this->m_camera_target = glm::normalize(this->m_camera_rotate_direction);
+        this->m_camera_front_direction = glm::normalize(this->m_camera_rotate_direction);
+
+        this->m_view_matrix = glm::lookAt(this->m_camera_position,
+                                          this->m_camera_position + this->m_camera_front_direction,
+                                          this->m_camera_up_direction);
     }
 
     /**
@@ -92,11 +106,16 @@ namespace YB
      */
     glm::mat4 Camera::get_view_matrix()
     {
-        glm::mat4 view_matrix = glm::lookAt(this->m_camera_position,
-                                            this->m_camera_target,
-                                            this->m_camera_up_direction);
+        return this->m_view_matrix;
+    }
 
-        return view_matrix;
+    /**
+     * @brief
+     *
+     */
+    void Camera::set_camara_front_direction(const glm::vec3 &direction)
+    {
+        this->m_camera_front_direction = direction;
     }
 
 /*******************************************************************************

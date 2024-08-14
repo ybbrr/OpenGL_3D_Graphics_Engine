@@ -78,11 +78,11 @@ namespace YB
           m_camera{camera},
           m_mouse{new YB::Mouse(window, camera)},
           m_world(new YB::DefaultWorld()),
-          m_basic_shader{new YB::Shader()},
+          m_current_shader{new YB::Shader()},
           m_delta_time_in_seconds{0.0f}
     {
         this->m_keyboard = std::make_shared<YB::Keyboard>(camera,
-                                                          this->m_basic_shader,
+                                                          this->m_current_shader,
                                                           this->m_world);
 
         this->set_window_callbacks();
@@ -102,12 +102,12 @@ namespace YB
             current_time_stamp = static_cast<float>(glfwGetTime());
             this->m_delta_time_in_seconds = current_time_stamp - last_time_stamp;
 
-            this->m_keyboard->movement_key_pressed(this->m_delta_time_in_seconds);
+            this->m_keyboard->key_pressed(this->m_delta_time_in_seconds);
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glClear(GL_STENCIL_BUFFER_BIT);
 
-            this->m_world->render_models(this->m_basic_shader);
+            this->m_world->render_models(this->m_current_shader);
 
             glfwPollEvents();
             glfwSwapBuffers(window);
@@ -141,7 +141,7 @@ namespace YB
     {
         this->m_world->init_uniforms(this->m_window,
                                      this->m_camera,
-                                     this->m_basic_shader);
+                                     this->m_current_shader);
     }
 
     void Renderer::init_opengl_state()
@@ -160,29 +160,39 @@ namespace YB
     {
         this->m_world->add_model(R"(obj\teapot20segUT.obj)",
                                  "teapot",
-                                 glm::vec3(0.0f, 0.0f, 0.0f));
+                                 glm::vec3(0.0f, 0.0f, 0.0f),
+                                 true,
+                                 true);
 
         this->m_world->add_model(R"(obj\cube.obj)",
                                  "cube",
-                                 glm::vec3(3.0f, 0.0f, 0.0f));
+                                 glm::vec3(3.0f, 0.0f, 0.0f),
+                                 false,
+                                 false);
 
         this->m_world->add_model(R"(obj\sphere.obj)",
                                  "sphere",
-                                 glm::vec3(-3.0f, 0.0f, 2.0f));
+                                 glm::vec3(-3.0f, 0.0f, 2.0f),
+                                 false,
+                                 false);
 
         this->m_world->add_model(R"(obj\monkey.obj)",
                                  "monkey",
-                                 glm::vec3(-3.0f, 0.0f, -2.0f));
+                                 glm::vec3(-3.0f, 0.0f, -2.0f),
+                                 false,
+                                 false);
 
         this->m_world->add_model(R"(obj\plane3.obj)",
                                  "plane3",
-                                 glm::vec3(0.0f, -1.0f, 0.0f));
+                                 glm::vec3(0.0f, -1.0f, 0.0f),
+                                 false,
+                                 false);
     }
 
     void Renderer::init_shaders()
     {
-        this->m_basic_shader->load_shader(R"(shader/basic_vert_directional_light.glsl)",
-                                          R"(shader/basic_frag_directional_light.glsl)");
+        this->m_current_shader->load_shader(R"(shader/basic_vert_directional_light.glsl)",
+                                            R"(shader/basic_frag_directional_light.glsl)");
     }
 
 /*******************************************************************************

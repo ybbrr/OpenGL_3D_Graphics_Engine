@@ -47,15 +47,19 @@ namespace YB
      * Public Members
      **************************************************************************/
 
-        explicit Model3D(const std::string& file_name,
+        explicit Model3D(const std::string& file_path,
                          const std::string& model_name,
-                         const glm::vec3& position);
+                         const glm::vec3& position,
+                         bool rotatable,
+                         bool scalable);
 
         ~Model3D();
 
         void draw(const std::shared_ptr<YB::Shader>& shader_program);
 
         glm::vec3 obj_position;
+        bool is_rotatable;
+        bool is_scalable;
 
     /***************************************************************************
      * Private Members

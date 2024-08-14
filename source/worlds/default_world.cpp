@@ -32,9 +32,11 @@ namespace YB
 
     void DefaultWorld::add_model(const std::string &file_name,
                                  const std::string& model_name,
-                                 const glm::vec3& position)
+                                 const glm::vec3& position,
+                                 bool rotatable,
+                                 bool scalable)
     {
-        this->m_objs.emplace_back(file_name, model_name, position);
+        this->m_objs.emplace_back(file_name, model_name, position, rotatable, scalable);
     }
 
     void DefaultWorld::render_models(std::shared_ptr<YB::Shader>& shader)
@@ -44,8 +46,19 @@ namespace YB
             shader->use_shader_program();
 
             this->m_model_matrix = glm::translate(glm::mat4(1.0f), obj.obj_position);
-//            this->m_model_matrix = glm::rotate(this->m_model_matrix, glm::radians(this->m_angle), glm::vec3(0.0f, 1.0f, 0.0f));
-//            this->m_model_matrix = glm::scale(this->m_model_matrix, this->m_scale + glm::vec3(1.0f, 1.0f, 1.0f));
+
+            if (obj.is_rotatable)
+            {
+                this->m_model_matrix = glm::rotate(this->m_model_matrix,
+                                                   glm::radians(this->m_rotate_angle),
+                                                   glm::vec3(0, 1, 0));
+            }
+
+            if (obj.is_scalable)
+            {
+                this->m_model_matrix = glm::scale(this->m_model_matrix,
+                                                  this->m_scale_factor + glm::vec3(1.0f, 1.0f, 1.0f));
+            }
 
             this->m_view_matrix = this->m_camera->get_view_matrix();
 
@@ -67,8 +80,11 @@ namespace YB
         this->m_camera = camera;
         shader->use_shader_program();
 
+        this->m_rotate_angle = 0.0f;
+        this->m_scale_factor = 0.1f;
+
         // create model matrix for teapot
-//        this->m_model_matrix = glm::rotate(glm::mat4(1.0f), glm::radians(this->m_angle), glm::vec3(0.0f, 0.0f, 0.0f));
+        // this->m_model_matrix = glm::rotate(glm::mat4(1.0f), glm::radians(this->m_rotate_angle), glm::vec3(0.0f, 0.0f, 0.0f));
         this->m_model_matrix = glm::mat4(1.0f);
         this->m_model_matrix_location = glGetUniformLocation(shader->shader_program, "model");
 
@@ -118,6 +134,16 @@ namespace YB
 
         this->m_quadratic = glGetUniformLocation(shader->shader_program, "quadratic");
         glUniform1f(this->m_quadratic, 0.20f);
+    }
+
+    void DefaultWorld::increase_rotate_angle(float value)
+    {
+        World::increase_rotate_angle(value);
+    }
+
+    void DefaultWorld::increase_scale_factor(float value)
+    {
+        World::increase_scale_factor(value);
     }
 
 /*******************************************************************************

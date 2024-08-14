@@ -35,7 +35,9 @@ namespace YB
 
     void World::add_model(const std::string &file_name,
                           const std::string &model_name,
-                          const glm::vec3 &position)
+                          const glm::vec3 &position,
+                          bool rotatable,
+                          bool scalable)
     {
 
     }
@@ -50,6 +52,16 @@ namespace YB
                               std::shared_ptr<YB::Shader> &shader)
     {
 
+    }
+
+    void World::increase_rotate_angle(float value)
+    {
+        this->m_rotate_angle += value;
+    }
+
+    void World::increase_scale_factor(float value)
+    {
+        this->m_scale_factor += value;
     }
 } // YB
 

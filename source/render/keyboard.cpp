@@ -30,11 +30,11 @@ namespace YB
  * Public Functions
  ******************************************************************************/
 
-    Keyboard::Keyboard(std::shared_ptr<YB::Camera> &camera,
-                       std::shared_ptr<YB::Shader> &basic_shader,
+    Keyboard::Keyboard(std::shared_ptr<YB::Camera>& camera,
+                       std::shared_ptr<YB::Shader>& current_shader,
                        std::shared_ptr<YB::World>& world)
         : m_camera{camera},
-          m_basic_shader{basic_shader},
+          m_current_shader{current_shader},
           m_world{world},
           m_pressed_keys{std::vector<GLboolean>(512, 0)}
     {
@@ -55,10 +55,17 @@ namespace YB
         }
     }
 
-    void Keyboard::movement_key_pressed(float delta_time_in_seconds)
+    void Keyboard::key_pressed(float delta_time_in_seconds)
     {
         glm::mat4 view_matrix = this->m_camera->get_view_matrix();
 
+        this->movement_key_pressed(delta_time_in_seconds);
+
+        this->rotate_or_scale_key_pressed();
+    }
+
+    void Keyboard::movement_key_pressed(float delta_time_in_seconds)
+    {
         if (this->m_pressed_keys[GLFW_KEY_W])
         {
             this->m_camera->move(YB::MOVE_DIRECTION::MOVE_FORWARD,
@@ -81,6 +88,24 @@ namespace YB
         {
             this->m_camera->move(YB::MOVE_DIRECTION::MOVE_RIGHT,
                                  delta_time_in_seconds);
+        }
+    }
+
+    void Keyboard::rotate_or_scale_key_pressed()
+    {
+        if (this->m_pressed_keys[GLFW_KEY_R])
+        {
+            this->m_world->increase_rotate_angle(10.0f);
+        }
+
+        if (this->m_pressed_keys[GLFW_KEY_Q])
+        {
+            this->m_world->increase_scale_factor(0.05f);
+        }
+
+        if (this->m_pressed_keys[GLFW_KEY_E])
+        {
+            this->m_world->increase_scale_factor(-0.05f);
         }
     }
 

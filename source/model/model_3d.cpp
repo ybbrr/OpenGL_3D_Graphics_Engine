@@ -28,23 +28,38 @@ namespace YB
  * Public Functions
  ******************************************************************************/
 
-    Model3D::Model3D(const std::string& file_name,
+    Model3D::Model3D(const std::string& file_path,
                      const std::string& model_name,
-                     const glm::vec3& position)
+                     const glm::vec3& position,
+                     bool rotatable,
+                     bool scalable)
          : m_model_name{model_name},
-           obj_position{position}
+           obj_position{position},
+           is_rotatable{rotatable},
+           is_scalable{scalable}
     {
-        std::string base_path = file_name.substr(0, file_name.find_last_of('/'));
+        size_t last_occurrence = file_path.find_last_of('/');
 
-        if (base_path.length() == file_name.length())
+        std::string base_path{};
+
+        if (last_occurrence != std::string::npos)
         {
-            base_path = file_name.substr(0, file_name.find_last_of('\\'));
+            base_path
+                = file_path.substr(0, last_occurrence);
+
+            base_path += "/";
+        }
+        else
+        {
+            last_occurrence = file_path.find_last_of('\\');
+
+            base_path
+                = file_path.substr(0, last_occurrence);
+
             base_path += "\\";
         }
 
-        base_path += "/";
-
-        this->read_obj(file_name, base_path);
+        this->read_obj(file_path, base_path);
     }
 
     Model3D::~Model3D()
@@ -77,9 +92,9 @@ namespace YB
  * Private Functions
  ******************************************************************************/
 
-    void Model3D::read_obj(const std::string& file_name, const std::string& base_path)
+    void Model3D::read_obj(const std::string& file_path, const std::string& base_path)
     {
-        std::cout << "Loading : " << file_name << std::endl;
+        std::cout << "Loading : " << file_path << std::endl;
         tinyobj::attrib_t attrib{};
         std::vector<tinyobj::shape_t> shapes{};
         std::vector<tinyobj::material_t> materials{};
@@ -91,7 +106,7 @@ namespace YB
                                     &shapes,
                                     &materials,
                                     &err,
-                                    file_name.c_str(),
+                                    file_path.c_str(),
                                     base_path.c_str(),
                                     GL_TRUE);
 

@@ -58,22 +58,24 @@ namespace YB
      * Public Members
      **************************************************************************/
 
-        Keyboard(std::shared_ptr<YB::Camera> &camera,
-                 std::shared_ptr<YB::Shader> &basic_shader,
+        Keyboard(std::shared_ptr<YB::Camera>& camera,
+                 std::shared_ptr<YB::Shader>& current_shader,
                  std::shared_ptr<YB::World>& world);
 
-        void key_pressed(int key,
-                         int action);
+        void key_pressed(int key, int action);
 
-        void movement_key_pressed(float delta_time_in_seconds);
+        void key_pressed(float delta_time_in_seconds);
 
     /***************************************************************************
      * Private Members
      **************************************************************************/
     private:
 
+        void movement_key_pressed(float delta_time_in_seconds);
+        void rotate_or_scale_key_pressed();
+
         std::shared_ptr<YB::Camera> m_camera;
-        std::shared_ptr<YB::Shader> m_basic_shader;
+        std::shared_ptr<YB::Shader> m_current_shader;
         std::shared_ptr<YB::World> m_world;
         std::vector<GLboolean> m_pressed_keys;
 

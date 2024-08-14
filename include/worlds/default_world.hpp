@@ -51,13 +51,18 @@ namespace YB
 
         void add_model(const std::string& file_name,
                        const std::string& model_name,
-                       const glm::vec3& position) override;
+                       const glm::vec3& position,
+                       bool rotatable,
+                       bool scalable) override;
 
         void render_models(std::shared_ptr<YB::Shader>& shader) override;
 
         void init_uniforms(std::shared_ptr<YB::Window>& window,
                            std::shared_ptr<YB::Camera>& camera,
                            std::shared_ptr<YB::Shader>& shader) override;
+
+        void increase_rotate_angle(float value) override;
+        void increase_scale_factor(float value) override;
 
     /***************************************************************************
      * Private Members
@@ -93,9 +98,6 @@ namespace YB
         GLint m_linear;
         GLint m_quadratic;
         GLuint m_shadow_map;
-
-        GLfloat m_angle;
-        GLfloat m_scale;
 
     /***************************************************************************
      * Protected Members

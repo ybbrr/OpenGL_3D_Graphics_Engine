@@ -52,13 +52,18 @@ namespace YB
 
         virtual void add_model(const std::string& file_name,
                                const std::string& model_name,
-                               const glm::vec3& position);
+                               const glm::vec3& position,
+                               bool rotatable,
+                               bool scalable);
 
         virtual void render_models(std::shared_ptr<YB::Shader>& shader);
 
         virtual void init_uniforms(std::shared_ptr<YB::Window>& window,
                                    std::shared_ptr<YB::Camera>& camera,
                                    std::shared_ptr<YB::Shader>& shader);
+
+        virtual void increase_rotate_angle(float value);
+        virtual void increase_scale_factor(float value);
 
     /***************************************************************************
      * Private Members
@@ -72,7 +77,8 @@ namespace YB
      **************************************************************************/
     protected:
 
-        /* Data */
+        GLfloat m_rotate_angle;
+        GLfloat m_scale_factor;
 
     };
 

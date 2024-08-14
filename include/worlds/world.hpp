@@ -52,19 +52,13 @@ namespace YB
 
         virtual void add_model(const std::string& file_name,
                                const std::string& model_name,
-                               const glm::vec3& position) = 0;
+                               const glm::vec3& position);
 
-        virtual void render_models(std::shared_ptr<YB::Shader> shader) = 0;
+        virtual void render_models(std::shared_ptr<YB::Shader>& shader);
 
         virtual void init_uniforms(std::shared_ptr<YB::Window>& window,
                                    std::shared_ptr<YB::Camera>& camera,
-                                   std::shared_ptr<YB::Shader>& shader) = 0;
-
-        virtual GLint get_view_loc() = 0;
-
-        virtual glm::mat4 get_model_matrix() = 0;
-
-        virtual void set_normal_matrix(const glm::mat3& normal_matrix) = 0;
+                                   std::shared_ptr<YB::Shader>& shader);
 
     /***************************************************************************
      * Private Members

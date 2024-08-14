@@ -14,6 +14,7 @@
  * Includes
  ******************************************************************************/
 
+#include "window.hpp"
 #include "camera.hpp"
 #include "shader.hpp"
 
@@ -57,19 +58,19 @@ namespace YB
      * Public Members
      **************************************************************************/
 
-    Mouse(int window_width, int window_height);
+    Mouse(std::shared_ptr<YB::Window>& window,
+          std::shared_ptr<YB::Camera>& camera);
 
     void mouse_movement(float x_pos,
                         float y_pos,
-                        float delta_time_in_millisecs,
-                        GLint view_loc,
-                        std::shared_ptr<YB::Camera>& camera,
-                        std::shared_ptr<YB::Shader>& basic_shader);
+                        float delta_time_in_seconds);
 
     /***************************************************************************
      * Private Members
      **************************************************************************/
     private:
+
+        std::shared_ptr<YB::Camera> m_camera;
 
         /**
          * @brief
@@ -93,7 +94,7 @@ namespace YB
          * @brief
          *
          */
-        float m_sensitivity;
+        float m_mouse_sensitivity;
 
         /**
          * @brief

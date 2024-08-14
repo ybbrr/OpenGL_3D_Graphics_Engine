@@ -61,7 +61,7 @@ namespace YB
          * @brief Update the camera internal parameters following a camera move event
          *
          */
-        void move(MOVE_DIRECTION direction, float speed);
+        void move(MOVE_DIRECTION direction, float delta_time_in_seconds);
 
         /**
          * @brief Update the camera internal parameters following a camera rotate event
@@ -77,14 +77,6 @@ namespace YB
          */
         glm::mat4 get_view_matrix();
 
-        /**
-         * @brief
-         *
-         */
-        void set_camara_front_direction(const glm::vec3& direction);
-
-        float camera_speed;
-
     /***************************************************************************
      * Private Members
      **************************************************************************/
@@ -99,6 +91,8 @@ namespace YB
         glm::vec3 m_camera_rotate_direction;
 
         glm::mat4 m_view_matrix;
+
+        float m_camera_speed;
 
     /***************************************************************************
      * Protected Members

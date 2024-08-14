@@ -124,7 +124,7 @@ namespace YB
         std::shared_ptr<YB::Keyboard> m_keyboard; /**< Shared pointer to the Keyboard object. */
         std::shared_ptr<YB::World> m_world; /**< Shared pointer to the World object. */
         std::shared_ptr<YB::Shader> m_basic_shader; /**< Shared pointer to the Shader object. */
-        float m_delta_time_in_millisecs; /**< Delta time between frames in milliseconds. */
+        float m_delta_time_in_seconds; /**< Delta time between frames in milliseconds. */
 
     /***************************************************************************
      * Protected Members

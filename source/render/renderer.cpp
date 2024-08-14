@@ -76,12 +76,15 @@ namespace YB
                        std::shared_ptr<YB::Camera>& camera)
         : m_window{window},
           m_camera{camera},
-          m_mouse{new YB::Mouse(window->width, window->height)},
-          m_keyboard{new YB::Keyboard()},
+          m_mouse{new YB::Mouse(window, camera)},
           m_world(new YB::DefaultWorld()),
           m_basic_shader{new YB::Shader()},
-          m_delta_time_in_millisecs{}
+          m_delta_time_in_seconds{0.0f}
     {
+        this->m_keyboard = std::make_shared<YB::Keyboard>(camera,
+                                                          this->m_basic_shader,
+                                                          this->m_world);
+
         this->set_window_callbacks();
     }
 
@@ -96,16 +99,10 @@ namespace YB
 
         while (!glfwWindowShouldClose(window))
         {
-            current_time_stamp = 1000.0f * static_cast<float>(glfwGetTime()) / 20.0f;
-            this->m_delta_time_in_millisecs = current_time_stamp - last_time_stamp;
+            current_time_stamp = static_cast<float>(glfwGetTime());
+            this->m_delta_time_in_seconds = current_time_stamp - last_time_stamp;
 
-            GLint view_loc = this->m_world->get_view_loc();
-
-            this->m_keyboard->movement_key_pressed(this->m_delta_time_in_millisecs,
-                                                   view_loc,
-                                                   this->m_camera,
-                                                   this->m_basic_shader,
-                                                   this->m_world);
+            this->m_keyboard->movement_key_pressed(this->m_delta_time_in_seconds);
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glClear(GL_STENCIL_BUFFER_BIT);
@@ -123,14 +120,9 @@ namespace YB
 
     void Renderer::mouse_movement(float x_pos, float y_pos)
     {
-        GLint view_loc = this->m_world->get_view_loc();
-
         this->m_mouse->mouse_movement(x_pos,
                                       y_pos,
-                                      this->m_delta_time_in_millisecs,
-                                      view_loc,
-                                      this->m_camera,
-                                      this->m_basic_shader);
+                                      this->m_delta_time_in_seconds);
     }
 
     void Renderer::key_pressed(GLFWwindow* window,

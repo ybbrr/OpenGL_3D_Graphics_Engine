@@ -53,17 +53,11 @@ namespace YB
                        const std::string& model_name,
                        const glm::vec3& position) override;
 
-        void render_models(std::shared_ptr<YB::Shader> shader) override;
+        void render_models(std::shared_ptr<YB::Shader>& shader) override;
 
         void init_uniforms(std::shared_ptr<YB::Window>& window,
                            std::shared_ptr<YB::Camera>& camera,
                            std::shared_ptr<YB::Shader>& shader) override;
-
-        GLint get_view_loc() override;
-
-        glm::mat4 get_model_matrix() override;
-
-        void set_normal_matrix(const glm::mat3& normal_matrix) override;
 
     /***************************************************************************
      * Private Members
@@ -76,29 +70,29 @@ namespace YB
 
 
         // matrices
-        glm::mat4 m_model;
-        glm::mat4 m_view;
-        glm::mat4 m_projection;
+        glm::mat4 m_model_matrix;
+        glm::mat4 m_view_matrix;
+        glm::mat4 m_projection_matrix;
         glm::mat3 m_normal_matrix;
 
-        GLint m_model_loc;
-        GLint m_view_loc;
-        GLint m_projection_loc;
-        GLint m_normal_matrix_loc;
+        GLint m_model_matrix_location;
+        GLint m_view_matrix_location;
+        GLint m_projection_matrix_location;
+        GLint m_normal_matrix_location;
 
         // light parameters
-        glm::vec3 light_dir;
-        glm::vec3 light_color;
-        glm::vec3 light_position;
+        glm::vec3 m_light_dir;
+        glm::vec3 m_light_color;
+        glm::vec3 m_light_position;
 
-        GLint light_dir_loc;
-        GLint light_color_loc;
-        GLint light_position_loc;
+        GLint m_light_dir_location;
+        GLint m_light_color_location;
+        GLint m_light_position_location;
 
-        GLint constant;
-        GLint linear;
-        GLint quadratic;
-        GLuint shadow_map;
+        GLint m_constant;
+        GLint m_linear;
+        GLint m_quadratic;
+        GLuint m_shadow_map;
 
         GLfloat m_angle;
         GLfloat m_scale;

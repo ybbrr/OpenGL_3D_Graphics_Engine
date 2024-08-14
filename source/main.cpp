@@ -14,24 +14,18 @@
 
 int main()
 {
-    std::shared_ptr<YB::Window> window{
-        new YB::Window("OpenGL_3D_Graphics_Engine",
-                       1280,
-                       720,
-                       true)
-    };
+    YB::CoreComponents::window
+        = std::make_shared<YB::Window>("OpenGL_3D_Graphics_Engine",
+                                       1280,
+                                       720,
+                                       true);
 
-    std::shared_ptr<YB::Camera> camera{
-        new YB::Camera(glm::vec3(3.0f, 3.0f, 10.0f),
-                       glm::vec3(0.0f, 0.0f, 0.0f),
-                       glm::vec3(0.0f, 1.0f, 0.0f))
-    };
-
-    YB::CoreComponents::set_window(window);
-    YB::CoreComponents::set_camera(camera);
+    YB::CoreComponents::camera
+        = std::make_shared<YB::Camera>(glm::vec3(3.0f, 3.0f, 10.0f),
+                                       glm::vec3(0.0f, 0.0f, 0.0f),
+                                       glm::vec3(0.0f, 1.0f, 0.0f));
 
     std::shared_ptr<YB::Renderer> renderer{new YB::Renderer()};
-
     YB::WindowCallbacks::set_current_renderer(renderer);
 
     renderer->init_models();

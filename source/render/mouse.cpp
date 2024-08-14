@@ -26,14 +26,14 @@ namespace YB
  ******************************************************************************/
 
     Mouse::Mouse(int window_width, int window_height)
-        : m_camera{CoreComponents::get_camera()},
-          m_is_mouse_centered{true},
+        : m_is_mouse_centered{true},
           m_last_x_pos{static_cast<float>(window_width) / 2.0f},
           m_last_y_pos{static_cast<float>(window_height) / 2.0f},
-          m_yaw{-90.0f},
-          m_pitch{0.0f},
           m_mouse_sensitivity{10.0f}
     {
+        glm::vec3 camera_direction = CoreComponents::camera->get_camera_direction();
+        this->m_yaw = glm::degrees(std::atan2(camera_direction.z, camera_direction.x));
+        this->m_pitch = glm::degrees(std::asin(camera_direction.y));
     }
 
     void Mouse::mouse_movement(float x_pos,
@@ -61,8 +61,8 @@ namespace YB
 
         this->m_pitch = glm::clamp(this->m_pitch, -89.9f, 89.9f);
 
-        this->m_camera->rotate(glm::radians(this->m_pitch),
-                               glm::radians(this->m_yaw));
+        CoreComponents::camera->rotate(glm::radians(this->m_pitch),
+                                       glm::radians(this->m_yaw));
     }
 
 /*******************************************************************************

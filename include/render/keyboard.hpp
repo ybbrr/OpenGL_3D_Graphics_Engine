@@ -74,9 +74,6 @@ namespace YB
         void polygon_mode_change_key_pressed();
         void shader_change_key_pressed();
 
-        std::shared_ptr<YB::Camera> m_camera;
-        std::shared_ptr<YB::World> m_world;
-        std::shared_ptr<YB::Shader> m_current_shader;
         std::vector<GLboolean> m_pressed_keys;
 
 /***************************************************************************

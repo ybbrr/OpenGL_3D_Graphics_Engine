@@ -36,11 +36,11 @@ namespace YB
           m_camera_up_direction{camera_up},
           m_camera_front_direction{},
           m_camera_right_direction{},
-          m_camera_rotate_direction{},
+          m_view_matrix{glm::mat4(1.0f)},
           m_camera_speed{10.f}
     {
         this->m_camera_front_direction
-            = glm::normalize(this->m_camera_position - this->m_camera_target);
+            = glm::normalize(this->m_camera_target - this->m_camera_position);
 
         this->m_camera_right_direction
             = glm::normalize(glm::cross(this->m_camera_up_direction,
@@ -57,6 +57,8 @@ namespace YB
      */
     void Camera::move(MOVE_DIRECTION direction, float delta_time_in_seconds)
     {
+        std::lock_guard<std::mutex> lock(this->m_mutex);
+
         if (direction == YB::MOVE_DIRECTION::MOVE_FORWARD)
         {
             this->m_camera_position += delta_time_in_seconds *
@@ -97,24 +99,39 @@ namespace YB
      */
     void Camera::rotate(float pitch, float yaw)
     {
-        this->m_camera_rotate_direction.x = cos(yaw) * cos(pitch);
-        this->m_camera_rotate_direction.y = sin(pitch);
-        this->m_camera_rotate_direction.z = sin(yaw) * cos(pitch);
+        glm::vec3 camera_rotate_direction;
 
-        this->m_camera_front_direction = glm::normalize(this->m_camera_rotate_direction);
+        camera_rotate_direction.x = cos(yaw) * cos(pitch);
+        camera_rotate_direction.y = sin(pitch);
+        camera_rotate_direction.z = sin(yaw) * cos(pitch);
 
-        this->m_view_matrix = glm::lookAt(this->m_camera_position,
-                                          this->m_camera_position + this->m_camera_front_direction,
-                                          this->m_camera_up_direction);
+        {
+            std::lock_guard<std::mutex> lock(this->m_mutex);
+
+            this->m_camera_front_direction = glm::normalize(camera_rotate_direction);
+
+            this->m_view_matrix = glm::lookAt(this->m_camera_position,
+                                              this->m_camera_position + this->m_camera_front_direction,
+                                              this->m_camera_up_direction);
+        }
     }
 
     /**
      * @brief
      *
      */
-    glm::mat4 Camera::get_view_matrix()
+    glm::mat4 Camera::get_view_matrix() noexcept
     {
+        std::lock_guard<std::mutex> lock(this->m_mutex);
+
         return this->m_view_matrix;
+    }
+
+    glm::vec3 Camera::get_camera_direction() noexcept
+    {
+        std::lock_guard<std::mutex> lock(this->m_mutex);
+
+        return this->m_camera_front_direction;
     }
 
 /*******************************************************************************

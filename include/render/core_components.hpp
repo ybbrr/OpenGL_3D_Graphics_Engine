@@ -50,22 +50,14 @@ namespace YB
      * Public Members
      **************************************************************************/
 
-        static void set_window(std::shared_ptr<YB::Window>& window) noexcept;
-        static void set_camera(std::shared_ptr<YB::Camera>& camera) noexcept;
-        static void set_world(std::shared_ptr<YB::World>& world) noexcept;
-
-        static std::shared_ptr<YB::Window>& get_window() noexcept;
-        static std::shared_ptr<YB::Camera>& get_camera() noexcept;
-        static std::shared_ptr<YB::World>& get_world() noexcept;
+        static std::shared_ptr<YB::Window> window;
+        static std::shared_ptr<YB::Camera> camera;
+        static std::shared_ptr<YB::World> world;
 
     /***************************************************************************
      * Private Members
      **************************************************************************/
     private:
-
-        static std::shared_ptr<YB::Window> m_window;
-        static std::shared_ptr<YB::Camera> m_camera;
-        static std::shared_ptr<YB::World> m_world;
 
     /***************************************************************************
      * Protected Members

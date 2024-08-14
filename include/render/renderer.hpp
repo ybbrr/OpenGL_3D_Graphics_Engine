@@ -51,9 +51,9 @@ namespace YB
 
         Renderer &operator=(Renderer const &) noexcept = default;
 
-    /****************************************************************************
+    /***************************************************************************
      * Public Members
-     ***************************************************************************/
+     **************************************************************************/
     public:
 
         /**
@@ -104,8 +104,6 @@ namespace YB
          */
         void set_window_callbacks();
 
-        std::shared_ptr<YB::Window> m_window; /**< Shared pointer to the Window object. */
-        std::shared_ptr<YB::Camera> m_camera; /**< Shared pointer to the Camera object. */
         std::shared_ptr<YB::Mouse> m_mouse; /**< Shared pointer to the Mouse object. */
         std::shared_ptr<YB::Keyboard> m_keyboard; /**< Shared pointer to the Keyboard object. */
         std::shared_ptr<YB::World> m_world; /**< Shared pointer to the World object. */

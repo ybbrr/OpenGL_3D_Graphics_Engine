@@ -20,21 +20,12 @@
 
 namespace YB
 {
-    std::shared_ptr<YB::Shader> DrawComponents::m_shader{nullptr};
+    std::shared_ptr<YB::World> DrawComponents::world{nullptr};
+    std::shared_ptr<YB::Shader> DrawComponents::shader{nullptr};
 
 /*******************************************************************************
  * Public Functions
  ******************************************************************************/
-
-    void DrawComponents::set_shader(std::shared_ptr<YB::Shader> &shader) noexcept
-    {
-        m_shader = shader;
-    }
-
-    std::shared_ptr<YB::Shader> &DrawComponents::get_shader() noexcept
-    {
-        return m_shader;
-    }
 
 /*******************************************************************************
  * Private Functions

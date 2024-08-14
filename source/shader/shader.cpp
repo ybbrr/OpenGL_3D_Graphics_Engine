@@ -29,8 +29,6 @@ namespace YB
  ******************************************************************************/
 
     Shader::Shader()
-        : m_window{CoreComponents::get_window()},
-          m_camera{CoreComponents::get_camera()}
     {
 
     }
@@ -141,7 +139,7 @@ namespace YB
 
         // get view matrix for current camera
         error_code = glGetError();
-        this->view_matrix = this->m_camera->get_view_matrix();
+        this->view_matrix = CoreComponents::camera->get_view_matrix();
         error_code = glGetError();
         this->view_matrix_location = glGetUniformLocation(this->shader_program, "view");
         error_code = glGetError();
@@ -159,7 +157,7 @@ namespace YB
         error_code = glGetError();
         this->projection_matrix
             = glm::perspective(glm::radians(45.0f),
-                               static_cast<float>(this->m_window->width) / static_cast<float>(this->m_window->height),
+                               static_cast<float>(CoreComponents::window->width) / static_cast<float>(CoreComponents::window->height),
                                0.1f,
                                40.0f);
 

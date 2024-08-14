@@ -31,10 +31,7 @@ namespace YB
  ******************************************************************************/
 
     Keyboard::Keyboard()
-        : m_camera{CoreComponents::get_camera()},
-          m_world{CoreComponents::get_world()},
-          m_current_shader{DrawComponents::get_shader()},
-          m_pressed_keys{std::vector<GLboolean>(512, 0)}
+        : m_pressed_keys{std::vector<GLboolean>(512, 0)}
     {
     }
 
@@ -55,7 +52,7 @@ namespace YB
 
     void Keyboard::key_pressed(float delta_time_in_seconds)
     {
-        glm::mat4 view_matrix = this->m_camera->get_view_matrix();
+        glm::mat4 view_matrix = CoreComponents::camera->get_view_matrix();
 
         this->movement_key_pressed(delta_time_in_seconds);
 
@@ -68,26 +65,26 @@ namespace YB
     {
         if (this->m_pressed_keys[GLFW_KEY_W])
         {
-            this->m_camera->move(YB::MOVE_DIRECTION::MOVE_FORWARD,
-                                 delta_time_in_seconds);
+            CoreComponents::camera->move(YB::MOVE_DIRECTION::MOVE_FORWARD,
+                                         delta_time_in_seconds);
         }
 
         if (this->m_pressed_keys[GLFW_KEY_S])
         {
-            this->m_camera->move(YB::MOVE_DIRECTION::MOVE_BACKWARD,
-                                 delta_time_in_seconds);
+            CoreComponents::camera->move(YB::MOVE_DIRECTION::MOVE_BACKWARD,
+                                         delta_time_in_seconds);
         }
 
         if (this->m_pressed_keys[GLFW_KEY_A])
         {
-            this->m_camera->move(YB::MOVE_DIRECTION::MOVE_LEFT,
-                                 delta_time_in_seconds);
+            CoreComponents::camera->move(YB::MOVE_DIRECTION::MOVE_LEFT,
+                                         delta_time_in_seconds);
         }
 
         if (this->m_pressed_keys[GLFW_KEY_D])
         {
-            this->m_camera->move(YB::MOVE_DIRECTION::MOVE_RIGHT,
-                                 delta_time_in_seconds);
+            CoreComponents::camera->move(YB::MOVE_DIRECTION::MOVE_RIGHT,
+                                         delta_time_in_seconds);
         }
     }
 
@@ -95,17 +92,17 @@ namespace YB
     {
         if (this->m_pressed_keys[GLFW_KEY_R])
         {
-            this->m_world->increase_rotate_angle(10.0f);
+            CoreComponents::world->increase_rotate_angle(10.0f);
         }
 
         if (this->m_pressed_keys[GLFW_KEY_Q])
         {
-            this->m_world->increase_scale_factor(0.05f);
+            CoreComponents::world->increase_scale_factor(0.05f);
         }
 
         if (this->m_pressed_keys[GLFW_KEY_E])
         {
-            this->m_world->increase_scale_factor(-0.05f);
+            CoreComponents::world->increase_scale_factor(-0.05f);
         }
     }
 

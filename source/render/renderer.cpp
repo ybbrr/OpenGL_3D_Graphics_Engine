@@ -74,19 +74,15 @@ namespace YB
 #define glCheckError() glCheckError_(__FILE__, __LINE__)
 
     Renderer::Renderer()
-        : m_window{CoreComponents::get_window()},
-          m_camera{CoreComponents::get_camera()},
-          m_mouse{new YB::Mouse(m_window->width, m_window->height)},
+        : m_mouse{new YB::Mouse(CoreComponents::window->width, CoreComponents::window->height)},
           m_delta_time_in_seconds{0.0f}
     {
         this->init_opengl_state();
 
-        this->m_current_shader = std::make_shared<YB::DirectionalLightShader>();
-        this->m_current_shader->init_uniforms();
-        DrawComponents::set_shader(this->m_current_shader);
+        DrawComponents::shader = std::make_shared<YB::DirectionalLightShader>();
+        DrawComponents::shader->init_uniforms();
 
-        this->m_world = std::make_shared<YB::DefaultWorld>();
-        CoreComponents::set_world(m_world);
+        CoreComponents::world = std::make_shared<YB::DefaultWorld>();
 
         this->m_keyboard = std::make_shared<YB::Keyboard>();
 
@@ -95,7 +91,7 @@ namespace YB
 
     void Renderer::render_scene()
     {
-        GLFWwindow* window = this->m_window->get_window();
+        GLFWwindow* window = CoreComponents::window->get_window();
 
         float current_time_stamp{};
         float last_time_stamp{};
@@ -112,7 +108,7 @@ namespace YB
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glClear(GL_STENCIL_BUFFER_BIT);
 
-            this->m_world->render_models();
+            CoreComponents::world->render_models();
 
             glfwPollEvents();
             glfwSwapBuffers(window);
@@ -145,7 +141,7 @@ namespace YB
     void Renderer::init_opengl_state()
     {
         glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
-        glViewport(0, 0, this->m_window->width, this->m_window->height);
+        glViewport(0, 0, CoreComponents::window->width, CoreComponents::window->height);
         glEnable(GL_FRAMEBUFFER_SRGB);
         glEnable(GL_DEPTH_TEST); // enable depth-testing
         glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
@@ -156,35 +152,35 @@ namespace YB
 
     void Renderer::init_models()
     {
-        this->m_world->add_model(R"(obj\teapot20segUT.obj)",
-                                 "teapot",
-                                 glm::vec3(0.0f, 0.0f, 0.0f),
-                                 true,
-                                 true);
+        CoreComponents::world->add_model(R"(obj\teapot20segUT.obj)",
+                                         "teapot",
+                                         glm::vec3(0.0f, 0.0f, 0.0f),
+                                         true,
+                                         true);
 
-        this->m_world->add_model(R"(obj\cube.obj)",
-                                 "cube",
-                                 glm::vec3(3.0f, 0.0f, 0.0f),
-                                 false,
-                                 false);
+        CoreComponents::world->add_model(R"(obj\cube.obj)",
+                                         "cube",
+                                         glm::vec3(3.0f, 0.0f, 0.0f),
+                                         false,
+                                         false);
 
-        this->m_world->add_model(R"(obj\sphere.obj)",
-                                 "sphere",
-                                 glm::vec3(-3.0f, 0.0f, 2.0f),
-                                 false,
-                                 false);
+        CoreComponents::world->add_model(R"(obj\sphere.obj)",
+                                         "sphere",
+                                         glm::vec3(-3.0f, 0.0f, 2.0f),
+                                         false,
+                                         false);
 
-        this->m_world->add_model(R"(obj\monkey.obj)",
-                                 "monkey",
-                                 glm::vec3(-3.0f, 0.0f, -2.0f),
-                                 false,
-                                 false);
+        CoreComponents::world->add_model(R"(obj\monkey.obj)",
+                                         "monkey",
+                                         glm::vec3(-3.0f, 0.0f, -2.0f),
+                                         false,
+                                         false);
 
-        this->m_world->add_model(R"(obj\plane3.obj)",
-                                 "plane3",
-                                 glm::vec3(0.0f, -1.0f, 0.0f),
-                                 false,
-                                 false);
+        CoreComponents::world->add_model(R"(obj\plane3.obj)",
+                                         "plane3",
+                                         glm::vec3(0.0f, -1.0f, 0.0f),
+                                         false,
+                                         false);
     }
 
 /*******************************************************************************
@@ -193,7 +189,7 @@ namespace YB
 
     void Renderer::set_window_callbacks()
     {
-        GLFWwindow* window = this->m_window->get_window();
+        GLFWwindow* window = CoreComponents::window->get_window();
 
         glfwSetWindowSizeCallback(window, WindowCallbacks::window_resize_callback);
         glfwSetKeyCallback(window, WindowCallbacks::keyboard_callback);

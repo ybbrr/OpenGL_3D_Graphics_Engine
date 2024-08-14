@@ -67,9 +67,6 @@ namespace YB
 
         std::vector<YB::Model3D> m_objs;
 
-        std::shared_ptr<YB::Camera> m_camera;
-        std::shared_ptr<YB::Shader> m_shader;
-
     /***************************************************************************
      * Protected Members
      **************************************************************************/

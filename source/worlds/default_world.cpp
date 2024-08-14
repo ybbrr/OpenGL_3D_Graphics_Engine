@@ -32,9 +32,7 @@ namespace YB
  ******************************************************************************/
 
     DefaultWorld::DefaultWorld()
-        : m_objs{},
-          m_camera{CoreComponents::get_camera()},
-          m_shader{DrawComponents::get_shader()}
+        : m_objs{}
     {
 
     }
@@ -52,32 +50,44 @@ namespace YB
     {
         for (auto & obj : this->m_objs)
         {
-            this->m_shader->use_shader_program();
+            DrawComponents::shader->use_shader_program();
 
-            this->m_shader->model_matrix = glm::translate(glm::mat4(1.0f), obj.obj_position);
+            DrawComponents::shader->model_matrix = glm::translate(glm::mat4(1.0f), obj.obj_position);
 
             if (obj.is_rotatable)
             {
-                this->m_shader->model_matrix = glm::rotate(this->m_shader->model_matrix,
+                DrawComponents::shader->model_matrix = glm::rotate(DrawComponents::shader->model_matrix,
                                                    glm::radians(this->m_rotate_angle),
                                                    glm::vec3(0, 1, 0));
             }
 
             if (obj.is_scalable)
             {
-                this->m_shader->model_matrix = glm::scale(this->m_shader->model_matrix,
+                DrawComponents::shader->model_matrix = glm::scale(DrawComponents::shader->model_matrix,
                                                   this->m_scale_factor + glm::vec3(1.0f, 1.0f, 1.0f));
             }
 
-            this->m_shader->view_matrix = this->m_camera->get_view_matrix();
+            DrawComponents::shader->view_matrix = CoreComponents::camera->get_view_matrix();
 
-            this->m_shader->normal_matrix = glm::mat3(glm::inverseTranspose(this->m_shader->view_matrix * this->m_shader->model_matrix));
+            DrawComponents::shader->normal_matrix
+                = glm::mat3(glm::inverseTranspose(DrawComponents::shader->view_matrix * DrawComponents::shader->model_matrix));
 
-            glUniformMatrix4fv(this->m_shader->model_matrix_location, 1, GL_FALSE, glm::value_ptr(this->m_shader->model_matrix));
-            glUniformMatrix3fv(this->m_shader->normal_matrix_location, 1, GL_FALSE, glm::value_ptr(this->m_shader->normal_matrix));
-            glUniformMatrix4fv(this->m_shader->view_matrix_location, 1, GL_FALSE, glm::value_ptr(this->m_shader->view_matrix));
+            glUniformMatrix4fv(DrawComponents::shader->model_matrix_location,
+                               1,
+                               GL_FALSE,
+                               glm::value_ptr(DrawComponents::shader->model_matrix));
 
-            obj.draw(this->m_shader->shader_program);
+            glUniformMatrix3fv(DrawComponents::shader->normal_matrix_location,
+                               1,
+                               GL_FALSE,
+                               glm::value_ptr(DrawComponents::shader->normal_matrix));
+
+            glUniformMatrix4fv(DrawComponents::shader->view_matrix_location,
+                               1,
+                               GL_FALSE,
+                               glm::value_ptr(DrawComponents::shader->view_matrix));
+
+            obj.draw(DrawComponents::shader->shader_program);
         }
     }
 

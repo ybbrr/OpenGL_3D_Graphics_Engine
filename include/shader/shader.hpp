@@ -92,9 +92,6 @@ namespace YB
 
         void load_shader(const std::string& vertex_shader_file_name,
                          const std::string& fragment_shader_file_name);
-
-        std::shared_ptr<YB::Window> m_window; /**< Shared pointer to the Window object. */
-        std::shared_ptr<YB::Camera> m_camera; /**< Shared pointer to the Camera object. */
     };
 
 } // YB

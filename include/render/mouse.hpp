@@ -70,8 +70,6 @@ namespace YB
      **************************************************************************/
     private:
 
-        std::shared_ptr<YB::Camera> m_camera;
-
         /**
          * @brief
          *

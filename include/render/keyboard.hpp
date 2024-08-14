@@ -73,6 +73,8 @@ namespace YB
 
         void movement_key_pressed(float delta_time_in_seconds);
         void rotate_or_scale_key_pressed();
+        void polygon_mode_change_key_pressed();
+        void shader_change_key_pressed();
 
         std::shared_ptr<YB::Camera> m_camera;
         std::shared_ptr<YB::Shader> m_current_shader;

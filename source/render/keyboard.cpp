@@ -62,6 +62,8 @@ namespace YB
         this->movement_key_pressed(delta_time_in_seconds);
 
         this->rotate_or_scale_key_pressed();
+
+        this->polygon_mode_change_key_pressed();
     }
 
     void Keyboard::movement_key_pressed(float delta_time_in_seconds)
@@ -107,6 +109,24 @@ namespace YB
         {
             this->m_world->increase_scale_factor(-0.05f);
         }
+    }
+
+    void Keyboard::polygon_mode_change_key_pressed()
+    {
+        if (this->m_pressed_keys[GLFW_KEY_T])
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }
+
+        if (this->m_pressed_keys[GLFW_KEY_Y])
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        }
+    }
+
+    void Keyboard::shader_change_key_pressed()
+    {
+        //TO-DO
     }
 
 

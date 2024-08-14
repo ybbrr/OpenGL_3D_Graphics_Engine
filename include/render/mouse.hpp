@@ -17,6 +17,7 @@
 #include "window.hpp"
 #include "camera.hpp"
 #include "shader.hpp"
+#include "core_components.hpp"
 
 /*******************************************************************************
  * Third Party Libraries
@@ -58,8 +59,7 @@ namespace YB
      * Public Members
      **************************************************************************/
 
-    Mouse(std::shared_ptr<YB::Window>& window,
-          std::shared_ptr<YB::Camera>& camera);
+    Mouse(int window_width, int window_height);
 
     void mouse_movement(float x_pos,
                         float y_pos,

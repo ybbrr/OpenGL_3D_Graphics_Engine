@@ -72,18 +72,15 @@ namespace YB
     }
 #define glCheckError() glCheckError_(__FILE__, __LINE__)
 
-    Renderer::Renderer(std::shared_ptr<YB::Window>& window,
-                       std::shared_ptr<YB::Camera>& camera)
-        : m_window{window},
-          m_camera{camera},
-          m_mouse{new YB::Mouse(window, camera)},
+    Renderer::Renderer()
+        : m_window{CoreComponents::get_window()},
+          m_camera{CoreComponents::get_camera()},
+          m_mouse{new YB::Mouse(m_window->width, m_window->height)},
           m_world(new YB::DefaultWorld()),
           m_current_shader{new YB::Shader()},
           m_delta_time_in_seconds{0.0f}
     {
-        this->m_keyboard = std::make_shared<YB::Keyboard>(camera,
-                                                          this->m_current_shader,
-                                                          this->m_world);
+        this->m_keyboard = std::make_shared<YB::Keyboard>(this->m_current_shader);
 
         this->set_window_callbacks();
     }

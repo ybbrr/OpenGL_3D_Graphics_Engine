@@ -21,6 +21,7 @@
 #include "mouse.hpp"
 #include "keyboard.hpp"
 #include "default_world.hpp"
+#include "core_components.hpp"
 
 /*******************************************************************************
  * Third Party Libraries
@@ -37,8 +38,6 @@ namespace YB
     /***************************************************************************
      * Special Members
      **************************************************************************/
-
-        Renderer() noexcept = delete;
 
         virtual ~Renderer() noexcept = default;
 
@@ -61,8 +60,7 @@ namespace YB
          * @param window A shared pointer to the Window object.
          * @param camera A shared pointer to the Camera object.
          */
-        explicit Renderer(std::shared_ptr<YB::Window>& window,
-                          std::shared_ptr<YB::Camera>& camera);
+        explicit Renderer();
 
         /**
          * @brief Renders the scene in a loop until the window is closed.

@@ -27,7 +27,10 @@ int main()
                        glm::vec3(0.0f, 1.0f, 0.0f))
     };
 
-    std::shared_ptr<YB::Renderer> renderer{new YB::Renderer(window, camera)};
+    YB::CoreComponents::set_window(window);
+    YB::CoreComponents::set_camera(camera);
+
+    std::shared_ptr<YB::Renderer> renderer{new YB::Renderer()};
 
     YB::WindowCallbacks::set_current_renderer(renderer);
 

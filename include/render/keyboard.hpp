@@ -18,6 +18,7 @@
 #include "camera.hpp"
 #include "shader.hpp"
 #include "world.hpp"
+#include "core_components.hpp"
 
 /*******************************************************************************
  * Third Party Libraries
@@ -58,9 +59,7 @@ namespace YB
      * Public Members
      **************************************************************************/
 
-        Keyboard(std::shared_ptr<YB::Camera>& camera,
-                 std::shared_ptr<YB::Shader>& current_shader,
-                 std::shared_ptr<YB::World>& world);
+        explicit Keyboard(std::shared_ptr<YB::Shader>& current_shader);
 
         void key_pressed(int key, int action);
 
@@ -77,8 +76,8 @@ namespace YB
         void shader_change_key_pressed();
 
         std::shared_ptr<YB::Camera> m_camera;
-        std::shared_ptr<YB::Shader> m_current_shader;
         std::shared_ptr<YB::World> m_world;
+        std::shared_ptr<YB::Shader> m_current_shader;
         std::vector<GLboolean> m_pressed_keys;
 
 /***************************************************************************

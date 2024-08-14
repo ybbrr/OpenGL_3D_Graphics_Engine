@@ -64,6 +64,7 @@ add_executable(
 	${WORKSPACE_DIR}/source/model/model_3d.cpp
 	${WORKSPACE_DIR}/source/model/shader.cpp
 	${WORKSPACE_DIR}/source/render/camera.cpp
+	${WORKSPACE_DIR}/source/render/core_components.cpp
 	${WORKSPACE_DIR}/source/render/keyboard.cpp
 	${WORKSPACE_DIR}/source/render/renderer.cpp
 	${WORKSPACE_DIR}/source/render/mouse.cpp

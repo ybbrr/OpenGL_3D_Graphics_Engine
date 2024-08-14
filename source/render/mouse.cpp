@@ -25,12 +25,11 @@ namespace YB
  * Public Functions
  ******************************************************************************/
 
-    Mouse::Mouse(std::shared_ptr<YB::Window>& window,
-                 std::shared_ptr<YB::Camera>& camera)
-        : m_camera{camera},
+    Mouse::Mouse(int window_width, int window_height)
+        : m_camera{CoreComponents::get_camera()},
           m_is_mouse_centered{true},
-          m_last_x_pos{static_cast<float>(window->width) / 2.0f},
-          m_last_y_pos{static_cast<float>(window->height) / 2.0f},
+          m_last_x_pos{static_cast<float>(window_width) / 2.0f},
+          m_last_y_pos{static_cast<float>(window_height) / 2.0f},
           m_yaw{-90.0f},
           m_pitch{0.0f},
           m_mouse_sensitivity{10.0f}

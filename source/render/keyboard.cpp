@@ -30,12 +30,10 @@ namespace YB
  * Public Functions
  ******************************************************************************/
 
-    Keyboard::Keyboard(std::shared_ptr<YB::Camera>& camera,
-                       std::shared_ptr<YB::Shader>& current_shader,
-                       std::shared_ptr<YB::World>& world)
-        : m_camera{camera},
+    Keyboard::Keyboard(std::shared_ptr<YB::Shader>& current_shader)
+        : m_camera{CoreComponents::get_camera()},
+          m_world{CoreComponents::get_world()},
           m_current_shader{current_shader},
-          m_world{world},
           m_pressed_keys{std::vector<GLboolean>(512, 0)}
     {
     }

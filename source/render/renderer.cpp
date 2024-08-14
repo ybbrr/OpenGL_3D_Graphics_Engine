@@ -38,7 +38,8 @@ namespace YB
     GLenum glCheckError_(const char *file, int line)
     {
         GLenum error_code;
-        while ((error_code = glGetError()) != GL_NO_ERROR) {
+        while ((error_code = glGetError()) != GL_NO_ERROR)
+        {
             std::string error;
             switch (error_code)
             {
@@ -66,7 +67,7 @@ namespace YB
                 default:
                     break;
             }
-            std::cout << error << " | " << file << " (" << line << ")" << "\n";
+            std::cout << error << " - error code: " << error_code << " | " << file << " (" << line << ")" << "\n";
         }
         return error_code;
     }
@@ -76,11 +77,18 @@ namespace YB
         : m_window{CoreComponents::get_window()},
           m_camera{CoreComponents::get_camera()},
           m_mouse{new YB::Mouse(m_window->width, m_window->height)},
-          m_world(new YB::DefaultWorld()),
-          m_current_shader{new YB::Shader()},
           m_delta_time_in_seconds{0.0f}
     {
-        this->m_keyboard = std::make_shared<YB::Keyboard>(this->m_current_shader);
+        this->init_opengl_state();
+
+        this->m_current_shader = std::make_shared<YB::DirectionalLightShader>();
+        this->m_current_shader->init_uniforms();
+        DrawComponents::set_shader(this->m_current_shader);
+
+        this->m_world = std::make_shared<YB::DefaultWorld>();
+        CoreComponents::set_world(m_world);
+
+        this->m_keyboard = std::make_shared<YB::Keyboard>();
 
         this->set_window_callbacks();
     }
@@ -104,7 +112,7 @@ namespace YB
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glClear(GL_STENCIL_BUFFER_BIT);
 
-            this->m_world->render_models(this->m_current_shader);
+            this->m_world->render_models();
 
             glfwPollEvents();
             glfwSwapBuffers(window);
@@ -132,13 +140,6 @@ namespace YB
         }
 
         this->m_keyboard->key_pressed(key, action);
-    }
-
-    void Renderer::init_uniforms()
-    {
-        this->m_world->init_uniforms(this->m_window,
-                                     this->m_camera,
-                                     this->m_current_shader);
     }
 
     void Renderer::init_opengl_state()
@@ -184,12 +185,6 @@ namespace YB
                                  glm::vec3(0.0f, -1.0f, 0.0f),
                                  false,
                                  false);
-    }
-
-    void Renderer::init_shaders()
-    {
-        this->m_current_shader->load_shader(R"(shader/basic_vert_directional_light.glsl)",
-                                            R"(shader/basic_frag_directional_light.glsl)");
     }
 
 /*******************************************************************************

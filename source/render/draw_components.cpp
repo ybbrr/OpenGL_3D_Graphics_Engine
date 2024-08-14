@@ -1,9 +1,9 @@
 /**
- * @file world.cpp
+ * @file draw_components.cpp
  * @author Yasin BASAR
  * @brief
  * @version 1.0.0
- * @date 10/08/2024
+ * @date 14/08/2024
  * @copyright (c) 2024 All rights reserved.
  */
 
@@ -12,7 +12,7 @@
  * Includes 
  ******************************************************************************/
 
-#include "world.hpp"
+#include "draw_components.hpp"
 
 /*******************************************************************************
  * Third Party Libraries 
@@ -20,10 +20,21 @@
 
 namespace YB
 {
+    std::shared_ptr<YB::Shader> DrawComponents::m_shader{nullptr};
 
 /*******************************************************************************
  * Public Functions
  ******************************************************************************/
+
+    void DrawComponents::set_shader(std::shared_ptr<YB::Shader> &shader) noexcept
+    {
+        m_shader = shader;
+    }
+
+    std::shared_ptr<YB::Shader> &DrawComponents::get_shader() noexcept
+    {
+        return m_shader;
+    }
 
 /*******************************************************************************
  * Private Functions
@@ -33,29 +44,6 @@ namespace YB
  * Protected Functions
  ******************************************************************************/
 
-    void World::add_model(const std::string &file_name,
-                          const std::string &model_name,
-                          const glm::vec3 &position,
-                          bool rotatable,
-                          bool scalable)
-    {
-
-    }
-
-    void World::render_models()
-    {
-
-    }
-
-    void World::increase_rotate_angle(float value)
-    {
-        this->m_rotate_angle += value;
-    }
-
-    void World::increase_scale_factor(float value)
-    {
-        this->m_scale_factor += value;
-    }
 } // YB
 
 /* End of File */

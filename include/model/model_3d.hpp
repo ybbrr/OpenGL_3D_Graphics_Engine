@@ -55,7 +55,7 @@ namespace YB
 
         ~Model3D();
 
-        void draw(const std::shared_ptr<YB::Shader>& shader_program);
+        void draw(GLuint shader_program);
 
         glm::vec3 obj_position;
         bool is_rotatable;

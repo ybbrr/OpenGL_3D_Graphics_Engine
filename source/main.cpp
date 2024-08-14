@@ -34,10 +34,7 @@ int main()
 
     YB::WindowCallbacks::set_current_renderer(renderer);
 
-    renderer->init_opengl_state();
     renderer->init_models();
-    renderer->init_shaders();
-    renderer->init_uniforms();
 
     renderer->render_scene();
 

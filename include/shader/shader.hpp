@@ -17,12 +17,21 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include "core_components.hpp"
 
 /*******************************************************************************
  * Third Party Libraries
  ******************************************************************************/
 
+#include <glm/glm.hpp>
+
+#include <glm/glm.hpp> //core glm functionality
+#include <glm/gtc/matrix_transform.hpp> //glm extension for generating common transformation matrices
+#include <glm/gtc/matrix_inverse.hpp> //glm extension for computing inverse matrices
+#include <glm/gtc/type_ptr.hpp> //glm extension for accessing the internal data structure of glm types
+
 typedef unsigned int GLuint;
+typedef int GLint;
 
 namespace YB
 {
@@ -33,28 +42,37 @@ namespace YB
      * Special Members
      **************************************************************************/
 
-        Shader() noexcept = default;
-
         virtual ~Shader() noexcept = default;
 
         Shader(Shader &&) noexcept = default;
 
         Shader &operator=(Shader &&) noexcept = default;
 
-        Shader(const Shader &) noexcept = delete;
+        Shader(const Shader &) noexcept = default;
 
-        Shader &operator=(Shader &) noexcept = delete;
+        Shader &operator=(Shader const&) noexcept = default;
 
     /***************************************************************************
      * Public Members
      **************************************************************************/
 
-        void load_shader(const std::string& vertex_shader_file_name,
-                         const std::string& fragment_shader_file_name);
+        Shader();
 
-        void use_shader_program();
+        virtual void use_shader_program();
+
+        virtual void init_uniforms();
 
         GLuint shader_program;
+
+        glm::mat4 model_matrix;
+        glm::mat4 view_matrix;
+        glm::mat4 projection_matrix;
+        glm::mat3 normal_matrix;
+
+        GLint model_matrix_location;
+        GLint view_matrix_location;
+        GLint projection_matrix_location;
+        GLint normal_matrix_location;
 
     /***************************************************************************
      * Private Members
@@ -72,8 +90,11 @@ namespace YB
      **************************************************************************/
     protected:
 
-        /* Data */
+        void load_shader(const std::string& vertex_shader_file_name,
+                         const std::string& fragment_shader_file_name);
 
+        std::shared_ptr<YB::Window> m_window; /**< Shared pointer to the Window object. */
+        std::shared_ptr<YB::Camera> m_camera; /**< Shared pointer to the Camera object. */
     };
 
 } // YB

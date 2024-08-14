@@ -13,6 +13,7 @@
  ******************************************************************************/
 
 #include "default_world.hpp"
+#include "draw_components.hpp"
 
 /*******************************************************************************
  * Third Party Libraries 
@@ -30,6 +31,14 @@ namespace YB
  * Public Functions
  ******************************************************************************/
 
+    DefaultWorld::DefaultWorld()
+        : m_objs{},
+          m_camera{CoreComponents::get_camera()},
+          m_shader{DrawComponents::get_shader()}
+    {
+
+    }
+
     void DefaultWorld::add_model(const std::string &file_name,
                                  const std::string& model_name,
                                  const glm::vec3& position,
@@ -39,101 +48,37 @@ namespace YB
         this->m_objs.emplace_back(file_name, model_name, position, rotatable, scalable);
     }
 
-    void DefaultWorld::render_models(std::shared_ptr<YB::Shader>& shader)
+    void DefaultWorld::render_models()
     {
         for (auto & obj : this->m_objs)
         {
-            shader->use_shader_program();
+            this->m_shader->use_shader_program();
 
-            this->m_model_matrix = glm::translate(glm::mat4(1.0f), obj.obj_position);
+            this->m_shader->model_matrix = glm::translate(glm::mat4(1.0f), obj.obj_position);
 
             if (obj.is_rotatable)
             {
-                this->m_model_matrix = glm::rotate(this->m_model_matrix,
+                this->m_shader->model_matrix = glm::rotate(this->m_shader->model_matrix,
                                                    glm::radians(this->m_rotate_angle),
                                                    glm::vec3(0, 1, 0));
             }
 
             if (obj.is_scalable)
             {
-                this->m_model_matrix = glm::scale(this->m_model_matrix,
+                this->m_shader->model_matrix = glm::scale(this->m_shader->model_matrix,
                                                   this->m_scale_factor + glm::vec3(1.0f, 1.0f, 1.0f));
             }
 
-            this->m_view_matrix = this->m_camera->get_view_matrix();
+            this->m_shader->view_matrix = this->m_camera->get_view_matrix();
 
-            this->m_normal_matrix = glm::mat3(glm::inverseTranspose(this->m_view_matrix * this->m_model_matrix));
+            this->m_shader->normal_matrix = glm::mat3(glm::inverseTranspose(this->m_shader->view_matrix * this->m_shader->model_matrix));
 
-            glUniformMatrix4fv(this->m_model_matrix_location, 1, GL_FALSE, glm::value_ptr(this->m_model_matrix));
-            glUniformMatrix3fv(this->m_normal_matrix_location, 1, GL_FALSE, glm::value_ptr(this->m_normal_matrix));
-            glUniformMatrix4fv(this->m_view_matrix_location, 1, GL_FALSE, glm::value_ptr(this->m_view_matrix));
+            glUniformMatrix4fv(this->m_shader->model_matrix_location, 1, GL_FALSE, glm::value_ptr(this->m_shader->model_matrix));
+            glUniformMatrix3fv(this->m_shader->normal_matrix_location, 1, GL_FALSE, glm::value_ptr(this->m_shader->normal_matrix));
+            glUniformMatrix4fv(this->m_shader->view_matrix_location, 1, GL_FALSE, glm::value_ptr(this->m_shader->view_matrix));
 
-            obj.draw(shader);
+            obj.draw(this->m_shader->shader_program);
         }
-    }
-
-    void DefaultWorld::init_uniforms(std::shared_ptr<YB::Window>& window,
-                                     std::shared_ptr<YB::Camera>& camera,
-                                     std::shared_ptr<YB::Shader>& shader)
-    {
-
-        this->m_camera = camera;
-        shader->use_shader_program();
-
-        this->m_rotate_angle = 0.0f;
-        this->m_scale_factor = 0.1f;
-
-        // create model matrix for teapot
-        // this->m_model_matrix = glm::rotate(glm::mat4(1.0f), glm::radians(this->m_rotate_angle), glm::vec3(0.0f, 0.0f, 0.0f));
-        this->m_model_matrix = glm::mat4(1.0f);
-        this->m_model_matrix_location = glGetUniformLocation(shader->shader_program, "model");
-
-        // get view matrix for current camera
-        this->m_view_matrix = camera->get_view_matrix();
-        this->m_view_matrix_location = glGetUniformLocation(shader->shader_program, "view");
-        // send view matrix to shader
-        glUniformMatrix4fv(this->m_view_matrix_location, 1, GL_FALSE, glm::value_ptr(this->m_view_matrix));
-
-        // compute normal matrix for teapot
-        this->m_normal_matrix = glm::mat3(glm::inverseTranspose(this->m_view_matrix * this->m_model_matrix));
-        this->m_normal_matrix_location = glGetUniformLocation(shader->shader_program, "normalMatrix");
-
-        // create projection matrix
-        this->m_projection_matrix
-            = glm::perspective(glm::radians(45.0f),
-                               static_cast<float>(window->width) / static_cast<float>(window->height),
-                               0.1f,
-                               40.0f);
-
-        this->m_projection_matrix_location = glGetUniformLocation(shader->shader_program, "projection");
-        // send projection matrix to shader
-        glUniformMatrix4fv(this->m_projection_matrix_location, 1, GL_FALSE, glm::value_ptr(this->m_projection_matrix));
-
-        // set the light direction (direction towards the light)
-        this->m_light_dir = glm::vec3(2.0f, 2.0f, 2.0f);
-        this->m_light_dir_location = glGetUniformLocation(shader->shader_program, "lightDir");
-        // send light dir to shader
-        glUniform3fv(this->m_light_dir_location, 1, glm::value_ptr(this->m_light_dir));
-
-        // set light color
-        this->m_light_color = glm::vec3(1.0f, 1.0f, 1.0f); //white light
-        this->m_light_dir_location = glGetUniformLocation(shader->shader_program, "lightColor");
-        // send light color to shader
-        glUniform3fv(this->m_light_dir_location, 1, glm::value_ptr(this->m_light_color));
-
-        this->m_light_position = glm::vec3(-2.0f, 10.0f, -1.0f);
-        this->m_light_position_location = glGetUniformLocation(shader->shader_program, "lightPosition");
-        /*send light position to shader*/
-        glUniform3fv(this->m_light_position_location, 1, glm::value_ptr(this->m_light_position));
-
-        this->m_constant = glGetUniformLocation(shader->shader_program, "constant");
-        glUniform1f(this->m_constant, 1.0f);
-
-        this->m_linear = glGetUniformLocation(shader->shader_program, "linear_");
-        glUniform1f(this->m_linear, 0.22f);
-
-        this->m_quadratic = glGetUniformLocation(shader->shader_program, "quadratic");
-        glUniform1f(this->m_quadratic, 0.20f);
     }
 
     void DefaultWorld::increase_rotate_angle(float value)

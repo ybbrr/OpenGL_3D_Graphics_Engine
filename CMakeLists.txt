@@ -26,6 +26,7 @@ set(THIRD_PARTY_FOLDER ${WORKSPACE_DIR}/__third_parties__)
 include_directories(${WORKSPACE_DIR}/include)
 include_directories(${WORKSPACE_DIR}/include/model)
 include_directories(${WORKSPACE_DIR}/include/render)
+include_directories(${WORKSPACE_DIR}/include/shader)
 include_directories(${WORKSPACE_DIR}/include/util)
 include_directories(${WORKSPACE_DIR}/include/window)
 include_directories(${WORKSPACE_DIR}/include/worlds)
@@ -62,12 +63,14 @@ add_executable(
 	${GLAD_SOURCE_FILE}
 	${WORKSPACE_DIR}/source/model/mesh.cpp
 	${WORKSPACE_DIR}/source/model/model_3d.cpp
-	${WORKSPACE_DIR}/source/model/shader.cpp
 	${WORKSPACE_DIR}/source/render/camera.cpp
 	${WORKSPACE_DIR}/source/render/core_components.cpp
+	${WORKSPACE_DIR}/source/render/draw_components.cpp
 	${WORKSPACE_DIR}/source/render/keyboard.cpp
 	${WORKSPACE_DIR}/source/render/renderer.cpp
 	${WORKSPACE_DIR}/source/render/mouse.cpp
+	${WORKSPACE_DIR}/source/shader/directional_light_shader.cpp
+	${WORKSPACE_DIR}/source/shader/shader.cpp
 	${WORKSPACE_DIR}/source/window/window.cpp
 	${WORKSPACE_DIR}/source/window/window_callbacks.cpp
 	${WORKSPACE_DIR}/source/worlds/default_world.cpp

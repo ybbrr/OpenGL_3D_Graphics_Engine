@@ -15,13 +15,14 @@
  ******************************************************************************/
 
 #include <string>
-#include "shader.hpp"
 #include "window.hpp"
 #include "camera.hpp"
 
 /*******************************************************************************
  * Third Party Libraries
  ******************************************************************************/
+
+#include <glm/glm.hpp>
 
 typedef int GLint;
 
@@ -56,11 +57,7 @@ namespace YB
                                bool rotatable,
                                bool scalable);
 
-        virtual void render_models(std::shared_ptr<YB::Shader>& shader);
-
-        virtual void init_uniforms(std::shared_ptr<YB::Window>& window,
-                                   std::shared_ptr<YB::Camera>& camera,
-                                   std::shared_ptr<YB::Shader>& shader);
+        virtual void render_models();
 
         virtual void increase_rotate_angle(float value);
         virtual void increase_scale_factor(float value);
@@ -77,8 +74,8 @@ namespace YB
      **************************************************************************/
     protected:
 
-        GLfloat m_rotate_angle;
-        GLfloat m_scale_factor;
+        float m_rotate_angle = 5.0f;
+        float m_scale_factor = 0.0f;
 
     };
 

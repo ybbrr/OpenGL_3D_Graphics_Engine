@@ -19,6 +19,7 @@
 #include "shader.hpp"
 #include "world.hpp"
 #include "core_components.hpp"
+#include "draw_components.hpp"
 
 /*******************************************************************************
  * Third Party Libraries
@@ -43,8 +44,6 @@ namespace YB
      * Special Members
      **************************************************************************/
 
-        Keyboard() noexcept = delete;
-
         virtual ~Keyboard() noexcept = default;
 
         Keyboard(Keyboard &&) noexcept = default;
@@ -59,7 +58,7 @@ namespace YB
      * Public Members
      **************************************************************************/
 
-        explicit Keyboard(std::shared_ptr<YB::Shader>& current_shader);
+        explicit Keyboard();
 
         void key_pressed(int key, int action);
 

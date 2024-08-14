@@ -40,17 +40,15 @@ namespace YB
         return this->m_buffers;
     }
 
-    void Mesh::draw(const std::shared_ptr<YB::Shader>& shader)
+    void Mesh::draw(GLuint shader_program)
     {
-        shader->use_shader_program();
-
         //set textures
-        for (GLuint idx = 0; idx < textures.size(); idx++)
+        for (GLint idx = 0; idx < textures.size(); idx++)
         {
             glActiveTexture(GL_TEXTURE0 + idx);
 
-            GLuint uniform_location
-                = glGetUniformLocation(shader->shader_program, this->textures[idx].type.c_str());
+            GLint uniform_location
+                = glGetUniformLocation(shader_program, this->textures[idx].type.c_str());
 
             glUniform1i(uniform_location, idx);
 

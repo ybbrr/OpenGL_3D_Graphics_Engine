@@ -33,8 +33,6 @@ namespace YB
      * Special Members
      **************************************************************************/
 
-        DefaultWorld() noexcept = default;
-
         virtual ~DefaultWorld() noexcept = default;
 
         DefaultWorld(DefaultWorld &&) noexcept = default;
@@ -49,17 +47,15 @@ namespace YB
      * Public Members
      **************************************************************************/
 
+        explicit DefaultWorld();
+
         void add_model(const std::string& file_name,
                        const std::string& model_name,
                        const glm::vec3& position,
                        bool rotatable,
                        bool scalable) override;
 
-        void render_models(std::shared_ptr<YB::Shader>& shader) override;
-
-        void init_uniforms(std::shared_ptr<YB::Window>& window,
-                           std::shared_ptr<YB::Camera>& camera,
-                           std::shared_ptr<YB::Shader>& shader) override;
+        void render_models() override;
 
         void increase_rotate_angle(float value) override;
         void increase_scale_factor(float value) override;
@@ -72,32 +68,7 @@ namespace YB
         std::vector<YB::Model3D> m_objs;
 
         std::shared_ptr<YB::Camera> m_camera;
-
-
-        // matrices
-        glm::mat4 m_model_matrix;
-        glm::mat4 m_view_matrix;
-        glm::mat4 m_projection_matrix;
-        glm::mat3 m_normal_matrix;
-
-        GLint m_model_matrix_location;
-        GLint m_view_matrix_location;
-        GLint m_projection_matrix_location;
-        GLint m_normal_matrix_location;
-
-        // light parameters
-        glm::vec3 m_light_dir;
-        glm::vec3 m_light_color;
-        glm::vec3 m_light_position;
-
-        GLint m_light_dir_location;
-        GLint m_light_color_location;
-        GLint m_light_position_location;
-
-        GLint m_constant;
-        GLint m_linear;
-        GLint m_quadratic;
-        GLuint m_shadow_map;
+        std::shared_ptr<YB::Shader> m_shader;
 
     /***************************************************************************
      * Protected Members

@@ -16,7 +16,6 @@
 
 #include <string>
 #include <vector>
-#include "shader.hpp"
 
 /*******************************************************************************
  * Third Party Libraries
@@ -27,14 +26,6 @@
 
 namespace YB
 {
-    enum class MOVE_DIRECTION
-    {
-        MOVE_FORWARD,
-        MOVE_BACKWARD,
-        MOVE_RIGHT,
-        MOVE_LEFT
-    };
-
     typedef struct vertex_s
     {
         glm::vec3 Position;
@@ -64,6 +55,13 @@ namespace YB
         GLuint EBO;
     } buffers_t;
 
+    enum class MOVE_DIRECTION
+    {
+        MOVE_FORWARD,
+        MOVE_BACKWARD,
+        MOVE_RIGHT,
+        MOVE_LEFT
+    };
 } // namespace YB
 
 #endif //OPENGL_3D_GRAPHICS_ENGINE_TYPES_ENUMS_HPP

@@ -16,12 +16,14 @@
 
 #include "window.hpp"
 #include "shader.hpp"
+#include "directional_light_shader.hpp"
 #include "camera.hpp"
 #include "model_3d.hpp"
 #include "mouse.hpp"
 #include "keyboard.hpp"
 #include "default_world.hpp"
 #include "core_components.hpp"
+#include "draw_components.hpp"
 
 /*******************************************************************************
  * Third Party Libraries
@@ -57,8 +59,6 @@ namespace YB
         /**
          * @brief Constructs a new Renderer object.
          *
-         * @param window A shared pointer to the Window object.
-         * @param camera A shared pointer to the Camera object.
          */
         explicit Renderer();
 
@@ -68,24 +68,9 @@ namespace YB
         void render_scene();
 
         /**
-         * @brief Initializes uniform variables for the shaders.
-         */
-        void init_uniforms();
-
-        /**
-         * @brief Initializes the OpenGL state (e.g., clear color, depth test).
-         */
-        void init_opengl_state();
-
-        /**
          * @brief Initializes the 3D models in the scene.
          */
         void init_models();
-
-        /**
-         * @brief Initializes the shaders used for rendering.
-         */
-        void init_shaders();
 
         /**
          * @brief Handles mouse movement events.
@@ -102,14 +87,17 @@ namespace YB
          * @param key The key that was pressed.
          * @param action The action (press/release) associated with the key.
          */
-        void key_pressed(GLFWwindow* window,
-                         int key,
-                         int action);
+        void key_pressed(GLFWwindow* window, int key, int action);
 
     /***************************************************************************
      * Private Members
      **************************************************************************/
     private:
+
+        /**
+         * @brief Initializes the OpenGL state (e.g., clear color, depth test).
+         */
+        void init_opengl_state();
 
         /**
          * @brief Sets the callback functions for the window.

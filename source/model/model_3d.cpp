@@ -80,7 +80,7 @@ namespace YB
         }
     }
 
-    void Model3D::draw(const std::shared_ptr<YB::Shader>& shader_program)
+    void Model3D::draw(GLuint shader_program)
     {
         for (auto & mesh : this->m_meshes)
         {

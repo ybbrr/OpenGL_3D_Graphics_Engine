@@ -108,7 +108,10 @@ namespace YB
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glClear(GL_STENCIL_BUFFER_BIT);
 
-            CoreComponents::world->render_models();
+            if (DrawComponents::shader != nullptr)
+            {
+                CoreComponents::world->render_models();
+            }
 
             glfwPollEvents();
             glfwSwapBuffers(window);

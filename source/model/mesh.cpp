@@ -27,9 +27,9 @@ namespace YB
     Mesh::Mesh(const std::vector<vertex_t>& vertices,
                const std::vector<GLuint>& indices,
                const std::vector<texture_t>& textures)
-       : vertices{vertices},
-         indices{indices},
-         textures{textures},
+       : m_vertices{vertices},
+         m_indices{indices},
+         m_textures{textures},
          m_buffers{}
     {
         this->setup_mesh();
@@ -42,24 +42,26 @@ namespace YB
 
     void Mesh::draw(GLuint shader_program)
     {
+        GLint textures_size = static_cast<GLint>(this->m_textures.size());
+
         //set textures
-        for (GLint idx = 0; idx < textures.size(); idx++)
+        for (GLint idx = 0; idx < textures_size; idx++)
         {
             glActiveTexture(GL_TEXTURE0 + idx);
 
             GLint uniform_location
-                = glGetUniformLocation(shader_program, this->textures[idx].type.c_str());
+                = glGetUniformLocation(shader_program, this->m_textures[idx].type.c_str());
 
             glUniform1i(uniform_location, idx);
 
-            glBindTexture(GL_TEXTURE_2D, this->textures[idx].id);
+            glBindTexture(GL_TEXTURE_2D, this->m_textures[idx].id);
         }
 
         glBindVertexArray(this->m_buffers.VAO);
-        glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, (GLvoid*)0);
+        glDrawElements(GL_TRIANGLES, this->m_indices.size(), GL_UNSIGNED_INT, nullptr);
         glBindVertexArray(0);
 
-        for(GLuint i = 0; i < this->textures.size(); i++)
+        for(GLuint i = 0; i < textures_size; i++)
         {
             glActiveTexture(GL_TEXTURE0 + i);
             glBindTexture(GL_TEXTURE_2D, 0);
@@ -76,15 +78,15 @@ namespace YB
         glBindVertexArray(this->m_buffers.VAO);
         // Load data into vertex buffers
         glBindBuffer(GL_ARRAY_BUFFER, this->m_buffers.VBO);
-        glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(vertex_t), &this->vertices[0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, this->m_vertices.size() * sizeof(vertex_t), &this->m_vertices[0], GL_STATIC_DRAW);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_buffers.EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(GLuint), &this->indices[0], GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->m_indices.size() * sizeof(GLuint), &this->m_indices[0], GL_STATIC_DRAW);
 
         // Set the vertex attribute pointers
         // Vertex Positions
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex_t), (GLvoid*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex_t), nullptr);
         // Vertex Normals
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex_t), (GLvoid*)offsetof(vertex_t, Normal));

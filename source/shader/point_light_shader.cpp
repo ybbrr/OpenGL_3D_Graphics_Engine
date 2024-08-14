@@ -1,5 +1,5 @@
 /**
- * @file directional_light_shader.cpp
+ * @file point_light_shader.cpp
  * @author Yasin BASAR
  * @brief
  * @version 1.0.0
@@ -12,7 +12,7 @@
  * Includes 
  ******************************************************************************/
 
-#include "directional_light_shader.hpp"
+#include "point_light_shader.hpp"
 
 /*******************************************************************************
  * Third Party Libraries 
@@ -25,7 +25,7 @@ namespace YB
  * Public Functions
  ******************************************************************************/
 
-    DirectionalLightShader::DirectionalLightShader()
+    PointLightShader::PointLightShader()
         : m_light_dir{0},
           m_light_color{0},
           m_light_position{0},
@@ -37,17 +37,16 @@ namespace YB
           m_quadratic{-1},
           m_shadow_map{0}
     {
-        this->load_shader(R"(shader/basic_vert_directional_light.glsl)",
-                          R"(shader/basic_frag_directional_light.glsl)");
+        this->load_shader(R"(shader/basic_vert_point_light.glsl)",
+                          R"(shader/basic_frag_point_light.glsl)");
     }
 
-    void DirectionalLightShader::use_shader_program()
+    void PointLightShader::use_shader_program()
     {
         Shader::use_shader_program();
     }
 
-
-    void DirectionalLightShader::init_uniforms()
+    void PointLightShader::init_uniforms()
     {
         Shader::init_uniforms();
 

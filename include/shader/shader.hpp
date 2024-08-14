@@ -42,8 +42,6 @@ namespace YB
      * Special Members
      **************************************************************************/
 
-        virtual ~Shader() noexcept = default;
-
         Shader(Shader &&) noexcept = default;
 
         Shader &operator=(Shader &&) noexcept = default;
@@ -57,6 +55,8 @@ namespace YB
      **************************************************************************/
 
         Shader();
+
+        ~Shader();
 
         virtual void use_shader_program();
 
@@ -84,6 +84,9 @@ namespace YB
         void shader_compile_log(GLuint shader_id);
 
         void shader_link_log(GLuint shader_program_id);
+
+        GLuint m_vertex_shader;
+        GLuint m_fragment_shader;
 
     /***************************************************************************
      * Protected Members

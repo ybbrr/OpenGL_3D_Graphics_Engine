@@ -1,76 +1,72 @@
 /**
- * @file Mesh.hpp
+ * @file PointLightShader.hpp
  * @author Yasin BASAR
  * @brief
  * @version 1.0.0
- * @date 09/08/2024
+ * @date 14/08/2024
  * @copyright (c) 2024 All rights reserved.
  */
 
-#ifndef OPENGL_3D_GRAPHICS_ENGINE_MODEL_HPP
-#define OPENGL_3D_GRAPHICS_ENGINE_MODEL_HPP
+#ifndef OPENGL_3D_GRAPHICS_ENGINE_POINT_LIGHT_SHADER_HPP
+#define OPENGL_3D_GRAPHICS_ENGINE_POINT_LIGHT_SHADER_HPP
 
 /*******************************************************************************
  * Includes
  ******************************************************************************/
 
-#include <string>
-#include <vector>
-#include "shader.hpp"
-#include "types_enums.hpp"
+#include "draw_components.hpp"
 
 /*******************************************************************************
  * Third Party Libraries
  ******************************************************************************/
 
-#include <glad/glad.h>
-#include <glm/glm.hpp>
-
 namespace YB
 {
-    class Mesh
+
+    class PointLightShader : public Shader
     {
     public:
     /***************************************************************************
      * Special Members
      **************************************************************************/
 
-        Mesh() noexcept = delete;
+        virtual ~PointLightShader() noexcept = default;
 
-        virtual ~Mesh() noexcept = default;
+        PointLightShader(PointLightShader &&) noexcept = default;
 
-        Mesh(Mesh &&) noexcept = default;
+        PointLightShader &operator=(PointLightShader &&) noexcept = default;
 
-        Mesh &operator=(Mesh &&) noexcept = default;
+        PointLightShader(const PointLightShader &) noexcept = default;
 
-        Mesh(const Mesh &) noexcept = default;
-
-        Mesh &operator=(Mesh const &) noexcept = default;
+        PointLightShader &operator=(PointLightShader const &) noexcept = default;
 
     /***************************************************************************
      * Public Members
      **************************************************************************/
 
-        Mesh(const std::vector<vertex_t>& vertices,
-             const std::vector<GLuint>& indices,
-             const std::vector<texture_t>& textures);
+        explicit PointLightShader();
 
-        buffers_t get_buffers();
+        void use_shader_program() override;
 
-        void draw(GLuint shader_program);
+        void init_uniforms() override;
 
     /***************************************************************************
      * Private Members
      **************************************************************************/
     private:
 
-        buffers_t m_buffers;
+        glm::vec3 m_light_dir;
+        glm::vec3 m_light_color;
+        glm::vec3 m_light_position;
 
-        std::vector<vertex_t> m_vertices;
-        std::vector<GLuint> m_indices;
-        std::vector<texture_t > m_textures;
+        GLint m_light_dir_location;
+        GLint m_light_color_location;
+        GLint m_light_position_location;
 
-        void setup_mesh();
+        GLint m_constant;
+        GLint m_linear;
+        GLint m_quadratic;
+        GLuint m_shadow_map;
 
     /***************************************************************************
      * Protected Members
@@ -81,8 +77,8 @@ namespace YB
 
     };
 
-} // namespace YB
+} // YB
 
-#endif //OPENGL_3D_GRAPHICS_ENGINE_MODEL_HPP
+#endif //OPENGL_3D_GRAPHICS_ENGINE_POINT_LIGHT_SHADER_HPP
 
 /* End of File */

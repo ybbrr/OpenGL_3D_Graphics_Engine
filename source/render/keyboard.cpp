@@ -13,6 +13,10 @@
  ******************************************************************************/
 
 #include "keyboard.hpp"
+#include "directional_light_shader.hpp"
+#include "point_light_shader.hpp"
+#include "solid_shader.hpp"
+#include <chrono>
 
 /*******************************************************************************
  * Third Party Libraries 
@@ -59,6 +63,8 @@ namespace YB
         this->rotate_or_scale_key_pressed();
 
         this->polygon_mode_change_key_pressed();
+
+        this->shader_change_key_pressed();
     }
 
     void Keyboard::movement_key_pressed(float delta_time_in_seconds)
@@ -121,7 +127,29 @@ namespace YB
 
     void Keyboard::shader_change_key_pressed()
     {
-        //TO-DO
+        if (this->m_pressed_keys[GLFW_KEY_J])
+        {
+            DrawComponents::shader.reset();
+            DrawComponents::shader = std::make_shared<DirectionalLightShader>();
+            DrawComponents::shader->init_uniforms();
+            glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+        }
+
+        if (this->m_pressed_keys[GLFW_KEY_K])
+        {
+            DrawComponents::shader.reset();
+            DrawComponents::shader = std::make_shared<PointLightShader>();
+            DrawComponents::shader->init_uniforms();
+            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        }
+
+        if (this->m_pressed_keys[GLFW_KEY_L])
+        {
+            DrawComponents::shader.reset();
+            DrawComponents::shader = std::make_shared<SolidShader>();
+            DrawComponents::shader->init_uniforms();
+            glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+        }
     }
 
 

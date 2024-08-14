@@ -70,7 +70,9 @@ add_executable(
 	${WORKSPACE_DIR}/source/render/renderer.cpp
 	${WORKSPACE_DIR}/source/render/mouse.cpp
 	${WORKSPACE_DIR}/source/shader/directional_light_shader.cpp
+	${WORKSPACE_DIR}/source/shader/point_light_shader.cpp
 	${WORKSPACE_DIR}/source/shader/shader.cpp
+	${WORKSPACE_DIR}/source/shader/solid_shader.cpp
 	${WORKSPACE_DIR}/source/window/window.cpp
 	${WORKSPACE_DIR}/source/window/window_callbacks.cpp
 	${WORKSPACE_DIR}/source/worlds/default_world.cpp

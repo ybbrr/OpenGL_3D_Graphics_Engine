@@ -43,7 +43,6 @@ namespace YB
         std::string filepath = canonical_path.make_preferred().string();
         std::string basepath = canonical_path.remove_filename().string();
 
-
         this->read_obj(filepath, basepath);
     }
 

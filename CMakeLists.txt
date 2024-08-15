@@ -59,12 +59,12 @@ if (MSVC)
 	include_directories(${THIRD_PARTY_FOLDER}/glm/windows/include)
 
 	# GLFW
-	link_directories(${THIRD_PARTY_FOLDER}/glfw/lib/${CMAKE_BUILD_TYPE})
+	link_directories(${THIRD_PARTY_FOLDER}/glfw/windows/lib/${CMAKE_BUILD_TYPE})
 	set(GLFW_TARGET glfw3.lib)
 
 	# GLM
 	add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
-	link_directories(${THIRD_PARTY_FOLDER}/glm/lib/${CMAKE_BUILD_TYPE})
+	link_directories(${THIRD_PARTY_FOLDER}/glm/windows/lib/${CMAKE_BUILD_TYPE})
 	set(GLM_TARGET glm.lib)
 endif ()
 

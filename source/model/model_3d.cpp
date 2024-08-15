@@ -38,9 +38,12 @@ namespace YB
            is_rotatable{rotatable},
            is_scalable{scalable}
     {
-        std::filesystem::path path(file_path);
+        std::string filepath = file_path;
+        std::replace(filepath.begin(), filepath.end(), '\\', '/');
+
+        std::filesystem::path path(filepath);
         std::filesystem::path canonical_path = std::filesystem::weakly_canonical(path);
-        std::string filepath = canonical_path.make_preferred().string();
+        filepath = canonical_path.make_preferred().string();
         std::string basepath = canonical_path.remove_filename().string();
 
         this->read_obj(filepath, basepath);

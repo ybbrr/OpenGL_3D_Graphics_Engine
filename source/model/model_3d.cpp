@@ -99,8 +99,6 @@ namespace YB
         std::vector<tinyobj::shape_t> shapes{};
         std::vector<tinyobj::material_t> materials{};
 
-        int material_id{};
-
         std::string err{};
         bool ret = tinyobj::LoadObj(&attrib,
                                     &shapes,
@@ -117,21 +115,21 @@ namespace YB
 
         if (!ret)
         {
-            exit(1); //TODO throw an exception etc.
+            exit(1);
         }
 
         size_t shapes_size = shapes.size();
-        size_t materials_size = materials.size();
+        size_t materials_count = materials.size();
 
         std::cout << "# of shapes    : " << shapes_size << std::endl;
-        std::cout << "# of materials : " << materials_size << std::endl;
+        std::cout << "# of materials : " << materials_count << std::endl;
 
         // Loop over shapes
         for (size_t s = 0; s < shapes_size; s++)
         {
             std::vector<vertex_t> vertices{};
             std::vector<GLuint> indices{};
-            std::vector<texture_t > textures{};
+            std::vector<texture_t> textures{};
 
             // Loop over faces(polygon)
             size_t index_offset = 0;
@@ -142,9 +140,6 @@ namespace YB
             for (size_t f = 0; f < number_of_vertices_per_face; f++)
             {
                 int fv = shapes[s].mesh.num_face_vertices[f];
-
-                //YB::Texture current_texture = this->load_texture("index1.png", "ambientTexture");
-                //textures.push_back(current_texture);
 
                 // Loop over vertices in the face.
                 for (size_t v = 0; v < fv; v++)
@@ -188,54 +183,62 @@ namespace YB
             // Only try to read materials if the .mtl file is present
             size_t a = shapes[s].mesh.material_ids.size();
 
-            if (a > 0 && materials_size > 0)
+            if (a > 0 && materials_count > 0)
             {
-                material_id = shapes[s].mesh.material_ids[0];
-
-                if (material_id != -1)
+                for (int material_id = 0; material_id < materials_count; material_id++)
                 {
-                    material_t current_material{};
-
-                    current_material.ambient
-                        = glm::vec3(materials[material_id].ambient[0],
-                                    materials[material_id].ambient[1],
-                                    materials[material_id].ambient[2]);
-
-                    current_material.diffuse
-                        = glm::vec3(materials[material_id].diffuse[0],
-                                    materials[material_id].diffuse[1],
-                                    materials[material_id].diffuse[2]);
-
-                    current_material.specular
-                        = glm::vec3(materials[material_id].specular[0],
-                                    materials[material_id].specular[1],
-                                    materials[material_id].specular[2]);
-
-                    //ambient texture
-                    std::string ambientTexturePath = materials[material_id].ambient_texname;
-                    if (!ambientTexturePath.empty())
+                    if (material_id != -1)
                     {
-                        texture_t current_texture;
-                        current_texture = this->load_texture(base_path + ambientTexturePath, "ambientTexture");
-                        textures.push_back(current_texture);
-                    }
+                        material_t current_material{};
 
-                    //diffuse texture
-                    std::string diffuseTexturePath = materials[material_id].diffuse_texname;
-                    if (!diffuseTexturePath.empty())
-                    {
-                        texture_t current_texture;
-                        current_texture = this->load_texture(base_path + diffuseTexturePath, "diffuseTexture");
-                        textures.push_back(current_texture);
-                    }
+                        current_material.ambient
+                            = glm::vec3(materials[material_id].ambient[0],
+                                        materials[material_id].ambient[1],
+                                        materials[material_id].ambient[2]);
 
-                    //specular texture
-                    std::string specularTexturePath = materials[material_id].specular_texname;
-                    if (!specularTexturePath.empty())
-                    {
-                        texture_t current_texture;
-                        current_texture = this->load_texture(base_path + specularTexturePath, "specularTexture");
-                        textures.push_back(current_texture);
+                        current_material.diffuse
+                            = glm::vec3(materials[material_id].diffuse[0],
+                                        materials[material_id].diffuse[1],
+                                        materials[material_id].diffuse[2]);
+
+                        current_material.specular
+                            = glm::vec3(materials[material_id].specular[0],
+                                        materials[material_id].specular[1],
+                                        materials[material_id].specular[2]);
+
+                        //ambient texture
+                        std::string ambient_texture_path = materials[material_id].ambient_texname;
+
+                        if (!ambient_texture_path.empty())
+                        {
+                            texture_t current_texture
+                                = this->load_texture(base_path + ambient_texture_path,
+                                                     "ambientTexture");
+
+                            textures.push_back(current_texture);
+                        }
+
+                        //diffuse texture
+                        std::string diffuse_texture_path = materials[material_id].diffuse_texname;
+                        if (!diffuse_texture_path.empty())
+                        {
+                            texture_t current_texture
+                                = this->load_texture(base_path + diffuse_texture_path,
+                                                     "diffuseTexture");
+
+                            textures.push_back(current_texture);
+                        }
+
+                        //specular texture
+                        std::string specular_texture_path = materials[material_id].specular_texname;
+                        if (!specular_texture_path.empty())
+                        {
+                            texture_t current_texture
+                                = this->load_texture(base_path + specular_texture_path,
+                                                     "specularTexture");
+
+                            textures.push_back(current_texture);
+                        }
                     }
                 }
             }

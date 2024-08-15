@@ -83,6 +83,19 @@ namespace YB
         GLuint EBO; ///< The OpenGL Element Buffer Object ID.
     } buffers_t;
 
+    typedef struct fov_s
+    {
+        float fov_angle;
+        float min_fov_angle;
+        float max_fov_angle;
+    } fov_t;
+
+    typedef struct visible_range_s
+    {
+        float z_near;
+        float z_far;
+    } visible_range_t;
+
     /**
      * @enum MOVE_DIRECTION
      * @brief Enumeration for movement directions.

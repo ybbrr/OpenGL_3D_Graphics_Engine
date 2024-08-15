@@ -14,10 +14,8 @@
  * Includes
  ******************************************************************************/
 
-#include "window.hpp"
-#include "camera.hpp"
-#include "shader.hpp"
 #include "core_components.hpp"
+#include "draw_components.hpp"
 
 /*******************************************************************************
  * Third Party Libraries
@@ -75,12 +73,16 @@ namespace YB
          */
         void mouse_movement(float x_pos, float y_pos, float delta_time_in_seconds);
 
+        void mouse_scrool();
+
     /***************************************************************************
      * Private Members
      **************************************************************************/
     private:
 
         bool m_is_mouse_centered; /**< Indicates if the mouse is centered */
+        float m_x_offset;
+        float m_y_offset;
         float m_last_x_pos; /**< Last x position of the mouse */
         float m_last_y_pos; /**< Last y position of the mouse */
         float m_mouse_sensitivity; /**< Sensitivity of the mouse movement */

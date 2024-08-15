@@ -47,22 +47,43 @@ namespace YB
             this->m_is_mouse_centered = false;
         }
 
-        float x_offset = x_pos - this->m_last_x_pos;
-        float y_offset = this->m_last_y_pos - y_pos;
+        this->m_x_offset = x_pos - this->m_last_x_pos;
+        this->m_y_offset = this->m_last_y_pos - y_pos;
         this->m_last_x_pos = x_pos;
         this->m_last_y_pos = y_pos;
 
         float move_velocity = this->m_mouse_sensitivity * delta_time_in_seconds;
-        x_offset *= move_velocity;
-        y_offset *= move_velocity;
+        this->m_x_offset *= move_velocity;
+        this->m_y_offset *= move_velocity;
 
-        this->m_yaw += x_offset;
-        this->m_pitch += y_offset;
+        this->m_yaw += this->m_x_offset;
+        this->m_pitch += this->m_y_offset;
 
         this->m_pitch = glm::clamp(this->m_pitch, -89.9f, 89.9f);
 
         CoreComponents::camera->rotate(glm::radians(this->m_pitch),
                                        glm::radians(this->m_yaw));
+    }
+
+    void Mouse::mouse_scrool()
+    {
+        CoreComponents::camera->fov.fov_angle -= 1.0f;
+
+        CoreComponents::camera->fov.fov_angle
+            = glm::clamp(CoreComponents::camera->fov.fov_angle,
+                         CoreComponents::camera->fov.min_fov_angle,
+                         CoreComponents::camera->fov.max_fov_angle);
+
+        DrawComponents::shader->projection_matrix
+            = glm::perspective(glm::radians(CoreComponents::camera->fov.fov_angle),
+                               static_cast<float>(CoreComponents::window->width) / static_cast<float>(CoreComponents::window->height),
+                               CoreComponents::camera->visible_range.z_near,
+                               CoreComponents::camera->visible_range.z_far);
+
+        glUniformMatrix4fv(DrawComponents::shader->projection_matrix_location,
+                           1,
+                           GL_FALSE,
+                           glm::value_ptr(DrawComponents::shader->projection_matrix));
     }
 
 /*******************************************************************************

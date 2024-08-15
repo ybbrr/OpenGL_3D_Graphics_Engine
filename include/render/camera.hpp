@@ -94,6 +94,9 @@ namespace YB
          */
         glm::vec3 get_camera_direction() noexcept;
 
+        fov_t fov;
+        visible_range_t visible_range;
+
     /***************************************************************************
      * Private Members
      **************************************************************************/

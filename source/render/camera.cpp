@@ -36,8 +36,10 @@ namespace YB
           m_camera_up_direction{camera_up},
           m_camera_front_direction{},
           m_camera_right_direction{},
-          m_view_matrix{glm::mat4(1.0f)},
-          m_camera_speed{10.f}
+          m_view_matrix{1.0f},
+          m_camera_speed{10.f},
+          fov{45.0f, 15.0f, 60.0f},
+          visible_range{0.1f, 90.0f}
     {
         this->m_camera_front_direction
             = glm::normalize(this->m_camera_target - this->m_camera_position);
@@ -133,6 +135,7 @@ namespace YB
 
         return this->m_camera_front_direction;
     }
+
 
 /*******************************************************************************
  * Private Functions

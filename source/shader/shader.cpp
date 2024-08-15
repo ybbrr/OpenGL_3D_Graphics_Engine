@@ -156,10 +156,10 @@ namespace YB
         this->normal_matrix = glm::mat3(glm::inverseTranspose(this->view_matrix * this->model_matrix));
         this->normal_matrix_location = glGetUniformLocation(this->shader_program, "normalMatrix");
         this->projection_matrix
-            = glm::perspective(glm::radians(45.0f),
+            = glm::perspective(glm::radians(CoreComponents::camera->fov.fov_angle),
                                static_cast<float>(CoreComponents::window->width) / static_cast<float>(CoreComponents::window->height),
-                               0.1f,
-                               40.0f);
+                               CoreComponents::camera->visible_range.z_near,
+                               CoreComponents::camera->visible_range.z_far);
         this->projection_matrix_location = glGetUniformLocation(this->shader_program, "projection");
         glUniformMatrix4fv(this->projection_matrix_location, 1, GL_FALSE, glm::value_ptr(this->projection_matrix));
     }

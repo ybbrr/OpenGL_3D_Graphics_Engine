@@ -113,6 +113,10 @@ namespace YB
                                    double x_pos,
                                    double y_pos);
 
+        static void mouse_scroll(GLFWwindow* window,
+                                 double x_pos,
+                                 double y_pos);
+
         /**
          * @brief Sets the current renderer instance.
          *
@@ -128,7 +132,6 @@ namespace YB
      **************************************************************************/
     private:
 
-        static std::vector<GLboolean> m_pressed_keys; ///< Stores the state of pressed keys.
         static std::shared_ptr<YB::Renderer> m_renderer; ///< Shared pointer to the current renderer.
 
     /***************************************************************************

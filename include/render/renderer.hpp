@@ -73,6 +73,8 @@ namespace YB
          */
         void mouse_movement(float x_pos, float y_pos);
 
+        void mouse_scroll();
+
         /**
          * @brief Handles key press events.
          *

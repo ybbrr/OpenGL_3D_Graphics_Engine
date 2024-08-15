@@ -61,6 +61,11 @@ namespace YB
                                    static_cast<float>(y_pos));
     }
 
+    void WindowCallbacks::mouse_scroll(GLFWwindow *window, double x_pos, double y_pos)
+    {
+        m_renderer->mouse_scroll();
+    }
+
     void WindowCallbacks::set_current_renderer(std::shared_ptr<YB::Renderer>& renderer)
     {
         m_renderer = renderer;

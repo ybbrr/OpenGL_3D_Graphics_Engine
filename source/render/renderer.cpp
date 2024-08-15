@@ -129,6 +129,11 @@ namespace YB
                                       this->m_delta_time_in_seconds);
     }
 
+    void Renderer::mouse_scroll()
+    {
+        this->m_mouse->mouse_scrool();
+    }
+
     void Renderer::key_pressed(GLFWwindow* window,
                                int key,
                                int action)
@@ -197,6 +202,7 @@ namespace YB
         glfwSetWindowSizeCallback(window, WindowCallbacks::window_resize_callback);
         glfwSetKeyCallback(window, WindowCallbacks::keyboard_callback);
         glfwSetCursorPosCallback(window, WindowCallbacks::mouse_callback);
+        glfwSetScrollCallback(window, WindowCallbacks::mouse_scroll);
 
         // hides mouse cursor and doesn't let it leave the window
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);

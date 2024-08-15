@@ -86,6 +86,7 @@ namespace YB
         GLint projection_matrix_location; /**< Location of the projection matrix uniform */
         GLint normal_matrix_location; /**< Location of the normal matrix uniform */
 
+
     /***************************************************************************
      * Private Members
      **************************************************************************/
@@ -112,7 +113,6 @@ namespace YB
 
         GLuint m_vertex_shader; /**< ID of the vertex shader */
         GLuint m_fragment_shader; /**< ID of the fragment shader */
-
     /***************************************************************************
      * Protected Members
      **************************************************************************/

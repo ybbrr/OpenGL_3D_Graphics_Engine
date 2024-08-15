@@ -155,31 +155,31 @@ namespace YB
 
     void Renderer::init_models()
     {
-        CoreComponents::world->add_model(R"(obj\teapot20segUT.obj)",
+        CoreComponents::world->add_model(R"(obj/teapot20segUT.obj)",
                                          "teapot",
                                          glm::vec3(0.0f, 0.0f, 0.0f),
                                          true,
                                          true);
 
-        CoreComponents::world->add_model(R"(obj\cube.obj)",
+        CoreComponents::world->add_model(R"(obj/cube.obj)",
                                          "cube",
                                          glm::vec3(3.0f, 0.0f, 0.0f),
                                          false,
                                          false);
 
-        CoreComponents::world->add_model(R"(obj\sphere.obj)",
+        CoreComponents::world->add_model(R"(obj/sphere.obj)",
                                          "sphere",
                                          glm::vec3(-3.0f, 0.0f, 2.0f),
                                          false,
                                          false);
 
-        CoreComponents::world->add_model(R"(obj\monkey.obj)",
+        CoreComponents::world->add_model(R"(obj/monkey.obj)",
                                          "monkey",
                                          glm::vec3(-3.0f, 0.0f, -2.0f),
                                          false,
                                          false);
 
-        CoreComponents::world->add_model(R"(obj\plane3.obj)",
+        CoreComponents::world->add_model(R"(obj/plane3.obj)",
                                          "plane3",
                                          glm::vec3(0.0f, -1.0f, 0.0f),
                                          false,

@@ -12,6 +12,7 @@
  ******************************************************************************/
 
 #include "model_3d.hpp"
+#include <filesystem>
 
 /*******************************************************************************
  * Third Party Libraries 
@@ -37,28 +38,13 @@ namespace YB
            is_rotatable{rotatable},
            is_scalable{scalable}
     {
-        size_t last_occurrence = file_path.find_last_of('/');
+        std::filesystem::path path(file_path);
+        std::filesystem::path canonical_path = std::filesystem::weakly_canonical(path);
+        std::string filepath = canonical_path.make_preferred().string();
+        std::string basepath = canonical_path.remove_filename().string();
 
-        std::string base_path{};
 
-        if (last_occurrence != std::string::npos)
-        {
-            base_path
-                = file_path.substr(0, last_occurrence);
-
-            base_path += "/";
-        }
-        else
-        {
-            last_occurrence = file_path.find_last_of('\\');
-
-            base_path
-                = file_path.substr(0, last_occurrence);
-
-            base_path += "\\";
-        }
-
-        this->read_obj(file_path, base_path);
+        this->read_obj(filepath, basepath);
     }
 
     Model3D::~Model3D()

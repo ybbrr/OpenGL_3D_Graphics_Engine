@@ -10,13 +10,27 @@ if (EDITOR_BUILD)
 endif ()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP /O2 /GA /MD")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /O2 /GA /MD /arch:AVX2")
+	if (MSVC)
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP /O2 /GA /MD")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /O2 /GA /MD /arch:AVX2")
+	endif ()
+
+	if (UNIX)
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fopenmp -O2 -march=native")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -O2 -march=native")
+	endif ()
 endif ()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP /Od /GA /MDd")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /Od /MDd /arch:AVX2")
+	if (MSVC)
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP /Od /GA /MDd")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /Od /MDd /arch:AVX2")
+	endif ()
+
+	if (UNIX)
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fopenmp -Og -g -Wall -Wextra -ggdb")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -Og -g -Wall -Wextra -ggdb -march=native")
+	endif ()
 endif ()
 
 set(WORKSPACE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
@@ -33,22 +47,48 @@ include_directories(${WORKSPACE_DIR}/include/worlds)
 
 # Third Party Includes
 include_directories(${THIRD_PARTY_FOLDER}/glad/include)
-include_directories(${THIRD_PARTY_FOLDER}/glfw/include)
-include_directories(${THIRD_PARTY_FOLDER}/glm/include)
 include_directories(${THIRD_PARTY_FOLDER}/stb_image/include)
 include_directories(${THIRD_PARTY_FOLDER}/tinyobjloader/include)
 
 # GLAD
 set(GLAD_SOURCE_FILE ${THIRD_PARTY_FOLDER}/glad/source/glad.c)
 
-# GLFW
-link_directories(${THIRD_PARTY_FOLDER}/glfw/lib/${CMAKE_BUILD_TYPE})
-set(GLFW_TARGET glfw3.lib)
+if (MSVC)
+	# Third Party Includes
+	include_directories(${THIRD_PARTY_FOLDER}/glfw/windows/include)
+	include_directories(${THIRD_PARTY_FOLDER}/glm/windows/include)
 
-# GLM
-add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
-link_directories(${THIRD_PARTY_FOLDER}/glm/lib/${CMAKE_BUILD_TYPE})
-set(GLM_TARGET glm.lib)
+	# GLFW
+	link_directories(${THIRD_PARTY_FOLDER}/glfw/lib/${CMAKE_BUILD_TYPE})
+	set(GLFW_TARGET glfw3.lib)
+
+	# GLM
+	add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
+	link_directories(${THIRD_PARTY_FOLDER}/glm/lib/${CMAKE_BUILD_TYPE})
+	set(GLM_TARGET glm.lib)
+endif ()
+
+if (UNIX)
+	# Third Party Includes
+	include_directories(${THIRD_PARTY_FOLDER}/glfw/linux/include)
+	include_directories(${THIRD_PARTY_FOLDER}/glm/linux)
+
+	# GLFW
+	add_definitions(-D GLFW_BUILD_WIN32=OFF)
+	add_definitions(-D GLFW_LIBRARY_TYPE=STATIC)
+	add_definitions(-D GLFW_BUILD_EXAMPLES=OFF)
+	add_definitions(-D GLFW_BUILD_TESTS=OFF)
+	add_definitions(-D GLFW_BUILD_DOCS=OFF)
+	add_subdirectory(${THIRD_PARTY_FOLDER}/glfw/linux)
+	set(GLFW_TARGET glfw)
+
+	# GLM
+	add_definitions(-D GLM_BUILD_TESTS=OFF)
+	add_definitions(-D BUILD_SHARED_LIBS=OFF)
+	add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
+	add_subdirectory(${THIRD_PARTY_FOLDER}/glm/linux)
+	set(GLM_TARGET glm)
+endif ()
 
 # TINYOBJLOADER
 add_compile_definitions(TINYOBJLOADER_IMPLEMENTATION)

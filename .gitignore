@@ -1,3 +1,6 @@
+# .idea
+./.idea/editor.xml
+
 # Compiled Object files
 *.slo
 *.lo

@@ -1,7 +1,7 @@
 /**
  * @file core_components.hpp
  * @author Yasin BASAR
- * @brief
+ * @brief Defines the CoreComponents class which holds static pointers to core components of the graphics engine.
  * @version 1.0.0
  * @date 14/08/2024
  * @copyright (c) 2024 All rights reserved.
@@ -27,6 +27,13 @@
 namespace YB
 {
 
+    /**
+     * @class CoreComponents
+     * @brief Provides static access to core components of the graphics engine.
+     *
+     * The CoreComponents class holds static pointers to the Window, Camera, and World objects.
+     * It provides a central place to access these components throughout the application.
+     */
     class CoreComponents
     {
     public:
@@ -34,24 +41,36 @@ namespace YB
      * Special Members
      **************************************************************************/
 
-        CoreComponents() noexcept = delete;
+        CoreComponents() noexcept = delete; /**< Deleted default constructor */
+        virtual ~CoreComponents() noexcept = delete; /**< Deleted default destructor */
+        CoreComponents(CoreComponents &&) noexcept = delete; /**< Deleted default move constructor */
+        CoreComponents &operator=(CoreComponents &&) noexcept = delete; /**< Deleted default move assignment operator */
+        CoreComponents(const CoreComponents &) noexcept = delete; /**< Deleted default copy constructor */
+        CoreComponents &operator=(CoreComponents const &) noexcept = delete; /**< Deleted default copy assignment operator */
 
-        virtual ~CoreComponents() noexcept = delete;
+        /***************************************************************************
+         * Public Members
+         **************************************************************************/
 
-        CoreComponents(CoreComponents &&) noexcept = delete;
-
-        CoreComponents &operator=(CoreComponents &&) noexcept = delete;
-
-        CoreComponents(const CoreComponents &) noexcept = delete;
-
-        CoreComponents &operator=(CoreComponents const &) noexcept = delete;
-
-    /***************************************************************************
-     * Public Members
-     **************************************************************************/
-
+        /**
+         * @brief Static pointer to the Window component.
+         *
+         * This static pointer provides access to the Window object used in the graphics engine.
+         */
         static std::shared_ptr<YB::Window> window;
+
+        /**
+         * @brief Static pointer to the Camera component.
+         *
+         * This static pointer provides access to the Camera object used in the graphics engine.
+         */
         static std::shared_ptr<YB::Camera> camera;
+
+        /**
+         * @brief Static pointer to the World component.
+         *
+         * This static pointer provides access to the World object used in the graphics engine.
+         */
         static std::shared_ptr<YB::World> world;
 
     /***************************************************************************

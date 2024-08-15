@@ -1,7 +1,7 @@
 /**
- * @file Mesh.hpp
+ * @file mesh.hpp
  * @author Yasin BASAR
- * @brief
+ * @brief Declaration of the Mesh class, which represents a 3D model mesh and handles its rendering.
  * @version 1.0.0
  * @date 09/08/2024
  * @copyright (c) 2024 All rights reserved.
@@ -28,6 +28,13 @@
 
 namespace YB
 {
+    /**
+     * @class Mesh
+     * @brief Represents a 3D mesh with vertices, indices, and textures.
+     *
+     * The Mesh class handles the creation and rendering of a 3D model mesh. It stores the vertex data,
+     * index data, and texture information and provides methods to draw the mesh using OpenGL.
+     */
     class Mesh
     {
     public:
@@ -35,42 +42,55 @@ namespace YB
      * Special Members
      **************************************************************************/
 
-        Mesh() noexcept = delete;
-
-        virtual ~Mesh() noexcept = default;
-
-        Mesh(Mesh &&) noexcept = default;
-
-        Mesh &operator=(Mesh &&) noexcept = default;
-
-        Mesh(const Mesh &) noexcept = default;
-
-        Mesh &operator=(Mesh const &) noexcept = default;
+        Mesh() noexcept = delete; /**< Default default constructor */
+        virtual ~Mesh() noexcept = default; /**< Default destructor */
+        Mesh(Mesh &&) noexcept = default; /**< Default move constructor */
+        Mesh &operator=(Mesh &&) noexcept = default; /**< Default move assignment operator */
+        Mesh(const Mesh &) noexcept = default; /**< Default copy constructor */
+        Mesh &operator=(Mesh const &) noexcept = default; /**< Default copy assignment operator */
 
     /***************************************************************************
      * Public Members
      **************************************************************************/
 
+        /**
+         * @brief Constructs a Mesh object with given vertices, indices, and textures.
+         * @param[in] vertices A vector of vertex data.
+         * @param[in] indices A vector of index data.
+         * @param[in] textures A vector of texture data.
+         */
         Mesh(const std::vector<vertex_t>& vertices,
              const std::vector<GLuint>& indices,
              const std::vector<texture_t>& textures);
 
-        buffers_t get_buffers();
+        /**
+         * @brief Gets the buffers associated with this mesh.
+         * @return A structure containing the vertex array object (VAO), vertex buffer object (VBO),
+         *         and element buffer object (EBO) used for rendering the mesh.
+         */
+        buffers_t get_buffers() const noexcept;
 
-        void draw(GLuint shader_program);
+        /**
+         * @brief Draws the mesh using the specified shader program.
+         * @param [in] shader_program The ID of the shader program to use for rendering.
+         */
+        void draw(GLuint shader_program) const;
 
     /***************************************************************************
      * Private Members
      **************************************************************************/
     private:
 
-        buffers_t m_buffers;
-
-        std::vector<vertex_t> m_vertices;
-        std::vector<GLuint> m_indices;
-        std::vector<texture_t > m_textures;
-
+        /**
+         * @brief Sets up the mesh by generating and configuring OpenGL buffers.
+         */
         void setup_mesh();
+
+        buffers_t m_buffers; /**< Buffers for rendering the mesh. */
+        std::vector<vertex_t> m_vertices; /**< Vertex data for the mesh. */
+        std::vector<GLuint> m_indices; /**< Index data for the mesh. */
+
+        std::vector<texture_t > m_textures; /**< Texture data for the mesh. */
 
     /***************************************************************************
      * Protected Members

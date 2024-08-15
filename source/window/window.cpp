@@ -1,12 +1,11 @@
 /**
  * @file window.cpp
  * @author Yasin BASAR
- * @brief
+ * @brief Implements the `Window` class for managing a GLFW window and OpenGL context.
  * @version 1.0.0
  * @date 10/08/2024
  * @copyright (c) 2024 All rights reserved.
  */
-
 
 /*******************************************************************************
  * Includes 

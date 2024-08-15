@@ -1,7 +1,7 @@
 /**
  * @file mesh.cpp
  * @author Yasin BASAR
- * @brief
+ * @brief Implementation of the Mesh class methods.
  * @version 1.0.0
  * @date 09/08/2024
  * @copyright (c) 2024 All rights reserved.
@@ -35,12 +35,12 @@ namespace YB
         this->setup_mesh();
     }
 
-    buffers_t Mesh::get_buffers()
+    buffers_t Mesh::get_buffers() const noexcept
     {
         return this->m_buffers;
     }
 
-    void Mesh::draw(GLuint shader_program)
+    void Mesh::draw(GLuint shader_program) const
     {
         GLint textures_size = static_cast<GLint>(this->m_textures.size());
 

@@ -1,7 +1,7 @@
 /**
  * @file camera.cpp
  * @author Yasin BASAR
- * @brief
+ * @brief This file contains the implementation of the Camera class.
  * @version 1.0.0
  * @date 09/08/2024
  * @copyright (c) 2024 All rights reserved.

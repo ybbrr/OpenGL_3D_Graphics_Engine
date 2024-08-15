@@ -1,12 +1,11 @@
 /**
  * @file point_light_shader.cpp
  * @author Yasin BASAR
- * @brief
+ * @brief Implements the PointLightShader class.
  * @version 1.0.0
  * @date 14/08/2024
  * @copyright (c) 2024 All rights reserved.
  */
-
 
 /*******************************************************************************
  * Includes 
@@ -26,16 +25,16 @@ namespace YB
  ******************************************************************************/
 
     PointLightShader::PointLightShader()
-        : m_light_dir{0},
-          m_light_color{0},
-          m_light_position{0},
-          m_light_dir_location{-1},
-          m_light_color_location{-1},
-          m_light_position_location{-1},
-          m_constant{-1},
-          m_linear{-1},
-          m_quadratic{-1},
-          m_shadow_map{0}
+        : m_light_dir{0}, /**< Initializes light direction to zero vector. */
+          m_light_color{0}, /**< Initializes light color to zero vector. */
+          m_light_position{0}, /**< Initializes light position to zero vector. */
+          m_light_dir_location{-1}, /**< Initializes the location of light direction uniform to -1. */
+          m_light_color_location{-1}, /**< Initializes the location of light color uniform to -1. */
+          m_light_position_location{-1}, /**< Initializes the location of light position uniform to -1. */
+          m_constant{-1}, /**< Initializes the location of constant attenuation uniform to -1. */
+          m_linear{-1}, /**< Initializes the location of linear attenuation uniform to -1. */
+          m_quadratic{-1}, /**< Initializes the location of quadratic attenuation uniform to -1. */
+          m_shadow_map{0} /**< Initializes the shadow map ID to 0. */
     {
         this->load_shader(R"(shader/basic_vert_point_light.glsl)",
                           R"(shader/basic_frag_point_light.glsl)");

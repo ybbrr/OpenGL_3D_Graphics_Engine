@@ -35,8 +35,20 @@ typedef unsigned char GLboolean;
 
 namespace YB
 {
+    /**
+     * @class Renderer
+     * @brief Forward declaration of actual Renderer class.
+     */
     class Renderer;
 
+    /**
+     * @class WindowCallbacks
+     * @brief Contains static callback functions for window events.
+     *
+     * This class handles window-related callbacks such as keyboard input,
+     * window resizing, and mouse movements. It also manages the current
+     * renderer instance.
+     */
     class WindowCallbacks
     {
     public:
@@ -44,25 +56,28 @@ namespace YB
      * Special Members
      **************************************************************************/
 
-        WindowCallbacks() noexcept = delete;
-
-        virtual ~WindowCallbacks() noexcept = delete;
-
-        WindowCallbacks(WindowCallbacks &&) noexcept = delete;
-
-        WindowCallbacks &operator=(WindowCallbacks &&) noexcept = delete;
-
-        WindowCallbacks(const WindowCallbacks &) noexcept = delete;
-
-        WindowCallbacks &operator=(WindowCallbacks const &) noexcept = delete;
+        WindowCallbacks() noexcept = delete; /**< Deleted default constructor */
+        virtual ~WindowCallbacks() noexcept = delete; /**< Deleted default destructor */
+        WindowCallbacks(WindowCallbacks &&) noexcept = delete; /**< Deleted default move constructor */
+        WindowCallbacks &operator=(WindowCallbacks &&) noexcept = delete; /**< Deleted default move assignment operator */
+        WindowCallbacks(const WindowCallbacks &) noexcept = delete; /**< Deleted default copy constructor */
+        WindowCallbacks &operator=(WindowCallbacks const &) noexcept = delete; /**< Deleted default copy assignment operator */
 
     /***************************************************************************
      * Public Members
      **************************************************************************/
 
         /**
-         * @brief Press ESC to close the window.
+         * @brief Handles keyboard input events.
          *
+         * This function is called when a key is pressed or released. It
+         * processes the key events and updates the state accordingly.
+         *
+         * @param window[in] The GLFW window where the event occurred.
+         * @param key[in] The key code of the pressed/released key.
+         * @param scancode[in] The system-specific scancode of the key.
+         * @param action[in] The action performed (GLFW_PRESS, GLFW_RELEASE).
+         * @param mode[in] The modifier keys used.
          */
         static void keyboard_callback(GLFWwindow* window,
                                       int key,
@@ -71,24 +86,40 @@ namespace YB
                                       int mode);
 
         /**
-         * @brief Window resize callback.
+         * @brief Handles window resize events.
          *
+         * This function is called when the window is resized. It updates
+         * the viewport to match the new window dimensions.
+         *
+         * @param window[in] The GLFW window that was resized.
+         * @param width[in] The new width of the window.
+         * @param height[in] The new height of the window.
          */
         static void window_resize_callback(GLFWwindow* window,
                                            int width,
                                            int height);
 
         /**
-         * @brief
+         * @brief Handles mouse movement events.
          *
+         * This function is called when the mouse moves within the window.
+         * It updates the state of the mouse position.
+         *
+         * @param window[in] The GLFW window where the event occurred.
+         * @param x_pos[in] The new x-coordinate of the mouse cursor.
+         * @param y_pos[in] The new y-coordinate of the mouse cursor.
          */
         static void mouse_callback(GLFWwindow* window,
                                    double x_pos,
                                    double y_pos);
 
         /**
-         * @brief
+         * @brief Sets the current renderer instance.
          *
+         * This function sets the renderer instance that will be used by
+         * the callback functions.
+         *
+         * @param renderer[in] The shared pointer to the renderer instance.
          */
         static void set_current_renderer(std::shared_ptr<YB::Renderer>& renderer);
 
@@ -97,17 +128,8 @@ namespace YB
      **************************************************************************/
     private:
 
-        /**
-         * @brief
-         *
-         */
-        static std::vector<GLboolean> m_pressed_keys;
-
-        /**
-         * @brief
-         *
-         */
-        static std::shared_ptr<YB::Renderer> m_renderer;
+        static std::vector<GLboolean> m_pressed_keys; ///< Stores the state of pressed keys.
+        static std::shared_ptr<YB::Renderer> m_renderer; ///< Shared pointer to the current renderer.
 
     /***************************************************************************
      * Protected Members

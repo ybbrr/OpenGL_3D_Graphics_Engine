@@ -1,12 +1,11 @@
 /**
  * @file model_3d.cpp
  * @author Yasin BASAR
- * @brief
+ * @brief Implementation of the Model3D class methods.
  * @version 1.0.0
  * @date 09/08/2024
  * @copyright (c) 2024 All rights reserved.
  */
-
 
 /*******************************************************************************
  * Includes 

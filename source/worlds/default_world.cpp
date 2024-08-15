@@ -1,28 +1,28 @@
 /**
  * @file default_world.cpp
  * @author Yasin BASAR
- * @brief
+ * @brief Implements the DefaultWorld class which manages a collection of 3D models
+ *        and handles their transformations and rendering.
  * @version 1.0.0
  * @date 10/08/2024
  * @copyright (c) 2024 All rights reserved.
  */
 
-
 /*******************************************************************************
- * Includes 
+ * Includes
  ******************************************************************************/
 
 #include "default_world.hpp"
 #include "draw_components.hpp"
 
 /*******************************************************************************
- * Third Party Libraries 
+ * Third Party Libraries
  ******************************************************************************/
 
-#include <glm/glm.hpp> //core glm functionality
-#include <glm/gtc/matrix_transform.hpp> //glm extension for generating common transformation matrices
-#include <glm/gtc/matrix_inverse.hpp> //glm extension for computing inverse matrices
-#include <glm/gtc/type_ptr.hpp> //glm extension for accessing the internal data structure of glm types
+#include <glm/glm.hpp> // Core GLM functionality
+#include <glm/gtc/matrix_transform.hpp> // GLM extension for generating common transformation matrices
+#include <glm/gtc/matrix_inverse.hpp> // GLM extension for computing inverse matrices
+#include <glm/gtc/type_ptr.hpp> // GLM extension for accessing the internal data structure of GLM types
 
 namespace YB
 {
@@ -34,7 +34,6 @@ namespace YB
     DefaultWorld::DefaultWorld()
         : m_objs{}
     {
-
     }
 
     void DefaultWorld::add_model(const std::string &file_name,
@@ -52,19 +51,20 @@ namespace YB
         {
             DrawComponents::shader->use_shader_program();
 
+            // Apply transformations to the model matrix.
             DrawComponents::shader->model_matrix = glm::translate(glm::mat4(1.0f), obj.obj_position);
 
             if (obj.is_rotatable)
             {
                 DrawComponents::shader->model_matrix = glm::rotate(DrawComponents::shader->model_matrix,
-                                                   glm::radians(this->m_rotate_angle),
-                                                   glm::vec3(0, 1, 0));
+                                                                   glm::radians(this->m_rotate_angle),
+                                                                   glm::vec3(0, 1, 0));
             }
 
             if (obj.is_scalable)
             {
                 DrawComponents::shader->model_matrix = glm::scale(DrawComponents::shader->model_matrix,
-                                                  this->m_scale_factor + glm::vec3(1.0f, 1.0f, 1.0f));
+                                                                  this->m_scale_factor + glm::vec3(1.0f, 1.0f, 1.0f));
             }
 
             DrawComponents::shader->view_matrix = CoreComponents::camera->get_view_matrix();
@@ -72,6 +72,7 @@ namespace YB
             DrawComponents::shader->normal_matrix
                 = glm::mat3(glm::inverseTranspose(DrawComponents::shader->view_matrix * DrawComponents::shader->model_matrix));
 
+            // Send matrices to the shader.
             glUniformMatrix4fv(DrawComponents::shader->model_matrix_location,
                                1,
                                GL_FALSE,

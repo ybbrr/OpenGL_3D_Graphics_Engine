@@ -1,7 +1,7 @@
 /**
  * @file camera.hpp
  * @author Yasin BASAR
- * @brief
+ * @brief This file contains the definition of the Camera class.
  * @version 1.0.0
  * @date 09/08/2024
  * @copyright (c) 2024 All rights reserved.
@@ -27,79 +27,90 @@
 
 namespace YB
 {
+    /**
+     * @class Camera
+     * @brief Represents a camera in a 3D graphics engine.
+     *
+     * The Camera class handles the position, direction, and movement of a camera in a 3D space.
+     * It allows for updating the camera's position and orientation and obtaining the view matrix.
+     */
     class Camera
     {
     public:
-        /***************************************************************************
-         * Special Members
-         **************************************************************************/
+    /***************************************************************************
+     * Special Members
+     **************************************************************************/
 
-        Camera() noexcept = delete;
+        Camera() noexcept = delete; /**< Deleted default constructor */
+        virtual ~Camera() noexcept = default; /**< Default destructor */
+        Camera(Camera &&) noexcept = default; /**< Default move constructor */
+        Camera &operator=(Camera &&) noexcept = default; /**< Default move assignment operator */
+        Camera(const Camera &) noexcept = delete; /**< Deleted default copy constructor */
+        Camera &operator=(Camera &) noexcept = delete; /**< Deleted default copy assignment operator */
 
-        virtual ~Camera() noexcept = default;
-
-        Camera(Camera &&) noexcept = default;
-
-        Camera &operator=(Camera &&) noexcept = default;
-
-        Camera(const Camera &) noexcept = delete;
-
-        Camera &operator=(Camera &) noexcept = delete;
-
-        /***************************************************************************
-         * Public Members
-         **************************************************************************/
+    /***************************************************************************
+     * Public Members
+     **************************************************************************/
 
         /**
-         * @brief Camera constructor
+         * @brief Constructs a Camera object with specified position, target, and up vector.
          *
+         * @param[in] camera_position The position of the camera in 3D space.
+         * @param[in] camera_target The target point that the camera is looking at.
+         * @param[in] camera_up The up direction vector of the camera.
          */
         Camera(glm::vec3 camera_position,
                glm::vec3 camera_target,
                glm::vec3 camera_up);
 
         /**
-         * @brief Update the camera internal parameters following a camera move event
+         * @brief Updates the camera's position based on movement direction.
          *
+         * @param[in] direction The direction of movement (forward, backward, right, left).
+         * @param[in] delta_time_in_seconds The time elapsed since the last update.
          */
         void move(MOVE_DIRECTION direction, float delta_time_in_seconds);
 
         /**
-         * @brief Update the camera internal parameters following a camera rotate event
+         * @brief Rotates the camera based on pitch and yaw angles.
+         *        Accepts pitch and yaw values in Radians.
          *
-         * @param[in] pitch Camera rotation around the y axis
-         * @param[in] yaw Camera rotation around the x axis
+         * @param[in] pitch The angle(radians) of rotation around the y-axis.
+         * @param[in] yaw The angle(radians) of rotation around the x-axis.
          */
         void rotate(float pitch, float yaw);
 
         /**
-         * @brief
+         * @brief Gets the view matrix of the camera.
          *
+         * @return The view matrix.
          */
         glm::mat4 get_view_matrix() noexcept;
 
+        /**
+         * @brief Gets the direction the camera is facing.
+         *
+         * @return The camera's front direction vector.
+         */
         glm::vec3 get_camera_direction() noexcept;
 
-        /***************************************************************************
-         * Private Members
-         **************************************************************************/
+    /***************************************************************************
+     * Private Members
+     **************************************************************************/
     private:
 
-        glm::vec3 m_camera_position;
-        glm::vec3 m_camera_target;
-        glm::vec3 m_camera_front_direction;
-        glm::vec3 m_camera_right_direction;
-        glm::vec3 m_camera_up_direction;
+        glm::vec3 m_camera_position; /**< The current position of the camera. */
+        glm::vec3 m_camera_target; /**< The target point the camera is looking at. */
+        glm::vec3 m_camera_front_direction; /**< The direction the camera is facing. */
+        glm::vec3 m_camera_right_direction; /**< The right direction of the camera. */
+        glm::vec3 m_camera_up_direction; /**< The up direction of the camera. */
+        glm::mat4 m_view_matrix; /**< The view matrix of the camera. */
+        float m_camera_speed; /**< The movement speed of the camera. */
+        std::mutex m_mutex; /**< Mutex for thread-safe access to camera data. */
 
-        glm::mat4 m_view_matrix;
-
-        float m_camera_speed;
-
-        std::mutex m_mutex;
-
-        /***************************************************************************
-         * Protected Members
-         **************************************************************************/
+    /***************************************************************************
+     * Protected Members
+     **************************************************************************/
     protected:
 
         /* Data */

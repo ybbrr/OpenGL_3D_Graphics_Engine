@@ -1,12 +1,11 @@
 /**
  * @file keyboard.cpp
  * @author Yasin BASAR
- * @brief
+ * @brief Implements the Keyboard class for handling keyboard input events in the graphics engine.
  * @version 1.0.0
  * @date 10/08/2024
  * @copyright (c) 2024 All rights reserved.
  */
-
 
 /*******************************************************************************
  * Includes 
@@ -16,7 +15,6 @@
 #include "directional_light_shader.hpp"
 #include "point_light_shader.hpp"
 #include "solid_shader.hpp"
-#include <chrono>
 
 /*******************************************************************************
  * Third Party Libraries 

@@ -1,7 +1,7 @@
 /**
  * @file keyboard.hpp
  * @author Yasin BASAR
- * @brief
+ * @brief Declares the Keyboard class for handling keyboard input events in the graphics engine.
  * @version 1.0.0
  * @date 10/08/2024
  * @copyright (c) 2024 All rights reserved.
@@ -15,9 +15,6 @@
  ******************************************************************************/
 
 #include <vector>
-#include "camera.hpp"
-#include "shader.hpp"
-#include "world.hpp"
 #include "core_components.hpp"
 #include "draw_components.hpp"
 
@@ -37,6 +34,13 @@ typedef int GLint;
 namespace YB
 {
 
+    /**
+     * @class Keyboard
+     * @brief Handles keyboard input events to control various aspects of the graphics engine.
+     *
+     * The Keyboard class processes key presses to control camera movement, object transformations,
+     * polygon mode, and shader changes in the graphics engine.
+     */
     class Keyboard
     {
     public:
@@ -44,24 +48,36 @@ namespace YB
      * Special Members
      **************************************************************************/
 
-        virtual ~Keyboard() noexcept = default;
-
-        Keyboard(Keyboard &&) noexcept = default;
-
-        Keyboard &operator=(Keyboard &&) noexcept = default;
-
-        Keyboard(const Keyboard &) noexcept = default;
-
-        Keyboard &operator=(Keyboard const &) noexcept = default;
+        virtual ~Keyboard() noexcept = default; /**< Default destructor */
+        Keyboard(Keyboard &&) noexcept = default; /**< Default move constructor */
+        Keyboard &operator=(Keyboard &&) noexcept = default; /**< Default move assignment operator */
+        Keyboard(const Keyboard &) noexcept = default; /**< Default copy constructor */
+        Keyboard &operator=(Keyboard const &) noexcept = default; /**< Default copy assignment operator */
 
     /***************************************************************************
      * Public Members
      **************************************************************************/
 
+        /**
+         * @brief Constructs a Keyboard instance.
+         *
+         * Initializes the state of the keyboard with no keys pressed.
+         */
         explicit Keyboard();
 
+        /**
+         * @brief Processes a key press event.
+         *
+         * @param[in] key The key code of the pressed or released key.
+         * @param[in] action The action (press or release) associated with the key event.
+         */
         void key_pressed(int key, int action);
 
+        /**
+         * @brief Updates the keyboard state based on the elapsed time.
+         *
+         * @param[in] delta_time_in_seconds The time elapsed since the last update.
+         */
         void key_pressed(float delta_time_in_seconds);
 
     /***************************************************************************
@@ -69,11 +85,31 @@ namespace YB
      **************************************************************************/
     private:
 
+        /**
+         * @brief Handles movement-related key presses.
+         *
+         * @param[in] delta_time_in_seconds The time elapsed since the last update.
+         */
         void movement_key_pressed(float delta_time_in_seconds);
+
+        /**
+         * @brief Handles rotation or scaling key presses.
+         */
         void rotate_or_scale_key_pressed();
+
+        /**
+         * @brief Handles polygon mode change key presses.
+         */
         void polygon_mode_change_key_pressed();
+
+        /**
+         * @brief Handles shader change key presses.
+         */
         void shader_change_key_pressed();
 
+        /**
+         * @brief Vector storing the state of each key (pressed or not).
+         */
         std::vector<GLboolean> m_pressed_keys;
 
 /***************************************************************************

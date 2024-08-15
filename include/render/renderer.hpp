@@ -14,16 +14,13 @@
  * Includes
  ******************************************************************************/
 
-#include "window.hpp"
-#include "shader.hpp"
+#include "core_components.hpp"
+#include "draw_components.hpp"
+#include "default_world.hpp"
 #include "directional_light_shader.hpp"
-#include "camera.hpp"
 #include "model_3d.hpp"
 #include "mouse.hpp"
 #include "keyboard.hpp"
-#include "default_world.hpp"
-#include "core_components.hpp"
-#include "draw_components.hpp"
 
 /*******************************************************************************
  * Third Party Libraries
@@ -41,15 +38,11 @@ namespace YB
      * Special Members
      **************************************************************************/
 
-        virtual ~Renderer() noexcept = default;
-
-        Renderer(Renderer &&) noexcept = default;
-
-        Renderer &operator=(Renderer &&) noexcept = default;
-
-        Renderer(const Renderer &) noexcept = default;
-
-        Renderer &operator=(Renderer const &) noexcept = default;
+        virtual ~Renderer() noexcept = default; /**< Default destructor */
+        Renderer(Renderer &&) noexcept = default; /**< Default move constructor */
+        Renderer &operator=(Renderer &&) noexcept = default; /**< Default move assignment operator */
+        Renderer(const Renderer &) noexcept = default; /**< Default copy constructor */
+        Renderer &operator=(Renderer const &) noexcept = default; /**< Default copy assignment operator */
 
     /***************************************************************************
      * Public Members
@@ -75,17 +68,17 @@ namespace YB
         /**
          * @brief Handles mouse movement events.
          *
-         * @param x_pos The x-coordinate of the mouse position.
-         * @param y_pos The y-coordinate of the mouse position.
+         * @param[in] x_pos The x-coordinate of the mouse position.
+         * @param[in] y_pos The y-coordinate of the mouse position.
          */
         void mouse_movement(float x_pos, float y_pos);
 
         /**
          * @brief Handles key press events.
          *
-         * @param window The window where the key press occurred.
-         * @param key The key that was pressed.
-         * @param action The action (press/release) associated with the key.
+         * @param[in] window The window where the key press occurred.
+         * @param[in] key The key that was pressed.
+         * @param[in] action The action (press/release) associated with the key.
          */
         void key_pressed(GLFWwindow* window, int key, int action);
 

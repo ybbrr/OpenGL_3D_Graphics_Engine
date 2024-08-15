@@ -7,8 +7,6 @@
  * @copyright (c) 2024 All rights reserved.
  */
 
-#include <iostream>
-
 #include "renderer.hpp"
 #include "window_callbacks.hpp"
 

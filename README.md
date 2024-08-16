@@ -10,6 +10,11 @@ And extract the content of the ***third_parties-resources.zip***
   to Workpace Folder of the project.
 
 ## How to Compile
+
+### Window
 Run `build.bat`
+
+### Linux
+Run `sh build.sh`
 
 [comment]: #end_of_file

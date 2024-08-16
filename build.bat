@@ -31,16 +31,18 @@ if "%generator_choice%"=="1" (
 echo Selected CMake Generator: %CMAKE_GENERATOR%
 @echo.
 
+set /A NUM_THREADS=%NUMBER_OF_PROCESSORS% - 2
+
 cmake -G %CMAKE_GENERATOR% ^
     -D CMAKE_BUILD_TYPE=%BUILD_TYPE% ^
     -D CMAKE_INSTALL_PREFIX=./__build_out__/%BUILD_TYPE% ^
     -B ./__build_dir__/%BUILD_TYPE% .
 
 @if %CMAKE_GENERATOR%==Ninja (
-    cmake --build __build_dir__/%BUILD_TYPE% --config %BUILD_TYPE% -j8
+    cmake --build __build_dir__/%BUILD_TYPE% --config %BUILD_TYPE% -j%NUM_THREADS%
     cmake --build __build_dir__/%BUILD_TYPE% -- install
 ) else (
-    cmake --build __build_dir__/%BUILD_TYPE% --config %BUILD_TYPE% --target INSTALL -j8
+    cmake --build __build_dir__/%BUILD_TYPE% --config %BUILD_TYPE% --target INSTALL -j%NUM_THREADS%
 )
 
 :: end of file

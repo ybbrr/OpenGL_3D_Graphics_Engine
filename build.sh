@@ -1,4 +1,25 @@
-echo
+#!/bin/bash
+
+# List of packages to check
+packages="libwayland-dev libxkbcommon-dev xorg-dev"
+# Loop through each package and check if it is installed
+for pkg in $packages; do
+    if dpkg -s "$pkg" 1> /dev/null; then
+        echo "$pkg is installed"
+    else
+        echo "$pkg is not installed, $pkg is a dependency of GLFW, which you need to compile the OpenGL_3D_Graphics_Engine project"
+    fi
+done
+
+# check if ninja is installed
+if command -v ninja 1> /dev/null
+then
+    echo "ninja Cmake Generator is installed"
+else
+    echo "\"ninja-build\" is not installed. You can run \"sudo apt install ninja-build\" and use as a Cmake Generator."
+fi
+
+echo ""
 # Prompt for build type
 read -p "Choose build type (1 for Release, 2 for Debug): " build_choice
 if [ "$build_choice" -eq 1 ]; then

@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
+
 project(OpenGL_3D_Graphics_Engine)
 
 set(CMAKE_CXX_STANDARD 17)

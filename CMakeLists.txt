@@ -18,8 +18,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "Release")
 	endif ()
 
 	if (UNIX)
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fopenmp -O2 -march=native")
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -O2 -march=native")
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -march=native")
 	endif ()
 endif ()
 
@@ -30,8 +30,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 	endif ()
 
 	if (UNIX)
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fopenmp -Og -g -Wall -Wextra -ggdb")
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -Og -g -Wall -Wextra -ggdb -march=native")
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Og -g -Wall -ggdb")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Og -g -Wall -ggdb -march=native")
 	endif ()
 endif ()
 

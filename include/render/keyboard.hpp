@@ -90,7 +90,7 @@ namespace YB
          *
          * @param[in] delta_time_in_seconds The time elapsed since the last update.
          */
-        void movement_key_pressed(float delta_time_in_seconds);
+        void movement_key_pressed(float delta_time_in_seconds) const;
 
         /**
          * @brief Handles rotation or scaling key presses.

@@ -15,7 +15,6 @@
  ******************************************************************************/
 
 #include <mutex>
-#include <string>
 #include "types_enums.hpp"
 
 /*******************************************************************************
@@ -101,9 +100,9 @@ namespace YB
 
         glm::vec3 m_camera_position; /**< The current position of the camera. */
         glm::vec3 m_camera_target; /**< The target point the camera is looking at. */
+        glm::vec3 m_camera_up_direction; /**< The up direction of the camera. */
         glm::vec3 m_camera_front_direction; /**< The direction the camera is facing. */
         glm::vec3 m_camera_right_direction; /**< The right direction of the camera. */
-        glm::vec3 m_camera_up_direction; /**< The up direction of the camera. */
         glm::mat4 m_view_matrix; /**< The view matrix of the camera. */
         float m_camera_speed; /**< The movement speed of the camera. */
         std::mutex m_mutex; /**< Mutex for thread-safe access to camera data. */

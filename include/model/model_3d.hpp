@@ -105,9 +105,9 @@ namespace YB
          */
         GLuint read_texture_from_file(const char* file_name);
 
-        std::vector<YB::Mesh> m_meshes; /**< Collection of meshes in the model. */
-        std::vector<texture_t> m_loaded_textures; /**< Collection of loaded textures. */
         std::string m_model_name; /**< Name of the model. */
+        std::vector<Mesh> m_meshes; /**< Collection of meshes in the model. */
+        std::vector<texture_t> m_loaded_textures; /**< Collection of loaded textures. */
 
     /***************************************************************************
      * Protected Members

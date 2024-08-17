@@ -31,12 +31,12 @@ namespace YB
     Model3D::Model3D(const std::string& file_path,
                      const std::string& model_name,
                      const glm::vec3& position,
-                     bool rotatable,
-                     bool scalable)
-         : m_model_name{model_name},
-           obj_position{position},
+                     const bool rotatable,
+                     const bool scalable)
+         : obj_position{position},
            is_rotatable{rotatable},
-           is_scalable{scalable}
+           is_scalable{scalable},
+           m_model_name{model_name}
     {
         std::string filepath = file_path;
         std::replace(filepath.begin(), filepath.end(), '\\', '/');
@@ -105,14 +105,14 @@ namespace YB
             exit(1);
         }
 
-        size_t shapes_size = shapes.size();
-        size_t materials_count = materials.size();
+        int shapes_size = static_cast<int>(shapes.size());
+        int materials_count = static_cast<int>(materials.size());
 
-        std::cout << "# of shapes    : " << shapes_size << std::endl;
-        std::cout << "# of materials : " << materials_count << std::endl;
+        std::cout << "# of shapes    : " << shapes_size << "\n";
+        std::cout << "# of materials : " << materials_count << "\n";
 
         // Loop over shapes
-        for (size_t s = 0; s < shapes_size; s++)
+        for (int s = 0; s < shapes_size; s++)
         {
             std::vector<vertex_t> vertices{};
             std::vector<GLuint> indices{};
@@ -129,7 +129,7 @@ namespace YB
                 int fv = shapes[s].mesh.num_face_vertices[f];
 
                 // Loop over vertices in the face.
-                for (size_t v = 0; v < fv; v++)
+                for (int v = 0; v < fv; v++)
                 {
                     // access to vertex
                     tinyobj::index_t idx = shapes[s].mesh.indices[index_offset + v];
@@ -236,9 +236,9 @@ namespace YB
 
     texture_t Model3D::load_texture(const std::string& path, const std::string& type)
     {
-        size_t loaded_textures_size = this->m_loaded_textures.size();
+        const size_t loaded_textures_size = this->m_loaded_textures.size();
 
-        for (int idx = 0; idx < loaded_textures_size; idx++)
+        for (size_t idx = 0; idx < loaded_textures_size; idx++)
         {
             if (this->m_loaded_textures[idx].path == path)
             {

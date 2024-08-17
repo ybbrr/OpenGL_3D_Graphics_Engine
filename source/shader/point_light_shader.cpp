@@ -36,8 +36,8 @@ namespace YB
           m_quadratic{-1}, /**< Initializes the location of quadratic attenuation uniform to -1. */
           m_shadow_map{0} /**< Initializes the shadow map ID to 0. */
     {
-        this->load_shader(R"(shader/basic_vert_point_light.glsl)",
-                          R"(shader/basic_frag_point_light.glsl)");
+        this->load_shader(R"(shader/point_light_vert.glsl)",
+                          R"(shader/point_light_frag.glsl)");
     }
 
     void PointLightShader::use_shader_program()

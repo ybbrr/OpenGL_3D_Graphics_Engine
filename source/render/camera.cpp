@@ -14,6 +14,8 @@
 
 #include "camera.hpp"
 
+#include <cmath>
+
 /*******************************************************************************
  * Third Party Libraries 
  ******************************************************************************/
@@ -55,7 +57,7 @@ namespace YB
      * @brief
      *
      */
-    void Camera::move(MOVE_DIRECTION direction, float delta_time_in_seconds)
+    void Camera::move(const MOVE_DIRECTION direction, const float delta_time_in_seconds)
     {
         std::lock_guard<std::mutex> lock(this->m_mutex);
 
@@ -101,9 +103,9 @@ namespace YB
     {
         glm::vec3 camera_rotate_direction;
 
-        camera_rotate_direction.x = cos(yaw) * cos(pitch);
-        camera_rotate_direction.y = sin(pitch);
-        camera_rotate_direction.z = sin(yaw) * cos(pitch);
+        camera_rotate_direction.x = std::cos(yaw) * std::cos(pitch);
+        camera_rotate_direction.y = std::sin(pitch);
+        camera_rotate_direction.z = std::sin(yaw) * std::cos(pitch);
 
         {
             std::lock_guard<std::mutex> lock(this->m_mutex);

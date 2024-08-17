@@ -61,7 +61,7 @@ namespace YB
         glDrawElements(GL_TRIANGLES, this->m_indices.size(), GL_UNSIGNED_INT, nullptr);
         glBindVertexArray(0);
 
-        for(GLuint i = 0; i < textures_size; i++)
+        for(GLint i = 0; i < textures_size; i++)
         {
             glActiveTexture(GL_TEXTURE0 + i);
             glBindTexture(GL_TEXTURE_2D, 0);

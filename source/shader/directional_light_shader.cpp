@@ -36,8 +36,8 @@ namespace YB
           m_quadratic{-1}, /**< Initializes the location of quadratic attenuation uniform to -1. */
           m_shadow_map{0} /**< Initializes the shadow map ID to 0. */
     {
-        this->load_shader(R"(shader/basic_vert_directional_light.glsl)",
-                          R"(shader/basic_frag_directional_light.glsl)");
+        this->load_shader(R"(shader/directional_light_vert.glsl)",
+                          R"(shader/directional_light_frag.glsl)");
     }
 
     void DirectionalLightShader::use_shader_program()

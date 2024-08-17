@@ -18,11 +18,6 @@ int main()
                                        720,
                                        true);
 
-    if (YB::CoreComponents::window == nullptr)
-    {
-        int a = 1;
-    }
-
     YB::CoreComponents::camera
         = std::make_shared<YB::Camera>(glm::vec3(3.0f, 3.0f, 10.0f),
                                        glm::vec3(0.0f, 0.0f, 0.0f),

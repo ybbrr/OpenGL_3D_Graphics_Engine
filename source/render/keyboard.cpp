@@ -54,8 +54,6 @@ namespace YB
 
     void Keyboard::key_pressed(float delta_time_in_seconds)
     {
-        glm::mat4 view_matrix = CoreComponents::camera->get_view_matrix();
-
         this->movement_key_pressed(delta_time_in_seconds);
 
         this->rotate_or_scale_key_pressed();
@@ -65,7 +63,7 @@ namespace YB
         this->shader_change_key_pressed();
     }
 
-    void Keyboard::movement_key_pressed(float delta_time_in_seconds)
+    void Keyboard::movement_key_pressed(const float delta_time_in_seconds) const
     {
         if (this->m_pressed_keys[GLFW_KEY_W])
         {

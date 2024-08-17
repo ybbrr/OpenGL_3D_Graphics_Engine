@@ -86,11 +86,10 @@ namespace YB
          */
         void setup_mesh();
 
-        buffers_t m_buffers; /**< Buffers for rendering the mesh. */
         std::vector<vertex_t> m_vertices; /**< Vertex data for the mesh. */
         std::vector<GLuint> m_indices; /**< Index data for the mesh. */
-
         std::vector<texture_t > m_textures; /**< Texture data for the mesh. */
+        buffers_t m_buffers; /**< Buffers for rendering the mesh. */
 
     /***************************************************************************
      * Protected Members

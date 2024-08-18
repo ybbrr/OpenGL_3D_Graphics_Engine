@@ -1,47 +1,39 @@
-/**
- * @file window_events.cpp
- * @author Yasin BASAR
- * @brief Implements the window event callback functions.
- * @version 1.0.0
- * @date 10/08/2024
- * @copyright (c) 2024 All rights reserved.
- */
+///
+/// @file window_callbacks.cpp
+/// @author Yasin BASAR
+/// @brief Implements the window event callback functions.
+/// @version 1.0.0
+/// @date 10/08/2024
+/// @copyright (c) 2024 All rights reserved.
+///
 
-/*******************************************************************************
- * Includes 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Project Includes
+////////////////////////////////////////////////////////////////////////////////
 
 #include "window_callbacks.hpp"
 #include "renderer.hpp"
 
-/*******************************************************************************
- * Third Party Libraries 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Third Party Includes
+////////////////////////////////////////////////////////////////////////////////
 
 #include <glad/glad.h>
 
 namespace YB
 {
 
-/*******************************************************************************
- * Public Static Members
- ******************************************************************************/
+    std::shared_ptr<Renderer> WindowCallbacks::m_renderer{nullptr};
 
-/*******************************************************************************
- * Private Static Members
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Public Functions
+////////////////////////////////////////////////////////////////////////////////
 
-    std::shared_ptr<YB::Renderer> WindowCallbacks::m_renderer = nullptr;
-
-/*******************************************************************************
- * Public Functions
- ******************************************************************************/
-
-    void YB::WindowCallbacks::keyboard_callback(GLFWwindow *window,
-                                                int key,
-                                                int scancode,
-                                                int action,
-                                                int mode)
+    void WindowCallbacks::keyboard_callback(GLFWwindow *window,
+                                            int key,
+                                            int scancode,
+                                            int action,
+                                            int mode)
     {
         m_renderer->key_pressed(window, key, action);
     }
@@ -61,18 +53,18 @@ namespace YB
                                    static_cast<float>(y_pos));
     }
 
-    void WindowCallbacks::set_current_renderer(std::shared_ptr<YB::Renderer>& renderer)
+    void WindowCallbacks::set_current_renderer(const std::shared_ptr<Renderer>& renderer)
     {
         m_renderer = renderer;
     }
 
-/*******************************************************************************
- * Private Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Private Functions
+////////////////////////////////////////////////////////////////////////////////
 
-/*******************************************************************************
- * Protected Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Protected Functions
+////////////////////////////////////////////////////////////////////////////////
 
 } // namespace YB
 

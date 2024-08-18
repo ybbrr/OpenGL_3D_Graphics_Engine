@@ -6,9 +6,9 @@
         "-D CMAKE_RUNTIME_OUTPUT_DIRECTORY=${workspaceFolder}/__build_out__",
         "-D EDITOR_BUILD=ON"
     ],
+    "cmake.configureOnOpen": false,
     "editor.rulers": [
         80,
         120
-    ],
-    "cmake.configureOnOpen": true
+    ]
 }

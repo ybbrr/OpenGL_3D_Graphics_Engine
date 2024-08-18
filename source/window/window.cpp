@@ -1,32 +1,31 @@
-/**
- * @file window.cpp
- * @author Yasin BASAR
- * @brief Implements the `Window` class for managing a GLFW window and OpenGL context.
- * @version 1.0.0
- * @date 10/08/2024
- * @copyright (c) 2024 All rights reserved.
- */
+///
+/// @file window.cpp
+/// @author Yasin BASAR
+/// @brief Implements the `Window` class for managing a GLFW window and OpenGL context.
+/// @version 1.0.0
+/// @date 10/08/2024
+/// @copyright (c) 2024 All rights reserved.
+///
 
-/*******************************************************************************
- * Includes 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Project Includes
+////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include "window.hpp"
 
-/*******************************************************************************
- * Third Party Libraries 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Third Party Includes
+////////////////////////////////////////////////////////////////////////////////
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace YB
 {
-
-/*******************************************************************************
- * Public Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Public Functions
+////////////////////////////////////////////////////////////////////////////////
 
     Window::Window(const char *window_name,
                    int window_width,
@@ -78,7 +77,7 @@ namespace YB
             glfwSwapInterval(0); // set 0 for un-limited fps
         }
 
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
         {
             printf("\nFailed to initialize GLAD\n");
             return;
@@ -87,8 +86,8 @@ namespace YB
         // get version info
         const GLubyte* gpu = glGetString(GL_RENDERER); // get renderer string
         const GLubyte* version = glGetString(GL_VERSION); // version as a string
-        std::cout << "GPU: " << gpu << std::endl;
-        std::cout << "OpenGL Version: " << version << std::endl;
+        std::cout << "GPU: " << gpu << "\n";
+        std::cout << "OpenGL Version: " << version << "\n";
     }
 
     Window::~Window()
@@ -102,18 +101,18 @@ namespace YB
         glfwTerminate();
     }
 
-    GLFWwindow* Window::get_window()
+    GLFWwindow* Window::get_window() const noexcept
     {
         return this->m_window;
     }
 
-/*******************************************************************************
- * Private Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Private Functions
+////////////////////////////////////////////////////////////////////////////////
 
-/*******************************************************************************
- * Protected Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Protected Functions
+////////////////////////////////////////////////////////////////////////////////
 
 } // namespace YB
 

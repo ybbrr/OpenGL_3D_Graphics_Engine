@@ -1,32 +1,32 @@
-/**
- * @file shader.cpp
- * @author Yasin BASAR
- * @brief Implements the Shader class for managing and using shaders in OpenGL.
- * @version 1.0.0
- * @date 09/08/2024
- * @copyright (c) 2024 All rights reserved.
- */
+///
+/// @file shader.cpp
+/// @author Yasin BASAR
+/// @brief Implements the Shader class for managing and using shaders in OpenGL.
+/// @version 1.0.0
+/// @date 09/08/2024
+/// @copyright (c) 2024 All rights reserved.
+///
 
+////////////////////////////////////////////////////////////////////////////////
+// Project Includes
+////////////////////////////////////////////////////////////////////////////////
 
-/*******************************************************************************
- * Includes 
- ******************************************************************************/
-
-#include "shader.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include "shader.hpp"
 
-/*******************************************************************************
- * Third Party Libraries 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Third Party Includes
+////////////////////////////////////////////////////////////////////////////////
 
 #include <glad/glad.h>
 
 namespace YB
 {
-
-/*******************************************************************************
- * Public Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Public Functions
+////////////////////////////////////////////////////////////////////////////////
 
     Shader::Shader()
         : shader_program{0},
@@ -59,11 +59,11 @@ namespace YB
         glUseProgram(this->shader_program);
     }
 
-/*******************************************************************************
- * Private Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Private Functions
+////////////////////////////////////////////////////////////////////////////////
 
-    std::string Shader::read_shader_file(const std::string &file_name)
+    std::string Shader::read_shader_file(const std::string& file_name)
     {
         std::ifstream shader_file(file_name.c_str());
         std::stringstream shader_string_stream{};
@@ -107,9 +107,9 @@ namespace YB
         delete[] info_log;
     }
 
-/*******************************************************************************
- * Protected Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Protected Functions
+////////////////////////////////////////////////////////////////////////////////
 
     void Shader::load_shader(const std::string &vertex_shader_file_name,
                              const std::string &fragment_shader_file_name)

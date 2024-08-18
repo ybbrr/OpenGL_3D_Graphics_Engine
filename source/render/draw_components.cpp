@@ -1,46 +1,46 @@
-/**
- * @file draw_components.cpp
- * @author Yasin BASAR
- * @brief Implements the static members of the DrawComponents class.
- * @version 1.0.0
- * @date 14/08/2024
- * @copyright (c) 2024 All rights reserved.
- */
+///
+/// @file draw_components.cpp
+/// @author Yasin BASAR
+/// @brief Implements the static members of the DrawComponents class.
+/// @version 1.0.0
+/// @date 14/08/2024
+/// @copyright (c) 2024 All rights reserved.
+///
 
-/*******************************************************************************
- * Includes
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Project Includes
+////////////////////////////////////////////////////////////////////////////////
 
 #include "draw_components.hpp"
 
-/*******************************************************************************
- * Third Party Libraries
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Third Party Includes
+////////////////////////////////////////////////////////////////////////////////
 
 namespace YB
 {
-    /**
-     * @brief Static member initialization for the World component.
-     */
-    std::shared_ptr<YB::World> DrawComponents::world{nullptr};
+    ///
+    /// @brief Static member initialization for the World component.
+    ///
+    std::shared_ptr<World> DrawComponents::world{nullptr};
 
-    /**
-     * @brief Static member initialization for the Shader component.
-     */
-    std::shared_ptr<YB::Shader> DrawComponents::shader{nullptr};
+    ///
+    /// @brief Static member initialization for the Shader component.
+    ///
+    std::shared_ptr<Shader> DrawComponents::shader{nullptr};
 
-/*******************************************************************************
- * Public Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Public Functions
+////////////////////////////////////////////////////////////////////////////////
 
-/*******************************************************************************
- * Private Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Private Functions
+////////////////////////////////////////////////////////////////////////////////
 
-/*******************************************************************************
- * Protected Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Protected Functions
+////////////////////////////////////////////////////////////////////////////////
 
-} // YB
+} // namespace YB
 
 /* End of File */

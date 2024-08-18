@@ -1,28 +1,27 @@
-/**
- * @file mesh.cpp
- * @author Yasin BASAR
- * @brief Implementation of the Mesh class methods.
- * @version 1.0.0
- * @date 09/08/2024
- * @copyright (c) 2024 All rights reserved.
- */
+///
+/// @file mesh.cpp
+/// @author Yasin BASAR
+/// @brief Implementation of the Mesh class methods.
+/// @version 1.0.0
+/// @date 09/08/2024
+/// @copyright (c) 2024 All rights reserved.
+///
 
-
-/*******************************************************************************
- * Includes 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Includes
+////////////////////////////////////////////////////////////////////////////////
 
 #include "mesh.hpp"
 
-/*******************************************************************************
- * Third Party Libraries 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Third Party Includes
+////////////////////////////////////////////////////////////////////////////////
 
 namespace YB
 {
-/*******************************************************************************
- * Public Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Public Functions
+////////////////////////////////////////////////////////////////////////////////
 
     Mesh::Mesh(const std::vector<vertex_t>& vertices,
                const std::vector<GLuint>& indices,
@@ -87,24 +86,36 @@ namespace YB
         // Vertex Positions
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex_t), nullptr);
+
         // Vertex Normals
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex_t), (GLvoid*)offsetof(vertex_t, Normal));
+        glVertexAttribPointer(1,
+                              3,
+                              GL_FLOAT,
+                              GL_FALSE,
+                              sizeof(vertex_t),
+                              reinterpret_cast<GLvoid*>(offsetof(vertex_t, Normal)));
+
         // Vertex Texture Coords
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertex_t), (GLvoid*)offsetof(vertex_t, TexCoords));
+        glVertexAttribPointer(2,
+                              2,
+                              GL_FLOAT,
+                              GL_FALSE,
+                              sizeof(vertex_t),
+                              reinterpret_cast<GLvoid*>(offsetof(vertex_t, TexCoords)));
 
         glBindVertexArray(0);
     }
 
-/*******************************************************************************
- * Private Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Private Functions
+////////////////////////////////////////////////////////////////////////////////
 
-/*******************************************************************************
- * Protected Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Protected Functions
+////////////////////////////////////////////////////////////////////////////////
 
-} // YB
+} // namespace YB
 
 /* End of File */

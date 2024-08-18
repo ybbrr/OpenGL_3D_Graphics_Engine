@@ -1,40 +1,39 @@
-/**
- * @file point_light_shader.cpp
- * @author Yasin BASAR
- * @brief Implements the PointLightShader class.
- * @version 1.0.0
- * @date 14/08/2024
- * @copyright (c) 2024 All rights reserved.
- */
+///
+/// @file point_light_shader.cpp
+/// @author Yasin BASAR
+/// @brief Implements the PointLightShader class.
+/// @version 1.0.0
+/// @date 14/08/2024
+/// @copyright (c) 2024 All rights reserved.
+///
 
-/*******************************************************************************
- * Includes 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Project Includes
+////////////////////////////////////////////////////////////////////////////////
 
 #include "point_light_shader.hpp"
 
-/*******************************************************************************
- * Third Party Libraries 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Third Party Includes
+////////////////////////////////////////////////////////////////////////////////
 
 namespace YB
 {
-
-/*******************************************************************************
- * Public Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Public Functions
+////////////////////////////////////////////////////////////////////////////////
 
     PointLightShader::PointLightShader()
-        : m_light_dir{0}, /**< Initializes light direction to zero vector. */
-          m_light_color{0}, /**< Initializes light color to zero vector. */
-          m_light_position{0}, /**< Initializes light position to zero vector. */
-          m_light_dir_location{-1}, /**< Initializes the location of light direction uniform to -1. */
-          m_light_color_location{-1}, /**< Initializes the location of light color uniform to -1. */
-          m_light_position_location{-1}, /**< Initializes the location of light position uniform to -1. */
-          m_constant{-1}, /**< Initializes the location of constant attenuation uniform to -1. */
-          m_linear{-1}, /**< Initializes the location of linear attenuation uniform to -1. */
-          m_quadratic{-1}, /**< Initializes the location of quadratic attenuation uniform to -1. */
-          m_shadow_map{0} /**< Initializes the shadow map ID to 0. */
+        : m_light_dir{0}, /* Initializes light direction to zero vector. */
+          m_light_color{0}, /* Initializes light color to zero vector. */
+          m_light_position{0}, /* Initializes light position to zero vector. */
+          m_light_dir_location{-1}, /* Initializes the location of light direction uniform to -1. */
+          m_light_color_location{-1}, /* Initializes the location of light color uniform to -1. */
+          m_light_position_location{-1}, /* Initializes the location of light position uniform to -1. */
+          m_constant{-1}, /* Initializes the location of constant attenuation uniform to -1. */
+          m_linear{-1}, /* Initializes the location of linear attenuation uniform to -1. */
+          m_quadratic{-1}, /* Initializes the location of quadratic attenuation uniform to -1. */
+          m_shadow_map{0} /* Initializes the shadow map ID to 0. */
     {
         this->load_shader(R"(shader/point_light_vert.glsl)",
                           R"(shader/point_light_frag.glsl)");
@@ -76,14 +75,14 @@ namespace YB
         glUniform1f(this->m_quadratic, 0.20f);
     }
 
-/*******************************************************************************
- * Private Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Private Functions
+////////////////////////////////////////////////////////////////////////////////
 
-/*******************************************************************************
- * Protected Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Protected Functions
+////////////////////////////////////////////////////////////////////////////////
 
-} // YB
+} // namespace YB
 
 /* End of File */

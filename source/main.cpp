@@ -1,7 +1,7 @@
 /**
  * @file main.cpp
  * @author Yasin BASAR
- * @brief
+ * @brief Entry point of OpenGL_3D_Graphics_Engine
  * @version 1.0.0
  * @date 09/08/2024
  * @copyright (c) 2024 All rights reserved.

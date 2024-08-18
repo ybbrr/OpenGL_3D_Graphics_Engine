@@ -1,77 +1,76 @@
-/**
- * @file directional_light_shader.hpp
- * @author Yasin BASAR
- * @brief Provides the class for handling shaders with directional lighting.
- * @version 1.0.0
- * @date 14/08/2024
- * @copyright (c) 2024 All rights reserved.
- */
+///
+/// @file directional_light_shader.hpp
+/// @author Yasin BASAR
+/// @brief Provides the class for handling shaders with directional lighting.
+/// @version 1.0.0
+/// @date 14/08/2024
+/// @copyright (c) 2024 All rights reserved.
+///
 
 #ifndef OPENGL_3D_GRAPHICS_ENGINE_DIRECTIONAL_LIGHT_SHADER_HPP
 #define OPENGL_3D_GRAPHICS_ENGINE_DIRECTIONAL_LIGHT_SHADER_HPP
 
-/*******************************************************************************
- * Includes
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Project Includes
+////////////////////////////////////////////////////////////////////////////////
 
 #include "shader.hpp"
 
-/*******************************************************************************
- * Third Party Libraries
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Third Party Includes
+////////////////////////////////////////////////////////////////////////////////
 
 namespace YB
 {
-
-    /**
-     * @class DirectionalLightShader
-     * @brief Handles shaders specific to directional lighting.
-     *
-     * Inherits from the Shader class and extends its functionality to include
-     * lighting properties specific to directional lights.
-     */
-    class DirectionalLightShader : public Shader
+    ///
+    /// @class DirectionalLightShader
+    /// @brief Handles shaders specific to directional lighting.
+    ///
+    /// Inherits from the Shader class and extends its functionality to include
+    /// lighting properties specific to directional lights.
+    ///
+    class DirectionalLightShader final : public Shader
     {
     public:
-    /***************************************************************************
-     * Special Members
-     **************************************************************************/
+    ////////////////////////////////////////////////////////////////////////////
+    // Special Members
+    ////////////////////////////////////////////////////////////////////////////
 
-        virtual ~DirectionalLightShader() noexcept = default; /**< Default destructor */
+        ~DirectionalLightShader() noexcept override = default; /**< Default destructor */
         DirectionalLightShader(DirectionalLightShader &&) noexcept = default; /**< Default move constructor */
         DirectionalLightShader &operator=(DirectionalLightShader &&) noexcept = default; /**< Default move assignment operator */
         DirectionalLightShader(const DirectionalLightShader &) noexcept = default; /**< Default copy constructor */
         DirectionalLightShader &operator=(DirectionalLightShader const &) noexcept = default; /**< Default copy assignment operator */
 
-    /***************************************************************************
-     * Public Members
-     **************************************************************************/
+    ////////////////////////////////////////////////////////////////////////////
+    // Public Members
+    ////////////////////////////////////////////////////////////////////////////
 
-        /**
-         * @brief Constructor for the DirectionalLightShader class.
-         *
-         * Initializes the shader program and its uniform variables.
-         */
+        ///
+        /// @brief Constructor for the DirectionalLightShader class.
+        ///
+        /// Initializes the shader program and its uniform variables.
+        ///
         explicit DirectionalLightShader();
 
-        /**
-         * @brief Use the shader program for rendering.
-         *
-         * Overrides the base class implementation to activate this shader program.
-         */
+        ///
+        /// @brief Use the shader program for rendering.
+        ///
+        /// Overrides the base class implementation to activate this shader program.
+        ///
         void use_shader_program() override;
 
-        /**
-         * @brief Initialize uniform variables for the shader.
-         *
-         * Overrides the base class implementation to set up the directional light
-         * properties.
-         */
+        ///
+        /// @brief Initialize uniform variables for the shader.
+        ///
+        /// Overrides the base class implementation to set up the directional light
+        /// properties.
+        ///
         void init_uniforms() override;
 
-    /***************************************************************************
-     * Private Members
-     **************************************************************************/
+    ////////////////////////////////////////////////////////////////////////////
+    // Private Members
+    ////////////////////////////////////////////////////////////////////////////
     private:
 
         glm::vec3 m_light_dir; /**< Direction of the light. */
@@ -87,16 +86,16 @@ namespace YB
         GLint m_quadratic; /**< Location of the quadratic attenuation uniform in the shader. */
         GLuint m_shadow_map; /**< ID of the shadow map texture. */
 
-    /***************************************************************************
-     * Protected Members
-     **************************************************************************/
+    ////////////////////////////////////////////////////////////////////////////
+    // Protected Members
+    ////////////////////////////////////////////////////////////////////////////
     protected:
 
-        /* Data */
+        // Data
 
     };
 
-} // YB
+} // namespace YB
 
 #endif //OPENGL_3D_GRAPHICS_ENGINE_DIRECTIONAL_LIGHT_SHADER_HPP
 

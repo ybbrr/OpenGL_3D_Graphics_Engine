@@ -1,36 +1,37 @@
-/**
- * @file keyboard.cpp
- * @author Yasin BASAR
- * @brief Implements the Keyboard class for handling keyboard input events in the graphics engine.
- * @version 1.0.0
- * @date 10/08/2024
- * @copyright (c) 2024 All rights reserved.
- */
+/// 
+/// @file keyboard.cpp
+/// @author Yasin BASAR
+/// @brief Implements the Keyboard class for handling keyboard input events in the graphics engine.
+/// @version 1.0.0
+/// @date 10/08/2024
+/// @copyright (c) 2024 All rights reserved.
+/// 
 
-/*******************************************************************************
- * Includes 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Project Includes
+////////////////////////////////////////////////////////////////////////////////
 
 #include "keyboard.hpp"
 #include "directional_light_shader.hpp"
 #include "point_light_shader.hpp"
 #include "solid_shader.hpp"
 
-/*******************************************************************************
- * Third Party Libraries 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Third Party Includes
+////////////////////////////////////////////////////////////////////////////////
 
-#include <glm/glm.hpp> //core glm functionality
-#include <glm/gtc/matrix_transform.hpp> //glm extension for generating common transformation matrices
-#include <glm/gtc/matrix_inverse.hpp> //glm extension for computing inverse matrices
+#include <GLFW/glfw3.h>
 #include <glm/gtc/type_ptr.hpp> //glm extension for accessing the internal data structure of glm types
+
+////////////////////////////////////////////////////////////////////////////////
+// Forward and Typedef Declarations
+////////////////////////////////////////////////////////////////////////////////
 
 namespace YB
 {
-
-/*******************************************************************************
- * Public Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Public Functions
+////////////////////////////////////////////////////////////////////////////////
 
     Keyboard::Keyboard()
         : m_pressed_keys{std::vector<GLboolean>(512, 0)}
@@ -52,7 +53,7 @@ namespace YB
         }
     }
 
-    void Keyboard::key_pressed(float delta_time_in_seconds)
+    void Keyboard::key_pressed(float delta_time_in_seconds) const
     {
         this->movement_key_pressed(delta_time_in_seconds);
 
@@ -63,52 +64,52 @@ namespace YB
         this->shader_change_key_pressed();
     }
 
-    void Keyboard::movement_key_pressed(const float delta_time_in_seconds) const
+    void Keyboard::movement_key_pressed(float delta_time_in_seconds) const
     {
         if (this->m_pressed_keys[GLFW_KEY_W])
         {
-            CoreComponents::camera->move(YB::MOVE_DIRECTION::MOVE_FORWARD,
+            CoreComponents::camera->move(MOVE_DIRECTION::MOVE_FORWARD,
                                          delta_time_in_seconds);
         }
 
         if (this->m_pressed_keys[GLFW_KEY_S])
         {
-            CoreComponents::camera->move(YB::MOVE_DIRECTION::MOVE_BACKWARD,
+            CoreComponents::camera->move(MOVE_DIRECTION::MOVE_BACKWARD,
                                          delta_time_in_seconds);
         }
 
         if (this->m_pressed_keys[GLFW_KEY_A])
         {
-            CoreComponents::camera->move(YB::MOVE_DIRECTION::MOVE_LEFT,
+            CoreComponents::camera->move(MOVE_DIRECTION::MOVE_LEFT,
                                          delta_time_in_seconds);
         }
 
         if (this->m_pressed_keys[GLFW_KEY_D])
         {
-            CoreComponents::camera->move(YB::MOVE_DIRECTION::MOVE_RIGHT,
+            CoreComponents::camera->move(MOVE_DIRECTION::MOVE_RIGHT,
                                          delta_time_in_seconds);
         }
     }
 
-    void Keyboard::rotate_or_scale_key_pressed()
+    void Keyboard::rotate_or_scale_key_pressed() const
     {
         if (this->m_pressed_keys[GLFW_KEY_R])
         {
-            CoreComponents::world->increase_rotate_angle(10.0f);
+            DrawComponents::world->increase_rotate_angle(10.0f);
         }
 
         if (this->m_pressed_keys[GLFW_KEY_Q])
         {
-            CoreComponents::world->increase_scale_factor(0.05f);
+            DrawComponents::world->increase_scale_factor(0.05f);
         }
 
         if (this->m_pressed_keys[GLFW_KEY_E])
         {
-            CoreComponents::world->increase_scale_factor(-0.05f);
+            DrawComponents::world->increase_scale_factor(-0.05f);
         }
     }
 
-    void Keyboard::polygon_mode_change_key_pressed()
+    void Keyboard::polygon_mode_change_key_pressed() const
     {
         if (this->m_pressed_keys[GLFW_KEY_T])
         {
@@ -121,7 +122,7 @@ namespace YB
         }
     }
 
-    void Keyboard::shader_change_key_pressed()
+    void Keyboard::shader_change_key_pressed() const
     {
         if (this->m_pressed_keys[GLFW_KEY_J])
         {
@@ -148,14 +149,13 @@ namespace YB
         }
     }
 
+////////////////////////////////////////////////////////////////////////////////
+// Private Functions
+////////////////////////////////////////////////////////////////////////////////
 
-/*******************************************************************************
- * Private Functions
- ******************************************************************************/
-
-/*******************************************************************************
- * Protected Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Protected Functions
+////////////////////////////////////////////////////////////////////////////////
 
 } // namespace YB
 

@@ -1,47 +1,47 @@
-/**
- * @file model_3d.cpp
- * @author Yasin BASAR
- * @brief Implementation of the Model3D class methods.
- * @version 1.0.0
- * @date 09/08/2024
- * @copyright (c) 2024 All rights reserved.
- */
+///
+/// @file model_3d.cpp
+/// @author Yasin BASAR
+/// @brief Implementation of the Model3D class methods.
+/// @version 1.0.0
+/// @date 09/08/2024
+/// @copyright (c) 2024 All rights reserved.
+///
 
-/*******************************************************************************
- * Includes 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Project Includes
+////////////////////////////////////////////////////////////////////////////////
 
-#include "model_3d.hpp"
+#include <iostream>
 #include <filesystem>
+#include "model_3d.hpp"
 
-/*******************************************************************************
- * Third Party Libraries 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Third Party Includes
+////////////////////////////////////////////////////////////////////////////////
 
 #include <tiny_obj_loader.h>
 #include <stb_image.h>
 
 namespace YB
 {
-
-/*******************************************************************************
- * Public Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Public Functions
+////////////////////////////////////////////////////////////////////////////////
 
     Model3D::Model3D(const std::string& file_path,
                      const std::string& model_name,
                      const glm::vec3& position,
                      const bool rotatable,
                      const bool scalable)
-         : obj_position{position},
-           is_rotatable{rotatable},
-           is_scalable{scalable},
-           m_model_name{model_name}
+        : obj_position{position},
+          is_rotatable{rotatable},
+          is_scalable{scalable},
+          m_model_name{model_name}
     {
         std::string filepath = file_path;
         std::replace(filepath.begin(), filepath.end(), '\\', '/');
 
-        std::filesystem::path path(filepath);
+        const std::filesystem::path path(filepath);
         std::filesystem::path canonical_path = std::filesystem::weakly_canonical(path);
         filepath = canonical_path.make_preferred().string();
         std::string basepath = canonical_path.remove_filename().string();
@@ -51,12 +51,12 @@ namespace YB
 
     Model3D::~Model3D()
     {
-        for (auto & m_loaded_texture : this->m_loaded_textures)
+        for (auto& m_loaded_texture: this->m_loaded_textures)
         {
             glDeleteTextures(1, &m_loaded_texture.id);
         }
 
-        for (auto & mesh : this->m_meshes)
+        for (auto& mesh: this->m_meshes)
         {
             GLuint VBO = mesh.get_buffers().VBO;
             GLuint EBO = mesh.get_buffers().EBO;
@@ -69,19 +69,20 @@ namespace YB
 
     void Model3D::draw(GLuint shader_program)
     {
-        for (auto & mesh : this->m_meshes)
+        for (auto& mesh: this->m_meshes)
         {
             mesh.draw(shader_program);
         }
     }
 
-/*******************************************************************************
- * Private Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Private Functions
+////////////////////////////////////////////////////////////////////////////////
 
-    void Model3D::read_obj(const std::string& file_path, const std::string& base_path)
+    void Model3D::read_obj(const std::string& file_path,
+                           const std::string& base_path)
     {
-        std::cout << "Loading : " << file_path << std::endl;
+        std::cout << "Loading : " << file_path << "\n";
         tinyobj::attrib_t attrib{};
         std::vector<tinyobj::shape_t> shapes{};
         std::vector<tinyobj::material_t> materials{};
@@ -122,7 +123,7 @@ namespace YB
             size_t index_offset = 0;
 
             size_t number_of_vertices_per_face
-                = shapes[s].mesh.num_face_vertices.size();
+                    = shapes[s].mesh.num_face_vertices.size();
 
             for (size_t f = 0; f < number_of_vertices_per_face; f++)
             {
@@ -176,7 +177,7 @@ namespace YB
                 {
                     if (material_id != -1)
                     {
-                        material_t current_material{};
+                        material_t current_material;
 
                         current_material.ambient
                             = glm::vec3(materials[material_id].ambient[0],
@@ -194,7 +195,7 @@ namespace YB
                                         materials[material_id].specular[2]);
 
                         //ambient texture
-                        std::string ambient_texture_path = materials[material_id].ambient_texname;
+                        std::string& ambient_texture_path = materials[material_id].ambient_texname;
 
                         if (!ambient_texture_path.empty())
                         {
@@ -206,7 +207,7 @@ namespace YB
                         }
 
                         //diffuse texture
-                        std::string diffuse_texture_path = materials[material_id].diffuse_texname;
+                        std::string& diffuse_texture_path = materials[material_id].diffuse_texname;
                         if (!diffuse_texture_path.empty())
                         {
                             texture_t current_texture
@@ -217,7 +218,7 @@ namespace YB
                         }
 
                         //specular texture
-                        std::string specular_texture_path = materials[material_id].specular_texname;
+                        std::string& specular_texture_path = materials[material_id].specular_texname;
                         if (!specular_texture_path.empty())
                         {
                             texture_t current_texture
@@ -276,8 +277,8 @@ namespace YB
         }
 
         int width_in_bytes = x * 4;
-        unsigned char *top = nullptr;
-        unsigned char *bottom = nullptr;
+        unsigned char* top = nullptr;
+        unsigned char* bottom = nullptr;
         unsigned char temp = 0;
         int half_height = y / 2;
 
@@ -303,7 +304,8 @@ namespace YB
         glTexImage2D(
             GL_TEXTURE_2D,
             0,
-            GL_SRGB, //GL_SRGB,//GL_RGBA,
+            GL_SRGB,
+            //GL_SRGB,//GL_RGBA,
             x,
             y,
             0,
@@ -323,9 +325,9 @@ namespace YB
         return texture_id;
     }
 
-/*******************************************************************************
- * Protected Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Protected Functions
+////////////////////////////////////////////////////////////////////////////////
 
 } // namespace YB
 

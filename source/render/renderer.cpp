@@ -1,41 +1,42 @@
-/**
- * @file renderer.cpp
- * @author Yasin BASAR
- * @brief
- * @version 1.0.0
- * @date 10/08/2024
- * @copyright (c) 2024 All rights reserved.
- */
+///
+/// @file renderer.cpp
+/// @author Yasin BASAR
+/// @brief Implements the Renderer class which manages the rendering pipeline.
+/// @version 1.0.0
+/// @date 10/08/2024
+/// @copyright (c) 2024 All rights reserved.
+///
 
+////////////////////////////////////////////////////////////////////////////////
+// Project Includes
+////////////////////////////////////////////////////////////////////////////////
 
-/*******************************************************************************
- * Includes 
- ******************************************************************************/
-
+#include <iostream>
 #include "renderer.hpp"
 #include "window_callbacks.hpp"
+#include "draw_components.hpp"
 
-/*******************************************************************************
- * Third Party Libraries 
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Third Party Includes
+////////////////////////////////////////////////////////////////////////////////
 
+#include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
 namespace YB
 {
+////////////////////////////////////////////////////////////////////////////////
+// Helper Functions
+////////////////////////////////////////////////////////////////////////////////
 
-/*******************************************************************************
- * Helper Functions
- ******************************************************************************/
-
-    /**
-     * @brief Checks for OpenGL errors and logs them.
-     *
-     * @param file The file name where the error check is performed.
-     * @param line The line number where the error check is performed.
-     * @return GLenum The last recorded OpenGL error code.
-     */
-    GLenum glCheckError_(const char *file, int line)
+    ///
+    /// @brief Checks for OpenGL errors and logs them.
+    ///
+    /// @param file The file name where the error check is performed.
+    /// @param line The line number where the error check is performed.
+    /// @return GLenum The last recorded OpenGL error code.
+    ///
+    GLenum glCheckError_(const char* file, int line)
     {
         GLenum error_code;
         while ((error_code = glGetError()) != GL_NO_ERROR)
@@ -73,20 +74,24 @@ namespace YB
     }
 #define glCheckError() glCheckError_(__FILE__, __LINE__)
 
+////////////////////////////////////////////////////////////////////////////////
+// Public Functions
+////////////////////////////////////////////////////////////////////////////////
+
     Renderer::Renderer()
-        : m_mouse{new YB::Mouse(CoreComponents::window->width, CoreComponents::window->height)},
+        : m_mouse{new Mouse(CoreComponents::window->width, CoreComponents::window->height)},
           m_delta_time_in_seconds{0.0f}
     {
         this->init_opengl_state();
 
-        DrawComponents::shader = std::make_shared<YB::DirectionalLightShader>();
+        DrawComponents::shader = std::make_shared<DirectionalLightShader>();
         DrawComponents::shader->init_uniforms();
 
-        CoreComponents::world = std::make_shared<YB::DefaultWorld>();
+        DrawComponents::world = std::make_shared<DefaultWorld>();
 
-        this->m_keyboard = std::make_shared<YB::Keyboard>();
+        this->m_keyboard = std::make_shared<Keyboard>();
 
-        this->set_window_callbacks();
+        set_window_callbacks();
     }
 
     void Renderer::render_scene()
@@ -110,7 +115,7 @@ namespace YB
 
             if (DrawComponents::shader != nullptr)
             {
-                CoreComponents::world->render_models();
+                DrawComponents::world->render_models();
             }
 
             glfwPollEvents();
@@ -122,7 +127,7 @@ namespace YB
         }
     }
 
-    void Renderer::mouse_movement(float x_pos, float y_pos)
+    void Renderer::mouse_movement(float x_pos, float y_pos) const
     {
         this->m_mouse->mouse_movement(x_pos,
                                       y_pos,
@@ -131,7 +136,7 @@ namespace YB
 
     void Renderer::key_pressed(GLFWwindow* window,
                                int key,
-                               int action)
+                               int action) const
     {
         if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         {
@@ -155,40 +160,40 @@ namespace YB
 
     void Renderer::init_models()
     {
-        CoreComponents::world->add_model(R"(obj\teapot20segUT.obj)",
+        DrawComponents::world->add_model(R"(obj\teapot20segUT.obj)",
                                          "teapot",
                                          glm::vec3(0.0f, 0.0f, 0.0f),
                                          true,
                                          true);
 
-        CoreComponents::world->add_model(R"(obj\cube.obj)",
+        DrawComponents::world->add_model(R"(obj\cube.obj)",
                                          "cube",
                                          glm::vec3(3.0f, 0.0f, 0.0f),
                                          false,
                                          false);
 
-        CoreComponents::world->add_model(R"(obj\sphere.obj)",
+        DrawComponents::world->add_model(R"(obj\sphere.obj)",
                                          "sphere",
                                          glm::vec3(-3.0f, 0.0f, 2.0f),
                                          false,
                                          false);
 
-        CoreComponents::world->add_model(R"(obj\monkey.obj)",
+        DrawComponents::world->add_model(R"(obj\monkey.obj)",
                                          "monkey",
                                          glm::vec3(-3.0f, 0.0f, -2.0f),
                                          false,
                                          false);
 
-        CoreComponents::world->add_model(R"(obj\plane3.obj)",
+        DrawComponents::world->add_model(R"(obj\plane3.obj)",
                                          "plane3",
                                          glm::vec3(0.0f, -1.0f, 0.0f),
                                          false,
                                          false);
     }
 
-/*******************************************************************************
- * Private Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Private Functions
+////////////////////////////////////////////////////////////////////////////////
 
     void Renderer::set_window_callbacks()
     {
@@ -202,9 +207,9 @@ namespace YB
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
 
-/*******************************************************************************
- * Protected Functions
- ******************************************************************************/
+////////////////////////////////////////////////////////////////////////////////
+// Protected Functions
+////////////////////////////////////////////////////////////////////////////////
 
 } // namespace YB
 
